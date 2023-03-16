@@ -13,6 +13,7 @@
 #include <string_view>
 #include <string>
 #include <filesystem>
+#include <vector>
 
 // Third-Party Libraries
 #define GLEW_STATIC
