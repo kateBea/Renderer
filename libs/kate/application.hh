@@ -54,7 +54,7 @@ namespace kate {
         static constexpr std::int32_t s_height{720 };
 
         // helper functions
-        static auto getVerticesData(const std::filesystem::path& path) -> std::vector<float>;
+        static auto get_vertices_data(const std::filesystem::path& path) -> std::vector<float>;
 
         // Member variables
         GLFWwindow*         m_window{};
@@ -64,12 +64,12 @@ namespace kate {
         std::uint32_t       m_vertex_array_id{};
 
         // flags that define the state of the application
-        bool m_Init{};
+        bool m_init{};
     };
 
 
     // IMPLEMENTATION
-    inline auto application::getVerticesData(const std::filesystem::path& path) -> std::vector<float> {
+    inline auto application::get_vertices_data(const std::filesystem::path& path) -> std::vector<float> {
         std::ifstream file{ path };
         std::vector<float> retVal{};
         std::string temp{};
@@ -91,7 +91,7 @@ namespace kate {
             std::cerr << "Failed to initialize glfw...\n"
                          "----------------------------\n";
 
-            this->m_Init = true;
+            this->m_init = true;
             return;
         }
 
@@ -107,7 +107,7 @@ namespace kate {
         if (!m_window) {
             std::cerr << "There was an error creating the Window\n"
                          "--------------------------------------\n";
-            this->m_Init = false;
+            this->m_init = false;
             return;
         }
 
@@ -119,12 +119,12 @@ namespace kate {
         if (glewInit() != GLEW_OK) {
             std::cerr << "Failed to initialize GLEW!\n"
                          "--------------------------\n";
-            this->m_Init = false;
+            this->m_init = false;
             return;
         }
 
         // start-up succeeded
-        this->m_Init = true;
+        this->m_init = true;
         std::cerr << "Start-up succeeded...\n";
         std::cerr << "---------------------\n";
     }
@@ -183,7 +183,6 @@ namespace kate {
     inline application::~application() {
         glDeleteBuffers(1, &m_vertex_buffer_id);
         glDeleteVertexArrays(1, &m_vertex_array_id);
-        glDeleteProgram(m_shader_program.getProgramId());
 
         glfwTerminate();
     }
