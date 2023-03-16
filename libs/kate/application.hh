@@ -26,12 +26,12 @@
 
 // Project Libraries
 #include <shader.hh>
-#include <vertexBufferObject.hh>
-#include <vertexIndexBuffer.hh>
-#include <vertexArrayObject.hh>
+#include <vertex_buffer_object.hh>
+#include <vertex_index_buffer.hh>
+#include <vertex_array_object.hh>
 
-namespace Kate {
-    class Application {
+namespace kate {
+    class application {
     public:
 
         /**
@@ -39,29 +39,29 @@ namespace Kate {
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
          * @param appName Title for the application window
          * */
-        explicit Application(std::string_view appName = "Application");
+        explicit application(std::string_view appName = "application");
 
         auto        run() -> void;
-        auto        startUp() -> void;
-        static auto showCurrentWorkingDirectory() -> void;
+        auto        start_up() -> void;
+        static auto show_current_working_directory() -> void;
 
-        ~Application();
+        ~application();
 
 
     private:
         // window dimensions
-        static constexpr std::int32_t s_Width{ 1280 };
-        static constexpr std::int32_t s_Height{ 720 };
+        static constexpr std::int32_t s_width{1280 };
+        static constexpr std::int32_t s_height{720 };
 
         // helper functions
         static auto getVerticesData(const std::filesystem::path& path) -> std::vector<float>;
 
         // Member variables
-        GLFWwindow*         m_Window{};
-        Kate::Shader        m_ShaderProgram{};
-        std::vector<float>  m_IndicesData{};
-        std::uint32_t       m_VertexBufferId{};
-        std::uint32_t       m_VertexArrayId{};
+        GLFWwindow*         m_window{};
+        kate::shader        m_shader_program{};
+        std::vector<float>  m_indices_data{};
+        std::uint32_t       m_vertex_buffer_id{};
+        std::uint32_t       m_vertex_array_id{};
 
         // flags that define the state of the application
         bool m_Init{};
@@ -69,7 +69,7 @@ namespace Kate {
 
 
     // IMPLEMENTATION
-    inline auto Application::getVerticesData(const std::filesystem::path& path) -> std::vector<float> {
+    inline auto application::getVerticesData(const std::filesystem::path& path) -> std::vector<float> {
         std::ifstream file{ path };
         std::vector<float> retVal{};
         std::string temp{};
@@ -85,7 +85,7 @@ namespace Kate {
         return retVal;
     }
 
-    inline Application::Application(std::string_view appName) {
+    inline application::application(std::string_view appName) {
         // Init GLFW Library
         if (!glfwInit()) {
             std::cerr << "Failed to initialize glfw...\n"
@@ -102,9 +102,9 @@ namespace Kate {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         // Create valid context
-        m_Window = glfwCreateWindow(s_Width, s_Height, appName.data(), nullptr, nullptr);
+        m_window = glfwCreateWindow(s_width, s_height, appName.data(), nullptr, nullptr);
 
-        if (!m_Window) {
+        if (!m_window) {
             std::cerr << "There was an error creating the Window\n"
                          "--------------------------------------\n";
             this->m_Init = false;
@@ -112,7 +112,7 @@ namespace Kate {
         }
 
         // Create a valid context for initializing GLEW
-        glfwMakeContextCurrent(this->m_Window);
+        glfwMakeContextCurrent(this->m_window);
 
         glewExperimental = GL_TRUE;
 
@@ -129,31 +129,31 @@ namespace Kate {
         std::cerr << "---------------------\n";
     }
 
-    inline auto Application::run() -> void {
+    inline auto application::run() -> void {
         // main loop
-        while (!glfwWindowShouldClose(this->m_Window)) {
+        while (!glfwWindowShouldClose(this->m_window)) {
             glfwPollEvents();
 
-            m_ShaderProgram.use();
+            m_shader_program.use();
 
             glClear(GL_COLOR_BUFFER_BIT);
 
             // 1st attribute buffer : vertices
             glEnableVertexAttribArray(0);
 
-            glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferId);
+            glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, static_cast<const void*>(nullptr));
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
             glDisableVertexAttribArray(0);
 
-            glfwSwapBuffers(this->m_Window);
+            glfwSwapBuffers(this->m_window);
         }
     }
 
-    inline auto Application::startUp() -> void {
+    inline auto application::start_up() -> void {
         // setup vertices
-        m_IndicesData = std::move(std::vector {
+        m_indices_data = std::move(std::vector {
             // Positions
             0.5f, 0.5f, 0.0f,
             -0.5f, 0.5f, 0.0f,
@@ -162,28 +162,28 @@ namespace Kate {
 
         glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
 
-        glGenVertexArrays(1, &m_VertexArrayId);
-        glBindVertexArray(m_VertexArrayId);
+        glGenVertexArrays(1, &m_vertex_array_id);
+        glBindVertexArray(m_vertex_array_id);
 
         glEnableVertexAttribArray(0);
 
-        glGenBuffers(1, &m_VertexBufferId);
-        glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferId);
-        glBufferData(GL_ARRAY_BUFFER, m_IndicesData.size() * sizeof(decltype(m_IndicesData)::value_type), m_IndicesData.data(), GL_STATIC_DRAW);
+        glGenBuffers(1, &m_vertex_buffer_id);
+        glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+        glBufferData(GL_ARRAY_BUFFER, m_indices_data.size() * sizeof(decltype(m_indices_data)::value_type), m_indices_data.data(), GL_STATIC_DRAW);
 
-        m_ShaderProgram = std::move(Kate::Shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
+        m_shader_program = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
     }
 
-    inline auto Application::showCurrentWorkingDirectory() -> void {
+    inline auto application::show_current_working_directory() -> void {
         //Print the current working directory
         std::filesystem::path cwd = std::filesystem::current_path();
         std::cout << cwd << std::endl;
     }
 
-    inline Application::~Application() {
-        glDeleteBuffers(1, &m_VertexBufferId);
-        glDeleteVertexArrays(1, &m_VertexArrayId);
-        glDeleteProgram(m_ShaderProgram.getProgramId());
+    inline application::~application() {
+        glDeleteBuffers(1, &m_vertex_buffer_id);
+        glDeleteVertexArrays(1, &m_vertex_array_id);
+        glDeleteProgram(m_shader_program.getProgramId());
 
         glfwTerminate();
     }

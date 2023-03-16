@@ -7,10 +7,10 @@
 
 #include <GL/glew.h>
 
-#include "vertexBufferObject.hh"
+#include "vertex_buffer_object.hh"
 
-namespace Kate {
-    class VertexArrayObject {
+namespace kate {
+    class vertex_array_object {
     public:
 
 

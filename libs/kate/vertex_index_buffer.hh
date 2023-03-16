@@ -4,10 +4,10 @@
 #include <cstdint>
 #include <GL/glew.h>
 
-namespace Kate {
-    class VertexIndexBuffer {
+namespace kate {
+    class vertex_index_buffer {
     public:
-        VertexIndexBuffer(const std::uint32_t *data, std::size_t count);
+        vertex_index_buffer(const std::uint32_t *data, std::size_t count);
 
         auto                bind() const -> void;
 
@@ -15,14 +15,14 @@ namespace Kate {
 
         [[nodiscard]] auto  getCount() const -> std::size_t;
 
-        ~VertexIndexBuffer();
+        ~vertex_index_buffer();
 
     private:
         std::uint32_t m_id{};
         std::size_t m_count{};
     };
 
-    inline VertexIndexBuffer::VertexIndexBuffer(const std::uint32_t *data, std::size_t count)
+    inline vertex_index_buffer::vertex_index_buffer(const std::uint32_t *data, std::size_t count)
             : m_id{}, m_count{count}
     {
         // count refers to the amount of elements (and not bytes) inside "data"
@@ -31,19 +31,19 @@ namespace Kate {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(std::uint32_t), data, GL_STATIC_DRAW);
     }
 
-    inline auto VertexIndexBuffer::bind() const -> void {
+    inline auto vertex_index_buffer::bind() const -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
     }
 
-    inline auto VertexIndexBuffer::unbind() -> void {
+    inline auto vertex_index_buffer::unbind() -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    inline VertexIndexBuffer::~VertexIndexBuffer() {
+    inline vertex_index_buffer::~vertex_index_buffer() {
         glDeleteBuffers(1, &this->m_id);
     }
 
-    inline auto VertexIndexBuffer::getCount() const -> std::size_t {
+    inline auto vertex_index_buffer::getCount() const -> std::size_t {
         return this->m_count;
     }
 

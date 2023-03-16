@@ -10,36 +10,36 @@
 
 #include <GL/glew.h>
 
-namespace Kate {
-    class Shader {
+namespace kate {
+    class shader {
     public:
         /**
-         * Default initialization for Shader
+         * Default initialization for shader
          * */
-        Shader() = default;
+        shader() = default;
 
         /**
          * Copy constructor. Marked as delete to shader aliasing
          * */
-        Shader(const Shader& other) = delete;
+        shader(const shader& other) = delete;
 
         /**
          * Move constructor
          * */
-         Shader(Shader&& other) noexcept
-            :   m_ProgramId{ other.m_ProgramId }
+         shader(shader&& other) noexcept
+            : m_program_id{other.m_program_id }
         {
             // when other is a temporary 0 is ignored if
             // passed to glDeleteProgram(). We avoid deleting a valid program this way
-            other.m_ProgramId = 0;
+            other.m_program_id = 0;
         }
 
         /**
          * Move constructor assignment
          * */
-        Shader& operator=(Shader&& other) noexcept {
-            m_ProgramId = other.m_ProgramId;
-            other.m_ProgramId = 0;
+        shader& operator=(shader&& other) noexcept {
+            m_program_id = other.m_program_id;
+            other.m_program_id = 0;
 
             return *this;
         }
@@ -50,7 +50,7 @@ namespace Kate {
          * @param vertexSourceDir directory to the vertex shader source file
          * @param fragmentSourceDir directory to the pixel shader source file
          * */
-        Shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir);
+        shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir);
 
 
         /**
@@ -60,7 +60,7 @@ namespace Kate {
 
         /**
          * Get shader program ID
-         * @return Shader program ID
+         * @return shader program ID
          * */
         [[nodiscard]]
         auto getProgramId() const -> std::uint32_t;
@@ -68,13 +68,13 @@ namespace Kate {
         /**
          * Perform cleanup
          * */
-        ~Shader();
+        ~shader();
 
     private:
         /*
          * Helper function to retrieve shader compilation/linking status
          * */
-        static auto showStatusShader(std::uint32_t objectId, const char* str, GLenum name) -> void{
+        static auto show_status_shader(std::uint32_t objectId, const char* str, GLenum name) -> void{
             std::array<char, 512> outStr{};
             std::int32_t success{};
             std::int32_t length{};
@@ -90,7 +90,7 @@ namespace Kate {
         /*
          * Helper function to retrieve shader compilation/linking status
          * */
-        static auto showStatusProgram(std::uint32_t objectId, const char* str, GLenum name) -> void{
+        static auto show_status_program(std::uint32_t objectId, const char* str, GLenum name) -> void{
             std::array<char, 1024> outStr{};
             std::int32_t success{};
             std::int32_t length{};
@@ -106,10 +106,10 @@ namespace Kate {
         /**
          * Identifier of this shader program
          * */
-        std::uint32_t m_ProgramId{};
+        std::uint32_t m_program_id{};
     };
 
-    inline Shader::Shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir) {
+    inline shader::shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir) {
         std::string vertexShaderSource{};
         std::string pixelShaderSource{};
 
@@ -149,40 +149,40 @@ namespace Kate {
         vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShaderID, 1, vertexShaderCstring, nullptr);
         glCompileShader(vertexShaderID);
-        showStatusShader(vertexShaderID, "Error on vertex shader compilation: ", GL_COMPILE_STATUS);
+        show_status_shader(vertexShaderID, "Error on vertex shader compilation: ", GL_COMPILE_STATUS);
 
         // Load and compile the fragment shader
         std::uint32_t pixelShaderID{};
         pixelShaderID = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(pixelShaderID, 1, pixelShaderCstring, nullptr);
         glCompileShader(pixelShaderID);
-        showStatusShader(pixelShaderID, "Error on fragment shader compilation: ", GL_COMPILE_STATUS);
+        show_status_shader(pixelShaderID, "Error on fragment shader compilation: ", GL_COMPILE_STATUS);
 
         // Create and link program against compiled shader binaries
-        this->m_ProgramId = glCreateProgram();
-        glAttachShader(this->m_ProgramId, vertexShaderID);
-        glAttachShader(this->m_ProgramId, pixelShaderID);
-        glLinkProgram(this->m_ProgramId);
-        showStatusProgram(this->m_ProgramId, "Error on program linking: ", GL_LINK_STATUS);
+        this->m_program_id = glCreateProgram();
+        glAttachShader(this->m_program_id, vertexShaderID);
+        glAttachShader(this->m_program_id, pixelShaderID);
+        glLinkProgram(this->m_program_id);
+        show_status_program(this->m_program_id, "Error on program linking: ", GL_LINK_STATUS);
 
-        glDetachShader(this->m_ProgramId, vertexShaderID);
-        glDetachShader(this->m_ProgramId, pixelShaderID);
+        glDetachShader(this->m_program_id, vertexShaderID);
+        glDetachShader(this->m_program_id, pixelShaderID);
 
         // cleanup
         glDeleteShader(vertexShaderID);
         glDeleteShader(pixelShaderID);
     }
 
-    inline void Shader::use() const {
-        glUseProgram(this->m_ProgramId);
+    inline void shader::use() const {
+        glUseProgram(this->m_program_id);
     }
 
-    inline std::uint32_t Shader::getProgramId() const {
-        return this->m_ProgramId;
+    inline std::uint32_t shader::getProgramId() const {
+        return this->m_program_id;
     }
 
-    inline Shader::~Shader() {
-        glDeleteProgram(this->m_ProgramId);
+    inline shader::~shader() {
+        glDeleteProgram(this->m_program_id);
     }
 
 } // END NAMESPACE KATE

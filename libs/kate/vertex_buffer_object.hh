@@ -5,37 +5,37 @@
 
 #include <GL/glew.h>
 
-namespace Kate {
-    class VertexBufferObject {
+namespace kate {
+    class vertex_buffer_object {
     public:
-        VertexBufferObject(const float *data, std::size_t size);
+        vertex_buffer_object(const float *data, std::size_t size);
 
         auto bind() const -> void;
 
         static auto unbind() -> void;
 
-        ~VertexBufferObject();
+        ~vertex_buffer_object();
 
     private:
         std::uint32_t m_id{};
     };
 
-    inline VertexBufferObject::VertexBufferObject(const float *data, std::size_t size) {
+    inline vertex_buffer_object::vertex_buffer_object(const float *data, std::size_t size) {
         // size refers to size in bytes of the content in data
         glGenBuffers(1, &this->m_id);
         glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
         glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
     }
 
-    inline auto VertexBufferObject::bind() const -> void {
+    inline auto vertex_buffer_object::bind() const -> void {
         glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
     }
 
-    inline auto VertexBufferObject::unbind() -> void {
+    inline auto vertex_buffer_object::unbind() -> void {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    inline VertexBufferObject::~VertexBufferObject() {
+    inline vertex_buffer_object::~vertex_buffer_object() {
         glDeleteBuffers(1, &this->m_id);
     } // END CLASS VERTEX_BUFFER_OBJECT
 

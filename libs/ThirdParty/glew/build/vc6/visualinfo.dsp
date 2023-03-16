@@ -2,7 +2,7 @@
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
-# TARGTYPE "Win32 (x86) Console Application" 0x0103
+# TARGTYPE "Win32 (x86) Console application" 0x0103
 
 CFG=visualinfo - Win32 Debug MX
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
@@ -17,8 +17,8 @@ CFG=visualinfo - Win32 Debug MX
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "visualinfo - Win32 Release" (based on "Win32 (x86) Console Application")
-!MESSAGE "visualinfo - Win32 Debug" (based on "Win32 (x86) Console Application")
+!MESSAGE "visualinfo - Win32 Release" (based on "Win32 (x86) Console application")
+!MESSAGE "visualinfo - Win32 Debug" (based on "Win32 (x86) Console application")
 !MESSAGE 
 
 # Begin Project

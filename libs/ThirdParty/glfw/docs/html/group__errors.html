@@ -134,7 +134,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >This occurs if a GLFW function was called that must not be called unless the library is <a class="el" href="intro_guide.html#intro_init">initialized</a>.</p>
-<dl class="section user"><dt>Analysis</dt><dd>Application programmer error. Initialize GLFW before calling any function that requires initialization. </dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>application programmer error. Initialize GLFW before calling any function that requires initialization. </dd></dl>
 
 </div>
 </div>
@@ -150,7 +150,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >This occurs if a GLFW function was called that needs and operates on the current OpenGL or OpenGL ES context but no context is current on the calling thread. One such function is <a class="el" href="group__context.html#ga6d4e0cdf151b5e579bd67f13202994ed">glfwSwapInterval</a>.</p>
-<dl class="section user"><dt>Analysis</dt><dd>Application programmer error. Ensure a context is current before calling functions that require a current context. </dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>application programmer error. Ensure a context is current before calling functions that require a current context. </dd></dl>
 
 </div>
 </div>
@@ -166,7 +166,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >One of the arguments to the function was an invalid enum value, for example requesting <a class="el" href="window_guide.html#GLFW_RED_BITS">GLFW_RED_BITS</a> with <a class="el" href="group__window.html#gacccb29947ea4b16860ebef42c2cb9337">glfwGetWindowAttrib</a>.</p>
-<dl class="section user"><dt>Analysis</dt><dd>Application programmer error. Fix the offending call. </dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>application programmer error. Fix the offending call. </dd></dl>
 
 </div>
 </div>
@@ -183,7 +183,7 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 <p >One of the arguments to the function was an invalid value, for example requesting a non-existent OpenGL or OpenGL ES version like 2.7.</p>
 <p >Requesting a valid but unavailable OpenGL or OpenGL ES version will instead result in a <a class="el" href="group__errors.html#gad16c5565b4a69f9c2a9ac2c0dbc89462">GLFW_VERSION_UNAVAILABLE</a> error.</p>
-<dl class="section user"><dt>Analysis</dt><dd>Application programmer error. Fix the offending call. </dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>application programmer error. Fix the offending call. </dd></dl>
 
 </div>
 </div>
@@ -283,7 +283,7 @@ Macros</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p >A window that does not have an OpenGL or OpenGL ES context was passed to a function that requires it to have one.</p>
-<dl class="section user"><dt>Analysis</dt><dd>Application programmer error. Fix the offending call. </dd></dl>
+<dl class="section user"><dt>Analysis</dt><dd>application programmer error. Fix the offending call. </dd></dl>
 
 </div>
 </div>
