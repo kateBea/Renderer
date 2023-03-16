@@ -14,8 +14,7 @@ include_directories(
 
 add_subdirectory(libs/ThirdParty/glew/build/cmake)
 add_subdirectory(libs/ThirdParty/glfw)
-add_subdirectory(libs/ThirdParty/soil)
 
 add_executable(renderer main.cpp)
 
-target_link_libraries(renderer glfw glew_s soil RenderLib)
+target_link_libraries(renderer glfw glew_s RenderLib)
