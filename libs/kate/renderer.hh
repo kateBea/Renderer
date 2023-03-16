@@ -61,7 +61,6 @@ namespace kate {
         // Member variables
         GLFWwindow*         m_window{};
         kate::shader        m_shader_program{};
-        std::vector<float>  m_indices_data{};
         std::uint32_t       m_vertex_buffer_id{};
         std::uint32_t       m_vertex_array_id{};
 
@@ -155,12 +154,12 @@ namespace kate {
 
     inline auto renderer::start_up() -> void {
         // setup vertices
-        m_indices_data = std::move(std::vector {
+        std::vector vertex_positions {
             // Positions
             0.5f, 0.5f, 0.0f,
             -0.5f, 0.5f, 0.0f,
             0.0f, -0.5f, 0.0f,
-        });
+        };
 
         glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
 
@@ -171,9 +170,10 @@ namespace kate {
 
         glGenBuffers(1, &m_vertex_buffer_id);
         glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
-        glBufferData(GL_ARRAY_BUFFER, m_indices_data.size() * sizeof(decltype(m_indices_data)::value_type), m_indices_data.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(decltype(vertex_positions)::value_type), vertex_positions.data(), GL_STATIC_DRAW);
 
         m_shader_program = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
+
     }
 
     inline auto renderer::show_current_working_directory() -> void {
