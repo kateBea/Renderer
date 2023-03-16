@@ -81,7 +81,7 @@ namespace kate {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         // Create valid context
-        m_window = glfwCreateWindow(width, width, appName.data(), nullptr, nullptr);
+        m_window = glfwCreateWindow(width, height, appName.data(), nullptr, nullptr);
 
         if (!m_window) {
             std::cerr << "There was an error creating the Window\n"
