@@ -151,7 +151,7 @@ int main(void)
     glFinish();
 
 #if USE_NATIVE_OSMESA
-    glfwGetOSMesaColorBuffer(window, &width, &height, NULL, (void**) &buffer);
+    glfwGetOSMesaColorBuffer(window, &m_width, &m_height, NULL, (void**) &buffer);
 #else
     buffer = calloc(4, width * height);
     glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);

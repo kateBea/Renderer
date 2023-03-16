@@ -27,6 +27,7 @@
 // Project Libraries
 #include <camera.hh>
 #include <shader.hh>
+#include <obj_parser.hh>
 #include <vertex_array_object.hh>
 #include <vertex_buffer_object.hh>
 #include <vertex_index_buffer.hh>
@@ -40,7 +41,7 @@ namespace kate {
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
          * @param appName Title for the renderer window
          * */
-        explicit renderer(std::string_view appName = "renderer");
+        explicit renderer(std::string_view appName = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
 
         auto        run() -> void;
         auto        start_up() -> void;
@@ -51,13 +52,6 @@ namespace kate {
 
 
     private:
-        // window dimensions
-        static constexpr std::int32_t s_width{1280 };
-        static constexpr std::int32_t s_height{720 };
-
-        // helper functions
-        static auto get_vertices_data(const std::filesystem::path& path) -> std::vector<float>;
-
         // Member variables
         GLFWwindow*         m_window{};
         kate::shader        m_default_shader{};
@@ -70,23 +64,7 @@ namespace kate {
 
 
     // IMPLEMENTATION
-    inline auto renderer::get_vertices_data(const std::filesystem::path& path) -> std::vector<float> {
-        std::ifstream file{ path };
-        std::vector<float> retVal{};
-        std::string temp{};
-
-        if (file.is_open()) {
-            while (std::getline(file, temp, ','))
-                if (not temp.starts_with("//"))
-                    retVal.push_back(std::stof(temp));
-        }
-        else
-            std::cerr << "Could not open file containing vertices data...\n";
-
-        return retVal;
-    }
-
-    inline renderer::renderer(std::string_view appName) {
+    inline renderer::renderer(std::string_view appName, std::int32_t width, std::int32_t height) {
         // Init GLFW Library
         if (!glfwInit()) {
             std::cerr << "Failed to initialize glfw...\n"
@@ -103,7 +81,7 @@ namespace kate {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         // Create valid context
-        m_window = glfwCreateWindow(s_width, s_height, appName.data(), nullptr, nullptr);
+        m_window = glfwCreateWindow(width, width, appName.data(), nullptr, nullptr);
 
         if (!m_window) {
             std::cerr << "There was an error creating the Window\n"

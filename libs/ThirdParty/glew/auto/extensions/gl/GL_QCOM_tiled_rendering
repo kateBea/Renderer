@@ -35,4 +35,4 @@ GL_QCOM_tiled_rendering
 	GL_MULTISAMPLE_BUFFER_BIT6_QCOM 0x40000000
 	GL_MULTISAMPLE_BUFFER_BIT7_QCOM 0x80000000
 	void glEndTilingQCOM (GLbitfield preserveMask)
-	void glStartTilingQCOM (GLuint x, GLuint y, GLuint width, GLuint height, GLbitfield preserveMask)
+	void glStartTilingQCOM (GLuint x, GLuint y, GLuint m_width, GLuint m_height, GLbitfield preserveMask)

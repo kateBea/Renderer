@@ -18,6 +18,6 @@ GL_QCOM_extended_get
 	void glExtGetFramebuffersQCOM (GLuint* framebuffers, GLint maxFramebuffers, GLint* numFramebuffers)
 	void glExtGetRenderbuffersQCOM (GLuint* renderbuffers, GLint maxRenderbuffers, GLint* numRenderbuffers)
 	void glExtGetTexLevelParameterivQCOM (GLuint texture, GLenum face, GLint level, GLenum pname, GLint* params)
-	void glExtGetTexSubImageQCOM (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, void *texels)
+	void glExtGetTexSubImageQCOM (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei m_width, GLsizei m_height, GLsizei depth, GLenum format, GLenum type, void *texels)
 	void glExtGetTexturesQCOM (GLuint* textures, GLint maxTextures, GLint* numTextures)
 	void glExtTexObjectStateOverrideiQCOM (GLenum target, GLenum pname, GLint param)

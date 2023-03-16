@@ -593,7 +593,7 @@ static void demo_prepare_buffers(struct demo *demo) {
     assert(!err);
 
     VkExtent2D swapchainExtent;
-    // width and height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
+    // m_width and m_height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
     if (surfCapabilities.currentExtent.width == 0xFFFFFFFF) {
         // If the surface size is undefined, the size is set to the size
         // of the images requested, which must fit within the minimum and

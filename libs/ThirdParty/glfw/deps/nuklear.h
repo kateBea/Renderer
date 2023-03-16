@@ -181,18 +181,18 @@
 /// nk_init_fixed(&ctx, calloc(1, MAX_MEMORY), MAX_MEMORY, &font);
 /// if (nk_begin(&ctx, "Show", nk_rect(50, 50, 220, 220),
 ///     NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_CLOSABLE)) {
-///     // fixed widget pixel width
+///     // fixed widget pixel m_width
 ///     nk_layout_row_static(&ctx, 30, 80, 1);
 ///     if (nk_button_label(&ctx, "button")) {
 ///         // event handling
 ///     }
 ///
-///     // fixed widget window ratio width
+///     // fixed widget window ratio m_width
 ///     nk_layout_row_dynamic(&ctx, 30, 2);
 ///     if (nk_option_label(&ctx, "easy", op == EASY)) op = EASY;
 ///     if (nk_option_label(&ctx, "hard", op == HARD)) op = HARD;
 ///
-///     // custom widget pixel width
+///     // custom widget pixel m_width
 ///     nk_layout_row_begin(&ctx, NK_STATIC, 30, 2);
 ///     {
 ///         nk_layout_row_push(&ctx, 50);
@@ -1385,9 +1385,9 @@ NK_API const struct nk_draw_command* nk__draw_next(const struct nk_draw_command*
 /// nk_window_find                      | Finds and returns the window with give name
 /// nk_window_get_bounds                | Returns a rectangle with screen position and size of the currently processed window.
 /// nk_window_get_position              | Returns the position of the currently processed window
-/// nk_window_get_size                  | Returns the size with width and height of the currently processed window
-/// nk_window_get_width                 | Returns the width of the currently processed window
-/// nk_window_get_height                | Returns the height of the currently processed window
+/// nk_window_get_size                  | Returns the size with m_width and m_height of the currently processed window
+/// nk_window_get_width                 | Returns the m_width of the currently processed window
+/// nk_window_get_height                | Returns the m_height of the currently processed window
 /// nk_window_get_panel                 | Returns the underlying panel which contains all processing state of the current window
 /// nk_window_get_content_region        | Returns the position and size of the currently visible and non-clipped space inside the currently processed window
 /// nk_window_get_content_region_min    | Returns the upper rectangle position of the currently visible and non-clipped space inside the currently processed window
@@ -1551,7 +1551,7 @@ NK_API struct nk_rect nk_window_get_bounds(const struct nk_context *ctx);
 */
 NK_API struct nk_vec2 nk_window_get_position(const struct nk_context *ctx);
 /*/// #### nk_window_get_size
-/// Returns the size with width and height of the currently processed window.
+/// Returns the size with m_width and m_height of the currently processed window.
 ///
 /// !!! WARNING
 ///     Only call this function between calls `nk_begin_xxx` and `nk_end`
@@ -1563,11 +1563,11 @@ NK_API struct nk_vec2 nk_window_get_position(const struct nk_context *ctx);
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct
 ///
-/// Returns a `nk_vec2` struct with window width and height
+/// Returns a `nk_vec2` struct with window m_width and m_height
 */
 NK_API struct nk_vec2 nk_window_get_size(const struct nk_context*);
 /*/// #### nk_window_get_width
-/// Returns the width of the currently processed window.
+/// Returns the m_width of the currently processed window.
 ///
 /// !!! WARNING
 ///     Only call this function between calls `nk_begin_xxx` and `nk_end`
@@ -1579,11 +1579,11 @@ NK_API struct nk_vec2 nk_window_get_size(const struct nk_context*);
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct
 ///
-/// Returns the current window width
+/// Returns the current window m_width
 */
 NK_API float nk_window_get_width(const struct nk_context*);
 /*/// #### nk_window_get_height
-/// Returns the height of the currently processed window.
+/// Returns the m_height of the currently processed window.
 ///
 /// !!! WARNING
 ///     Only call this function between calls `nk_begin_xxx` and `nk_end`
@@ -1595,7 +1595,7 @@ NK_API float nk_window_get_width(const struct nk_context*);
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct
 ///
-/// Returns the current window height
+/// Returns the current window m_height
 */
 NK_API float nk_window_get_height(const struct nk_context*);
 /*/// #### nk_window_get_panel
@@ -1953,7 +1953,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 /// each with different trade offs between control and ease of use. <br /><br />
 ///
 /// All layouting methods in this library are based around the concept of a row.
-/// A row has a height the window content grows by and a number of columns and each
+/// A row has a m_height the window content grows by and a number of columns and each
 /// layouting method specifies how each widget is placed inside the row.
 /// After a row has been allocated by calling a layouting functions and then
 /// filled with widgets will advance an internal pointer over the allocated row. <br /><br />
@@ -1965,20 +1965,20 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 /// call.
 ///
 /// Biggest limitation with using all these APIs outside the `nk_layout_space_xxx` API
-/// is that you have to define the row height for each. However the row height
-/// often depends on the height of the font. <br /><br />
+/// is that you have to define the row m_height for each. However the row m_height
+/// often depends on the m_height of the font. <br /><br />
 ///
-/// To fix that internally nuklear uses a minimum row height that is set to the
-/// height plus padding of currently active font and overwrites the row height
+/// To fix that internally nuklear uses a minimum row m_height that is set to the
+/// m_height plus padding of currently active font and overwrites the row m_height
 /// value if zero. <br /><br />
 ///
-/// If you manually want to change the minimum row height then
+/// If you manually want to change the minimum row m_height then
 /// use nk_layout_set_min_row_height, and use nk_layout_reset_min_row_height to
-/// reset it back to be derived from font height. <br /><br />
+/// reset it back to be derived from font m_height. <br /><br />
 ///
 /// Also if you change the font in nuklear it will automatically change the minimum
-/// row height for you and. This means if you change the font but still want
-/// a minimum row height smaller than the font you have to repush your value. <br /><br />
+/// row m_height for you and. This means if you change the font but still want
+/// a minimum row m_height smaller than the font you have to repush your value. <br /><br />
 ///
 /// For actually more advanced UI I would even recommend using the `nk_layout_space_xxx`
 /// layouting method in combination with a cassowary constraint solver (there are
@@ -1990,7 +1990,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 /// 1.  __nk_layout_row_dynamic__<br /><br />
 ///     The easiest layouting function is `nk_layout_row_dynamic`. It provides each
 ///     widgets with same horizontal space inside the row and dynamically grows
-///     if the owning window grows in width. So the number of columns dictates
+///     if the owning window grows in m_width. So the number of columns dictates
 ///     the size of each widget dynamically by formula:
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
@@ -2003,7 +2003,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // first row with height: 30 composed of two widgets
+///         // first row with m_height: 30 composed of two widgets
 ///         nk_layout_row_dynamic(&ctx, 30, 2);
 ///         nk_widget(...);
 ///         nk_widget(...);
@@ -2012,7 +2012,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_widget(...);
 ///         //
-///         // third row uses 0 for height which will use auto layouting
+///         // third row uses 0 for m_height which will use auto layouting
 ///         nk_layout_row_dynamic(&ctx, 0, 2);
 ///         nk_widget(...);
 ///         nk_widget(...);
@@ -2022,12 +2022,12 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///
 /// 2.  __nk_layout_row_static__<br /><br />
 ///     Another easy layouting function is `nk_layout_row_static`. It provides each
-///     widget with same horizontal pixel width inside the row and does not grow
+///     widget with same horizontal pixel m_width inside the row and does not grow
 ///     if the owning window scales smaller or bigger.
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // first row with height: 30 composed of two widgets with width: 80
+///         // first row with m_height: 30 composed of two widgets with m_width: 80
 ///         nk_layout_row_static(&ctx, 30, 80, 2);
 ///         nk_widget(...);
 ///         nk_widget(...);
@@ -2036,7 +2036,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_widget(...);
 ///         //
-///         // third row uses 0 for height which will use auto layouting
+///         // third row uses 0 for m_height which will use auto layouting
 ///         nk_layout_row_static(&ctx, 0, 80, 2);
 ///         nk_widget(...);
 ///         nk_widget(...);
@@ -2048,14 +2048,14 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///     A little bit more advanced layouting API are functions `nk_layout_row_begin`,
 ///     `nk_layout_row_push` and `nk_layout_row_end`. They allow to directly
 ///     specify each column pixel or window ratio in a row. It supports either
-///     directly setting per column pixel width or widget window ratio but not
+///     directly setting per column pixel m_width or widget window ratio but not
 ///     both. Furthermore it is a immediate mode API so each value is directly
 ///     pushed before calling a widget. Therefore the layout is not automatically
 ///     repeating like the last two layouting functions.
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // first row with height: 25 composed of two widgets with width 60 and 40
+///         // first row with m_height: 25 composed of two widgets with m_width 60 and 40
 ///         nk_layout_row_begin(ctx, NK_STATIC, 25, 2);
 ///         nk_layout_row_push(ctx, 60);
 ///         nk_widget(...);
@@ -2063,7 +2063,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_layout_row_end(ctx);
 ///         //
-///         // second row with height: 25 composed of two widgets with window ratio 0.25 and 0.75
+///         // second row with m_height: 25 composed of two widgets with window ratio 0.25 and 0.75
 ///         nk_layout_row_begin(ctx, NK_DYNAMIC, 25, 2);
 ///         nk_layout_row_push(ctx, 0.25f);
 ///         nk_widget(...);
@@ -2071,7 +2071,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_layout_row_end(ctx);
 ///         //
-///         // third row with auto generated height: composed of two widgets with window ratio 0.25 and 0.75
+///         // third row with auto generated m_height: composed of two widgets with window ratio 0.25 and 0.75
 ///         nk_layout_row_begin(ctx, NK_DYNAMIC, 0, 2);
 ///         nk_layout_row_push(ctx, 0.25f);
 ///         nk_widget(...);
@@ -2091,7 +2091,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // two rows with height: 30 composed of two widgets with width 60 and 40
+///         // two rows with m_height: 30 composed of two widgets with m_width 60 and 40
 ///         const float size[] = {60,40};
 ///         nk_layout_row(ctx, NK_STATIC, 30, 2, ratio);
 ///         nk_widget(...);
@@ -2099,7 +2099,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_widget(...);
 ///         //
-///         // two rows with height: 30 composed of two widgets with window ratio 0.25 and 0.75
+///         // two rows with m_height: 30 composed of two widgets with window ratio 0.25 and 0.75
 ///         const float ratio[] = {0.25, 0.75};
 ///         nk_layout_row(ctx, NK_DYNAMIC, 30, 2, ratio);
 ///         nk_widget(...);
@@ -2107,7 +2107,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_widget(...);
 ///         //
-///         // two rows with auto generated height composed of two widgets with window ratio 0.25 and 0.75
+///         // two rows with auto generated m_height composed of two widgets with window ratio 0.25 and 0.75
 ///         const float ratio[] = {0.25, 0.75};
 ///         nk_layout_row(ctx, NK_DYNAMIC, 30, 2, ratio);
 ///         nk_widget(...);
@@ -2124,7 +2124,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///     unlike `nk_layout_row_xxx` it has auto repeat behavior and needs to be called
 ///     before calling the templated widgets.
 ///     The row template layout has three different per widget size specifier. The first
-///     one is the `nk_layout_row_template_push_static`  with fixed widget pixel width.
+///     one is the `nk_layout_row_template_push_static`  with fixed widget pixel m_width.
 ///     They do not grow if the row grows and will always stay the same.
 ///     The second size specifier is `nk_layout_row_template_push_variable`
 ///     which defines a minimum widget size but it also can grow if more space is available
@@ -2135,7 +2135,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // two rows with height: 30 composed of three widgets
+///         // two rows with m_height: 30 composed of three widgets
 ///         nk_layout_row_template_begin(ctx, 30);
 ///         nk_layout_row_template_push_dynamic(ctx);
 ///         nk_layout_row_template_push_variable(ctx, 80);
@@ -2145,7 +2145,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         // first row
 ///         nk_widget(...); // dynamic widget can go to zero if not enough space
 ///         nk_widget(...); // variable widget with min 80 pixel but can grow bigger if enough space
-///         nk_widget(...); // static widget with fixed 80 pixel width
+///         nk_widget(...); // static widget with fixed 80 pixel m_width
 ///         //
 ///         // second row same layout
 ///         nk_widget(...);
@@ -2166,7 +2166,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///
 ///     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 ///     if (nk_begin_xxx(...) {
-///         // static row with height: 500 (you can set column count to INT_MAX if you don't want to be bothered)
+///         // static row with m_height: 500 (you can set column count to INT_MAX if you don't want to be bothered)
 ///         nk_layout_space_begin(ctx, NK_STATIC, 500, INT_MAX);
 ///         nk_layout_space_push(ctx, nk_rect(0,0,150,200));
 ///         nk_widget(...);
@@ -2174,7 +2174,7 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 ///         nk_widget(...);
 ///         nk_layout_space_end(ctx);
 ///         //
-///         // dynamic row with height: 500 (you can set column count to INT_MAX if you don't want to be bothered)
+///         // dynamic row with m_height: 500 (you can set column count to INT_MAX if you don't want to be bothered)
 ///         nk_layout_space_begin(ctx, NK_DYNAMIC, 500, INT_MAX);
 ///         nk_layout_space_push(ctx, nk_rect(0.5,0.5,0.1,0.1));
 ///         nk_widget(...);
@@ -2187,21 +2187,21 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 /// #### Reference
 /// Function                                | Description
 /// ----------------------------------------|------------------------------------
-/// nk_layout_set_min_row_height            | Set the currently used minimum row height to a specified value
-/// nk_layout_reset_min_row_height          | Resets the currently used minimum row height to font height
-/// nk_layout_widget_bounds                 | Calculates current width a static layout row can fit inside a window
+/// nk_layout_set_min_row_height            | Set the currently used minimum row m_height to a specified value
+/// nk_layout_reset_min_row_height          | Resets the currently used minimum row m_height to font m_height
+/// nk_layout_widget_bounds                 | Calculates current m_width a static layout row can fit inside a window
 /// nk_layout_ratio_from_pixel              | Utility functions to calculate window ratio from pixel size
 //
 /// nk_layout_row_dynamic                   | Current layout is divided into n same sized growing columns
 /// nk_layout_row_static                    | Current layout is divided into n same fixed sized columns
-/// nk_layout_row_begin                     | Starts a new row with given height and number of columns
+/// nk_layout_row_begin                     | Starts a new row with given m_height and number of columns
 /// nk_layout_row_push                      | Pushes another column with given size or window ratio
 /// nk_layout_row_end                       | Finished previously started row
 /// nk_layout_row                           | Specifies row columns in array as either window ratio or size
 //
 /// nk_layout_row_template_begin            | Begins the row template declaration
 /// nk_layout_row_template_push_dynamic     | Adds a dynamic column that dynamically grows and can go to zero if not enough space
-/// nk_layout_row_template_push_variable    | Adds a variable column that dynamically grows but does not shrink below specified pixel width
+/// nk_layout_row_template_push_variable    | Adds a variable column that dynamically grows but does not shrink below specified pixel m_width
 /// nk_layout_row_template_push_static      | Adds a static column that does not grow and will always have the same size
 /// nk_layout_row_template_end              | Marks the end of the row template
 //
@@ -2216,23 +2216,23 @@ NK_API void nk_window_show_if(struct nk_context*, const char *name, enum nk_show
 /// nk_layout_space_rect_to_local           | Converts rectangle from screen space into nk_layout_space coordinates
 */
 /*/// #### nk_layout_set_min_row_height
-/// Sets the currently used minimum row height.
+/// Sets the currently used minimum row m_height.
 /// !!! WARNING
-///     The passed height needs to libs both your preferred row height
+///     The passed m_height needs to libs both your preferred row m_height
 ///     as well as padding. No internal padding is added.
 ///
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_set_min_row_height(struct nk_context*, float height);
+/// void nk_layout_set_min_row_height(struct nk_context*, float m_height);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __height__  | New minimum row height to be used for auto generating the row height
+/// __height__  | New minimum row m_height to be used for auto generating the row m_height
 */
 NK_API void nk_layout_set_min_row_height(struct nk_context*, float height);
 /*/// #### nk_layout_reset_min_row_height
-/// Reset the currently used minimum row height back to `font_height + text_padding + padding`
+/// Reset the currently used minimum row m_height back to `font_height + text_padding + padding`
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 /// void nk_layout_reset_min_row_height(struct nk_context*);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2243,7 +2243,7 @@ NK_API void nk_layout_set_min_row_height(struct nk_context*, float height);
 */
 NK_API void nk_layout_reset_min_row_height(struct nk_context*);
 /*/// #### nk_layout_widget_bounds
-/// Returns the width of the next row allocate by one of the layouting functions
+/// Returns the m_width of the next row allocate by one of the layouting functions
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 /// struct nk_rect nk_layout_widget_bounds(struct nk_context*);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2274,13 +2274,13 @@ NK_API float nk_layout_ratio_from_pixel(struct nk_context*, float pixel_width);
 /// between @cols number of widgets evenly. Once called all subsequent widget
 /// calls greater than @cols will allocate a new row with same layout.
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_row_dynamic(struct nk_context *ctx, float height, int cols);
+/// void nk_layout_row_dynamic(struct nk_context *ctx, float m_height, int cols);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __height__  | Holds height of each widget in row or zero for auto layouting
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
 /// __columns__ | Number of widget inside row
 */
 NK_API void nk_layout_row_dynamic(struct nk_context *ctx, float height, int cols);
@@ -2289,19 +2289,19 @@ NK_API void nk_layout_row_dynamic(struct nk_context *ctx, float height, int cols
 /// in row with same @item_width horizontal size. Once called all subsequent widget
 /// calls greater than @cols will allocate a new row with same layout.
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_row_static(struct nk_context *ctx, float height, int item_width, int cols);
+/// void nk_layout_row_static(struct nk_context *ctx, float m_height, int item_width, int cols);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __height__  | Holds height of each widget in row or zero for auto layouting
-/// __width__   | Holds pixel width of each widget in the row
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
+/// __width__   | Holds pixel m_width of each widget in the row
 /// __columns__ | Number of widget inside row
 */
 NK_API void nk_layout_row_static(struct nk_context *ctx, float height, int item_width, int cols);
 /*/// #### nk_layout_row_begin
-/// Starts a new dynamic or fixed row with given height and columns.
+/// Starts a new dynamic or fixed row with given m_height and columns.
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 /// void nk_layout_row_begin(struct nk_context *ctx, enum nk_layout_format fmt, float row_height, int cols);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2310,12 +2310,12 @@ NK_API void nk_layout_row_static(struct nk_context *ctx, float height, int item_
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
 /// __fmt__     | either `NK_DYNAMIC` for window ratio or `NK_STATIC` for fixed size columns
-/// __height__  | holds height of each widget in row or zero for auto layouting
+/// __height__  | holds m_height of each widget in row or zero for auto layouting
 /// __columns__ | Number of widget inside row
 */
 NK_API void nk_layout_row_begin(struct nk_context *ctx, enum nk_layout_format fmt, float row_height, int cols);
 /*/// #### nk_layout_row_push
-/// Specifies either window ratio or width of a single column
+/// Specifies either window ratio or m_width of a single column
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 /// void nk_layout_row_push(struct nk_context*, float value);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2323,7 +2323,7 @@ NK_API void nk_layout_row_begin(struct nk_context *ctx, enum nk_layout_format fm
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __value__   | either a window ratio or fixed width depending on @fmt in previous `nk_layout_row_begin` call
+/// __value__   | either a window ratio or fixed m_width depending on @fmt in previous `nk_layout_row_begin` call
 */
 NK_API void nk_layout_row_push(struct nk_context*, float value);
 /*/// #### nk_layout_row_end
@@ -2340,14 +2340,14 @@ NK_API void nk_layout_row_end(struct nk_context*);
 /*/// #### nk_layout_row
 /// Specifies row columns in array as either window ratio or size
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_row(struct nk_context*, enum nk_layout_format, float height, int cols, const float *ratio);
+/// void nk_layout_row(struct nk_context*, enum nk_layout_format, float m_height, int cols, const float *ratio);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
 /// __fmt__     | Either `NK_DYNAMIC` for window ratio or `NK_STATIC` for fixed size columns
-/// __height__  | Holds height of each widget in row or zero for auto layouting
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
 /// __columns__ | Number of widget inside row
 */
 NK_API void nk_layout_row(struct nk_context*, enum nk_layout_format, float height, int cols, const float *ratio);
@@ -2360,7 +2360,7 @@ NK_API void nk_layout_row(struct nk_context*, enum nk_layout_format, float heigh
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __height__  | Holds height of each widget in row or zero for auto layouting
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
 */
 NK_API void nk_layout_row_template_begin(struct nk_context*, float row_height);
 /*/// #### nk_layout_row_template_push_dynamic
@@ -2372,11 +2372,11 @@ NK_API void nk_layout_row_template_begin(struct nk_context*, float row_height);
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __height__  | Holds height of each widget in row or zero for auto layouting
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
 */
 NK_API void nk_layout_row_template_push_dynamic(struct nk_context*);
 /*/// #### nk_layout_row_template_push_variable
-/// Adds a variable column that dynamically grows but does not shrink below specified pixel width
+/// Adds a variable column that dynamically grows but does not shrink below specified pixel m_width
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
 /// void nk_layout_row_template_push_variable(struct nk_context*, float min_width);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2384,19 +2384,19 @@ NK_API void nk_layout_row_template_push_dynamic(struct nk_context*);
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __width__   | Holds the minimum pixel width the next column must always be
+/// __width__   | Holds the minimum pixel m_width the next column must always be
 */
 NK_API void nk_layout_row_template_push_variable(struct nk_context*, float min_width);
 /*/// #### nk_layout_row_template_push_static
 /// Adds a static column that does not grow and will always have the same size
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_row_template_push_static(struct nk_context*, float width);
+/// void nk_layout_row_template_push_static(struct nk_context*, float m_width);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
-/// __width__   | Holds the absolute pixel width value the next column must be
+/// __width__   | Holds the absolute pixel m_width value the next column must be
 */
 NK_API void nk_layout_row_template_push_static(struct nk_context*, float width);
 /*/// #### nk_layout_row_template_end
@@ -2413,14 +2413,14 @@ NK_API void nk_layout_row_template_end(struct nk_context*);
 /*/// #### nk_layout_space_begin
 /// Begins a new layouting space that allows to specify each widgets position and size.
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~c
-/// void nk_layout_space_begin(struct nk_context*, enum nk_layout_format, float height, int widget_count);
+/// void nk_layout_space_begin(struct nk_context*, enum nk_layout_format, float m_height, int widget_count);
 /// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ///
 /// Parameter   | Description
 /// ------------|-----------------------------------------------------------
 /// __ctx__     | Must point to an previously initialized `nk_context` struct after call `nk_begin_xxx`
 /// __fmt__     | Either `NK_DYNAMIC` for window ratio or `NK_STATIC` for fixed size columns
-/// __height__  | Holds height of each widget in row or zero for auto layouting
+/// __height__  | Holds m_height of each widget in row or zero for auto layouting
 /// __columns__ | Number of widgets inside row
 */
 NK_API void nk_layout_space_begin(struct nk_context*, enum nk_layout_format, float height, int widget_count);
@@ -2725,7 +2725,7 @@ NK_API void nk_group_scrolled_end(struct nk_context*);
 ///
 /// !!! Note
 ///     The tree header does not require and layouting function and instead
-///     calculates a auto height based on the currently used font size
+///     calculates a auto m_height based on the currently used font size
 ///
 /// The tree ending functions only need to be called if the tree content is
 /// actually visible. So make sure the tree push function is guarded by `if`
@@ -3684,8 +3684,8 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
     1.) Using your own implementation without vertex buffer output
     --------------------------------------------------------------
     So first up the easiest way to do font handling is by just providing a
-    `nk_user_font` struct which only requires the height in pixel of the used
-    font and a callback to calculate the width of a string. This way of handling
+    `nk_user_font` struct which only requires the m_height in pixel of the used
+    font and a callback to calculate the m_width of a string. This way of handling
     fonts is best fitted for using the normal draw shape command API where you
     do all the text drawing yourself and the library does not require any kind
     of deeper knowledge about which font handling mechanism you use.
@@ -3693,7 +3693,7 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
     over the complete life time! I know this sucks but it is currently the only
     way to switch between fonts.
 
-        float your_text_width_calculation(nk_handle handle, float height, const char *text, int len)
+        float your_text_width_calculation(nk_handle handle, float m_height, const char *text, int len)
         {
             your_font_type *type = handle.ptr;
             float text_width = ...;
@@ -3702,8 +3702,8 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
 
         struct nk_user_font font;
         font.userdata.ptr = &your_font_class_or_struct;
-        font.height = your_font_height;
-        font.width = your_text_width_calculation;
+        font.m_height = your_font_height;
+        font.m_width = your_text_width_calculation;
 
         struct nk_context ctx;
         nk_init_default(&ctx, &font);
@@ -3718,7 +3718,7 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
     information (offset, size, ...). So it is still possible to provide your own
     font and use the vertex buffer output.
 
-        float your_text_width_calculation(nk_handle handle, float height, const char *text, int len)
+        float your_text_width_calculation(nk_handle handle, float m_height, const char *text, int len)
         {
             your_font_type *type = handle.ptr;
             float text_width = ...;
@@ -3727,8 +3727,8 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
         void query_your_font_glyph(nk_handle handle, float font_height, struct nk_user_font_glyph *glyph, nk_rune codepoint, nk_rune next_codepoint)
         {
             your_font_type *type = handle.ptr;
-            glyph.width = ...;
-            glyph.height = ...;
+            glyph.m_width = ...;
+            glyph.m_height = ...;
             glyph.xadvance = ...;
             glyph.uv[0].x = ...;
             glyph.uv[0].y = ...;
@@ -3740,8 +3740,8 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
 
         struct nk_user_font font;
         font.userdata.ptr = &your_font_class_or_struct;
-        font.height = your_font_height;
-        font.width = your_text_width_calculation;
+        font.m_height = your_font_height;
+        font.m_width = your_text_width_calculation;
         font.query = query_your_font_glyph;
         font.texture.id = your_font_texture;
 
@@ -3776,7 +3776,7 @@ NK_API const char* nk_utf_at(const char *buffer, int length, int index, nk_rune 
 
     As soon as you added all fonts you wanted you can now start the baking process
     for every selected glyph to image by calling `nk_font_atlas_bake`.
-    The baking process returns image memory, width and height which can be used to
+    The baking process returns image memory, m_width and m_height which can be used to
     either create your own image object or upload it to any graphics library.
     No matter which case you finally have to call `nk_font_atlas_end` which
     will free all temporary memory including the font atlas image so make sure
@@ -3841,9 +3841,9 @@ struct nk_user_font {
     nk_handle userdata;
     /* user provided font handle */
     float height;
-    /* max height of the font */
+    /* max m_height of the font */
     nk_text_width_f width;
-    /* font string width in pixel callback */
+    /* font string m_width in pixel callback */
 #ifdef NK_INCLUDE_VERTEX_BUFFER_OUTPUT
     nk_query_font_glyph_f query;
     /* font glyph callback to query drawing info */
@@ -3861,7 +3861,7 @@ enum nk_font_coord_type {
 struct nk_font;
 struct nk_baked_font {
     float height;
-    /* height of the font  */
+    /* m_height of the font  */
     float ascent, descent;
     /* font glyphs ascent and descent  */
     nk_rune glyph_offset;
@@ -3893,7 +3893,7 @@ struct nk_font_config {
     unsigned char padding[3];
 
     float size;
-    /* baked pixel height of the font */
+    /* baked pixel m_height of the font */
     enum nk_font_coord_type coord_type;
     /* texture coordinate format with either pixel or UV coordinates */
     struct nk_vec2 spacing;
@@ -5274,7 +5274,7 @@ struct nk_table;
 enum nk_window_flags {
     NK_WINDOW_PRIVATE       = NK_FLAG(11),
     NK_WINDOW_DYNAMIC       = NK_WINDOW_PRIVATE,
-    /* special window type growing up in height while being filled to a certain maximum height */
+    /* special window type growing up in m_height while being filled to a certain maximum m_height */
     NK_WINDOW_ROM           = NK_FLAG(12),
     /* sets window widgets into a read only mode and does not allow input changes */
     NK_WINDOW_NOT_INTERACTIVE = NK_WINDOW_ROM|NK_WINDOW_NO_INPUT,
@@ -6858,7 +6858,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
             iter++;
         }
 
-        /* width argument */
+        /* m_width argument */
         width = NK_DEFAULT;
         if (*iter >= '1' && *iter <= '9') {
             const char *end;
@@ -6949,7 +6949,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
             if ((flag & NK_ARG_FLAG_PLUS) || (flag & NK_ARG_FLAG_SPACE))
                 padding = NK_MAX(padding-1, 0);
 
-            /* fill left padding up to a total of `width` characters */
+            /* fill left padding up to a total of `m_width` characters */
             if (!(flag & NK_ARG_FLAG_LEFT)) {
                 while (padding-- > 0 && (len < buf_size)) {
                     if ((flag & NK_ARG_FLAG_ZERO) && (precision == NK_DEFAULT))
@@ -6976,7 +6976,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
             while (precision && *num_iter && len < buf_size)
                 buf[len++] = *num_iter++;
 
-            /* fill right padding up to width characters */
+            /* fill right padding up to m_width characters */
             if (flag & NK_ARG_FLAG_LEFT) {
                 while ((padding-- > 0) && (len < buf_size))
                     buf[len++] = ' ';
@@ -7017,7 +7017,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
             if (flag & NK_ARG_FLAG_NUM)
                 padding = NK_MAX(padding-1, 0);
 
-            /* fill left padding up to a total of `width` characters */
+            /* fill left padding up to a total of `m_width` characters */
             if (!(flag & NK_ARG_FLAG_LEFT)) {
                 while ((padding-- > 0) && (len < buf_size)) {
                     if ((flag & NK_ARG_FLAG_ZERO) && (precision == NK_DEFAULT))
@@ -7050,7 +7050,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
                 num_len--;
             }
 
-            /* fill right padding up to width characters */
+            /* fill right padding up to m_width characters */
             if (flag & NK_ARG_FLAG_LEFT) {
                 while ((padding-- > 0) && (len < buf_size))
                     buf[len++] = ' ';
@@ -7078,7 +7078,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
             if ((flag & NK_ARG_FLAG_PLUS) || (flag & NK_ARG_FLAG_SPACE))
                 padding = NK_MAX(padding-1, 0);
 
-            /* fill left padding up to a total of `width` characters */
+            /* fill left padding up to a total of `m_width` characters */
             if (!(flag & NK_ARG_FLAG_LEFT)) {
                 while (padding-- > 0 && (len < buf_size)) {
                     if (flag & NK_ARG_FLAG_ZERO)
@@ -7113,7 +7113,7 @@ nk_vsnprintf(char *buf, int buf_size, const char *fmt, va_list args)
                 frac_len++;
             }
 
-            /* fill right padding up to width characters */
+            /* fill right padding up to m_width characters */
             if (flag & NK_ARG_FLAG_LEFT) {
                 while ((padding-- > 0) && (len < buf_size))
                     buf[len++] = ' ';
@@ -10500,7 +10500,7 @@ struct nk_rp_context {
     struct nk_rp_node *active_head;
     struct nk_rp_node *free_head;
     struct nk_rp_node extra[2];
-    /* we allocate two extra nodes so optimal user-node-count is 'width' not 'width+2' */
+    /* we allocate two extra nodes so optimal user-node-count is 'm_width' not 'm_width+2' */
 };
 
 struct nk_rp__findresult {
@@ -10528,9 +10528,9 @@ nk_rp_setup_allow_out_of_mem(struct nk_rp_context *context, int allow_out_of_mem
         /* if it's not ok to run out of memory, then quantize the widths */
         /* so that num_nodes is always enough nodes. */
         /* */
-        /* I.e. num_nodes * align >= width */
-        /*                  align >= width / num_nodes */
-        /*                  align = ceil(width/num_nodes) */
+        /* I.e. num_nodes * align >= m_width */
+        /*                  align >= m_width / num_nodes */
+        /*                  align = ceil(m_width/num_nodes) */
         context->align = (context->width + context->num_nodes-1) / context->num_nodes;
     }
 }
@@ -10555,7 +10555,7 @@ nk_rp_init_target(struct nk_rp_context *context, int width, int height,
     context->num_nodes = num_nodes;
     nk_rp_setup_allow_out_of_mem(context, 0);
 
-    /* node 0 is the full width, node 1 is the sentinel (lets us not store width explicitly) */
+    /* node 0 is the full m_width, node 1 is the sentinel (lets us not store m_width explicitly) */
     context->extra[0].x = 0;
     context->extra[0].y = 0;
     context->extra[0].next = &context->extra[1];
@@ -12346,7 +12346,7 @@ nk_tt__oversample_shift(int oversample)
     if (!oversample)
         return 0.0f;
 
-    /* The prefilter is a box filter of width "oversample", */
+    /* The prefilter is a box filter of m_width "oversample", */
     /* which shifts phase by (oversample - 1)/2 pixels in */
     /* oversampled space. We want to shift in the opposite */
     /* direction to counter this. */
@@ -12735,7 +12735,7 @@ nk_font_bake_pack(struct nk_font_baker *baker,
                     tmp->ranges, (int)tmp->range_count, tmp->rects);
                 nk_rp_pack_rects((struct nk_rp_context*)baker->spc.pack_info, tmp->rects, (int)n);
 
-                /* texture height */
+                /* texture m_height */
                 for (i = 0; i < n; ++i) {
                     if (tmp->rects[i].was_packed)
                         *height = NK_MAX(*height, tmp->rects[i].y + tmp->rects[i].h);
@@ -15768,7 +15768,7 @@ nk_panel_end(struct nk_context *ctx)
     /* dynamic panels */
     if (layout->flags & NK_WINDOW_DYNAMIC && !(layout->flags & NK_WINDOW_MINIMIZED))
     {
-        /* update panel height to fit dynamic growth */
+        /* update panel m_height to fit dynamic growth */
         struct nk_rect empty_space;
         if (layout->at_y < (layout->bounds.y + layout->bounds.h))
             layout->bounds.h = layout->at_y - layout->bounds.y;
@@ -17666,7 +17666,7 @@ nk_layout_row(struct nk_context *ctx, enum nk_layout_format fmt,
     layout = win->layout;
     nk_panel_layout(ctx, win, height, cols);
     if (fmt == NK_DYNAMIC) {
-        /* calculate width of undefined widget ratios */
+        /* calculate m_width of undefined widget ratios */
         float r = 0;
         layout->row.ratio = ratio;
         for (i = 0; i < cols; ++i) {
@@ -18025,16 +18025,16 @@ nk_layout_widget_space(struct nk_rect *bounds, const struct nk_context *ctx,
     panel_space = nk_layout_row_calculate_usable_space(&ctx->style, layout->type,
                                             layout->bounds.w, layout->row.columns);
 
-    /* calculate the width of one item inside the current layout space */
+    /* calculate the m_width of one item inside the current layout space */
     switch (layout->row.type) {
     case NK_LAYOUT_DYNAMIC_FIXED: {
-        /* scaling fixed size widgets item width */
+        /* scaling fixed size widgets item m_width */
         item_width = NK_MAX(1.0f,panel_space) / (float)layout->row.columns;
         item_offset = (float)layout->row.index * item_width;
         item_spacing = (float)layout->row.index * spacing.x;
     } break;
     case NK_LAYOUT_DYNAMIC_ROW: {
-        /* scaling single ratio widget width */
+        /* scaling single ratio widget m_width */
         item_width = layout->row.item_width * panel_space;
         item_offset = layout->row.item_offset;
         item_spacing = 0;
@@ -18046,7 +18046,7 @@ nk_layout_widget_space(struct nk_rect *bounds, const struct nk_context *ctx,
         }
     } break;
     case NK_LAYOUT_DYNAMIC_FREE: {
-        /* panel width depended free widget placing */
+        /* panel m_width depended free widget placing */
         bounds->x = layout->at_x + (layout->bounds.w * layout->row.item.x);
         bounds->x -= (float)*layout->offset_x;
         bounds->y = layout->at_y + (layout->row.height * layout->row.item.y);
@@ -18056,7 +18056,7 @@ nk_layout_widget_space(struct nk_rect *bounds, const struct nk_context *ctx,
         return;
     }
     case NK_LAYOUT_DYNAMIC: {
-        /* scaling arrays of panel width ratios for every widget */
+        /* scaling arrays of panel m_width ratios for every widget */
         float ratio;
         NK_ASSERT(layout->row.ratio);
         ratio = (layout->row.ratio[layout->row.index] < 0) ?
@@ -18072,13 +18072,13 @@ nk_layout_widget_space(struct nk_rect *bounds, const struct nk_context *ctx,
         }
     } break;
     case NK_LAYOUT_STATIC_FIXED: {
-        /* non-scaling fixed widgets item width */
+        /* non-scaling fixed widgets item m_width */
         item_width = layout->row.item_width;
         item_offset = (float)layout->row.index * item_width;
         item_spacing = (float)layout->row.index * spacing.x;
     } break;
     case NK_LAYOUT_STATIC_ROW: {
-        /* scaling single ratio widget width */
+        /* scaling single ratio widget m_width */
         item_width = layout->row.item_width;
         item_offset = layout->row.item_offset;
         item_spacing = (float)layout->row.index * spacing.x;
@@ -18097,14 +18097,14 @@ nk_layout_widget_space(struct nk_rect *bounds, const struct nk_context *ctx,
         return;
     }
     case NK_LAYOUT_STATIC: {
-        /* non-scaling array of panel pixel width for every widget */
+        /* non-scaling array of panel pixel m_width for every widget */
         item_spacing = (float)layout->row.index * spacing.x;
         item_width = layout->row.ratio[layout->row.index];
         item_offset = layout->row.item_offset;
         if (modify) layout->row.item_offset += item_width;
     } break;
     case NK_LAYOUT_TEMPLATE: {
-        /* stretchy row layout with combined dynamic/static widget width*/
+        /* stretchy row layout with combined dynamic/static widget m_width*/
         NK_ASSERT(layout->row.index < layout->row.columns);
         NK_ASSERT(layout->row.index < NK_MAX_LAYOUT_ROW_TEMPLATE_COLUMNS);
         item_width = layout->row.templates[layout->row.index];
@@ -21468,7 +21468,7 @@ nk_do_scrollbarh(nk_flags *state,
 /* stb_textedit.h - v1.8  - public domain - Sean Barrett */
 struct nk_text_find {
    float x,y;    /* position of n'th character */
-   float height; /* height of line */
+   float height; /* m_height of line */
    int first_char, length; /* first char of row, and length */
    int prev_first;  /*_ first char of previous row */
 };
@@ -21479,7 +21479,7 @@ struct nk_text_edit_row {
    float baseline_y_delta;
    /* position of baseline relative to previous row's baseline*/
    float ymin,ymax;
-   /* height of row above and below baseline */
+   /* m_height of row above and below baseline */
    int num_chars;
 };
 
@@ -25285,10 +25285,10 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2017/06/30 (1.40.2) - Removed unneeded semicolon in C++ NK_ALIGNOF macro
 /// - 2017/06/30 (1.40.1) - Fixed drawing lines smaller or equal zero
 /// - 2017/06/08 (1.40.0) - Removed the breaking part of last commit. Auto layout now only
-///                        comes in effect if you pass in zero was row height argument
+///                        comes in effect if you pass in zero was row m_height argument
 /// - 2017/06/08 (1.40.0) - BREAKING CHANGE: while not directly API breaking it will change
 ///                        how layouting works. From now there will be an internal minimum
-///                        row height derived from font height. If you need a row smaller than
+///                        row m_height derived from font m_height. If you need a row smaller than
 ///                        that you can directly set it by `nk_layout_set_min_row_height` and
 ///                        reset the value back by calling `nk_layout_reset_min_row_height.
 /// - 2017/06/08 (1.39.1) - Fixed property text edit handling bug caused by past `nk_widget` fix
@@ -25372,9 +25372,9 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2016/09/15 (1.21.1)- Fixed C++ errors and wrong argument to `nk_panel_get_xxxx`
 /// - 2016/09/13 (1.21.0) - !BREAKING! Fixed nonblocking popup behavior in menu, combo,
 ///                        and contextual which prevented closing in y-direction if
-///                        popup did not reach max height.
-///                        In addition the height parameter was changed into vec2
-///                        for width and height to have more control over the popup size.
+///                        popup did not reach max m_height.
+///                        In addition the m_height parameter was changed into vec2
+///                        for m_width and m_height to have more control over the popup size.
 /// - 2016/09/13 (1.20.3) - Cleaned up and extended type selection
 /// - 2016/09/13 (1.20.2)- Fixed slider behavior hopefully for the last time. This time
 ///                        all calculation are correct so no more hackery.
@@ -25399,7 +25399,7 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2016/09/08 (1.16.0)- Added additional checks to select correct types if `NK_INCLUDE_FIXED_TYPES`
 ///                        is not defined by supporting the biggest compiler GCC, clang and MSVC.
 /// - 2016/09/07 (1.15.3)- Fixed `NK_INCLUDE_COMMAND_USERDATA` define to not cause an error
-/// - 2016/09/04 (1.15.2)- Fixed wrong combobox height calculation
+/// - 2016/09/04 (1.15.2)- Fixed wrong combobox m_height calculation
 /// - 2016/09/03 (1.15.1)- Fixed gaps inside combo boxes in OpenGL
 /// - 2016/09/02 (1.15.0) - Changed nuklear to not have any default vertex layout and
 ///                        instead made it user provided. The range of types to convert
@@ -25423,7 +25423,7 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2016/08/30 (1.11.1) - Fixed overlapping minimized window selection
 /// - 2016/08/30 (1.11.0) - Removed some internal complexity and overly complex code
 ///                        handling panel padding and panel border.
-/// - 2016/08/29 (1.10.0) - Added additional height parameter to `nk_combobox_xxx`
+/// - 2016/08/29 (1.10.0) - Added additional m_height parameter to `nk_combobox_xxx`
 /// - 2016/08/29 (1.10.0) - Fixed drawing bug in dynamic popups
 /// - 2016/08/29 (1.10.0) - Added experimental mouse scrolling to popups, menus and comboboxes
 /// - 2016/08/26 (1.10.0) - Added window name string prepresentation to account for
@@ -25459,7 +25459,7 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 ///                        precision.
 /// - 2016/08/08 (1.07.2)- Fixed compiling error without define NK_INCLUDE_FIXED_TYPE
 /// - 2016/08/08 (1.07.1)- Fixed possible floating point error inside `nk_widget` leading
-///                        to wrong wiget width calculation which results in widgets falsly
+///                        to wrong wiget m_width calculation which results in widgets falsly
 ///                        becomming tagged as not inside window and cannot be accessed.
 /// - 2016/08/08 (1.07.0) - Nuklear now differentiates between hiding a window (NK_WINDOW_HIDDEN) and
 ///                        closing a window (NK_WINDOW_CLOSED). A window can be hidden/shown
@@ -25472,7 +25472,7 @@ nk_tooltipfv(struct nk_context *ctx, const char *fmt, va_list args)
 /// - 2016/08/08 (1.05.4)- Fixed scrollbar auto hiding behavior
 /// - 2016/08/08 (1.05.3)- Fixed wrong panel padding selection in `nk_layout_widget_space`
 /// - 2016/08/07 (1.05.2)- Fixed old bug in dynamic immediate mode layout API, calculating
-///                        wrong item spacing and panel width.
+///                        wrong item spacing and panel m_width.
 ///- 2016/08/07 (1.05.1)- Hopefully finally fixed combobox popup drawing bug
 ///- 2016/08/07 (1.05.0) - Split varargs away from NK_INCLUDE_STANDARD_IO into own
 ///                        define NK_INCLUDE_STANDARD_VARARGS to allow more fine

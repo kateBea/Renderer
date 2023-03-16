@@ -2,7 +2,7 @@ GL_SGIX_mpeg1
 http://www.opengl.org/registry/specs/SGIX/mpeg1.txt
 GL_SGIX_mpeg1
 
-	void glAllocMPEGPredictorsSGIX (GLsizei width, GLsizei height, GLsizei n, GLuint* predictors)
+	void glAllocMPEGPredictorsSGIX (GLsizei m_width, GLsizei m_height, GLsizei n, GLuint* predictors)
 	void glDeleteMPEGPredictorsSGIX (GLsizei n, GLuint* predictors)
 	void glGenMPEGPredictorsSGIX (GLsizei n, GLuint* predictors)
 	void glGetMPEGParameterfvSGIX (GLenum target, GLenum pname, GLfloat* params)

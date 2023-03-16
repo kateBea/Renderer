@@ -26,9 +26,9 @@ GL_EXT_texture_storage
 	GL_RGB_RAW_422_APPLE 0x8A51
 	GL_TEXTURE_IMMUTABLE_FORMAT_EXT 0x912F
 	GL_BGRA8_EXT 0x93A1
-	void glTexStorage1DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width)
-	void glTexStorage2DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height)
-	void glTexStorage3DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth)
-	void glTextureStorage1DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width)
-	void glTextureStorage2DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height)
-	void glTextureStorage3DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth)
+	void glTexStorage1DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width)
+	void glTexStorage2DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width, GLsizei m_height)
+	void glTexStorage3DEXT (GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width, GLsizei m_height, GLsizei depth)
+	void glTextureStorage1DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width)
+	void glTextureStorage2DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width, GLsizei m_height)
+	void glTextureStorage3DEXT (GLuint texture, GLenum target, GLsizei levels, GLenum internalformat, GLsizei m_width, GLsizei m_height, GLsizei depth)

@@ -17,7 +17,7 @@ GL_NV_viewport_array
 	void glGetFloati_vNV (GLenum target, GLuint index, GLfloat* data)
 	GLboolean glIsEnablediNV (GLenum target, GLuint index)
 	void glScissorArrayvNV (GLuint first, GLsizei count, const GLint * v)
-	void glScissorIndexedNV (GLuint index, GLint left, GLint bottom, GLsizei width, GLsizei height)
+	void glScissorIndexedNV (GLuint index, GLint left, GLint bottom, GLsizei m_width, GLsizei m_height)
 	void glScissorIndexedvNV (GLuint index, const GLint * v)
 	void glViewportArrayvNV (GLuint first, GLsizei count, const GLfloat * v)
 	void glViewportIndexedfNV (GLuint index, GLfloat x, GLfloat y, GLfloat w, GLfloat h)

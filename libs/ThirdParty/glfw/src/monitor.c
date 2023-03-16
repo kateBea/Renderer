@@ -56,7 +56,7 @@ static int compareVideoModes(const void* fp, const void* sp)
     if (farea != sarea)
         return farea - sarea;
 
-    // Then sort on width
+    // Then sort on m_width
     if (fm->width != sm->width)
         return fm->width - sm->width;
 

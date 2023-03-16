@@ -265,7 +265,7 @@ namespace glm
 		T rad = glm::radians(fov);
 #endif
 		T h = glm::cos(static_cast<T>(0.5) * rad) / glm::sin(static_cast<T>(0.5) * rad);
-		T w = h * height / width; ///todo max(width , Height) / min(width , Height)?
+		T w = h * height / width; ///todo max(m_width , Height) / min(m_width , Height)?
 
 		detail::tmat4x4<T, defaultp> Result(static_cast<T>(0));
 		Result[0][0] = w;
