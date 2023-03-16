@@ -522,7 +522,7 @@ static void demo_draw(struct demo *demo) {
 
     // Wait for the present complete semaphore to be signaled to ensure
     // that the image won't be rendered to until the presentation
-    // engine has fully released ownership to the application, and it is
+    // engine has fully released ownership to the renderer, and it is
     // okay to render to the image.
 
     demo_draw_build_cmd(demo);
@@ -622,14 +622,14 @@ static void demo_prepare_buffers(struct demo *demo) {
     VkPresentModeKHR swapchainPresentMode = VK_PRESENT_MODE_FIFO_KHR;
 
     // Determine the number of VkImage's to use in the swap chain.
-    // application desires to only acquire 1 image at a time (which is
+    // renderer desires to only acquire 1 image at a time (which is
     // "surfCapabilities.minImageCount").
     uint32_t desiredNumOfSwapchainImages = surfCapabilities.minImageCount;
     // If maxImageCount is 0, we can ask for as many images as we want;
     // otherwise we're limited to maxImageCount
     if ((surfCapabilities.maxImageCount > 0) &&
         (desiredNumOfSwapchainImages > surfCapabilities.maxImageCount)) {
-        // application must settle for fewer images than desired:
+        // renderer must settle for fewer images than desired:
         desiredNumOfSwapchainImages = surfCapabilities.maxImageCount;
     }
 
@@ -1915,7 +1915,7 @@ static void demo_init_vk_swapchain(struct demo *demo) {
 
     // TODO: Add support for separate queues, including presentation,
     //       synchronization, and appropriate tracking for QueueSubmit.
-    // NOTE: While it is possible for an application to use a separate graphics
+    // NOTE: While it is possible for an renderer to use a separate graphics
     //       and a present queues, this demo program assumes it is only using
     //       one:
     if (graphicsQueueNodeIndex != presentQueueNodeIndex) {

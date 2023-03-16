@@ -2,17 +2,17 @@
 // Created by kate on 3/16/2023.
 //
 
-#ifndef RENDERER_APPLICATION_HH
-#define RENDERER_APPLICATION_HH
+#ifndef RENDERER_RENDERER_HH
+#define RENDERER_RENDERER_HH
 
 // C++ Standard Library
-#include <iostream>
-#include <cstdint>
-#include <iterator>
 #include <array>
+#include <cstdint>
+#include <filesystem>
+#include <iostream>
+#include <iterator>
 #include <string_view>
 #include <string>
-#include <filesystem>
 #include <vector>
 
 // Third-Party Libraries
@@ -25,27 +25,29 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Project Libraries
+#include <camera.hh>
 #include <shader.hh>
+#include <vertex_array_object.hh>
 #include <vertex_buffer_object.hh>
 #include <vertex_index_buffer.hh>
-#include <vertex_array_object.hh>
 
 namespace kate {
-    class application {
+    class renderer {
     public:
 
         /**
          * Initializes both the GLEW and the GLFW library and provides with a valid
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
-         * @param appName Title for the application window
+         * @param appName Title for the renderer window
          * */
-        explicit application(std::string_view appName = "application");
+        explicit renderer(std::string_view appName = "renderer");
 
         auto        run() -> void;
         auto        start_up() -> void;
         static auto show_current_working_directory() -> void;
+        auto        ok() const -> bool;
 
-        ~application();
+        ~renderer();
 
 
     private:
@@ -63,13 +65,13 @@ namespace kate {
         std::uint32_t       m_vertex_buffer_id{};
         std::uint32_t       m_vertex_array_id{};
 
-        // flags that define the state of the application
+        // flags that define the state of the renderer
         bool m_init{};
     };
 
 
     // IMPLEMENTATION
-    inline auto application::get_vertices_data(const std::filesystem::path& path) -> std::vector<float> {
+    inline auto renderer::get_vertices_data(const std::filesystem::path& path) -> std::vector<float> {
         std::ifstream file{ path };
         std::vector<float> retVal{};
         std::string temp{};
@@ -85,7 +87,7 @@ namespace kate {
         return retVal;
     }
 
-    inline application::application(std::string_view appName) {
+    inline renderer::renderer(std::string_view appName) {
         // Init GLFW Library
         if (!glfwInit()) {
             std::cerr << "Failed to initialize glfw...\n"
@@ -129,7 +131,7 @@ namespace kate {
         std::cerr << "---------------------\n";
     }
 
-    inline auto application::run() -> void {
+    inline auto renderer::run() -> void {
         // main loop
         while (!glfwWindowShouldClose(this->m_window)) {
             glfwPollEvents();
@@ -151,7 +153,7 @@ namespace kate {
         }
     }
 
-    inline auto application::start_up() -> void {
+    inline auto renderer::start_up() -> void {
         // setup vertices
         m_indices_data = std::move(std::vector {
             // Positions
@@ -174,19 +176,23 @@ namespace kate {
         m_shader_program = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
     }
 
-    inline auto application::show_current_working_directory() -> void {
+    inline auto renderer::show_current_working_directory() -> void {
         //Print the current working directory
         std::filesystem::path cwd = std::filesystem::current_path();
         std::cout << cwd << std::endl;
     }
 
-    inline application::~application() {
+    inline renderer::~renderer() {
         glDeleteBuffers(1, &m_vertex_buffer_id);
         glDeleteVertexArrays(1, &m_vertex_array_id);
 
         glfwTerminate();
     }
+
+    inline auto renderer::ok() const -> bool {
+        return this->m_init;
+    }
 }
 
 
-#endif //RENDERER_APPLICATION_HH
+#endif //RENDERER_RENDERER_HH

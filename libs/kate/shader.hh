@@ -79,7 +79,7 @@ namespace kate {
             std::int32_t success{};
             std::int32_t length{};
 
-            glGetShaderiv(objectId, name, &success);
+            glGetShaderiv(objectId, GL_COMPILE_STATUS, &success);
             glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
             if (length > 0) {
                 glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
@@ -123,6 +123,12 @@ namespace kate {
             // open vertex shader and fragment shader source files
             vertexShaderFile.open(vertexSourceDir.data());
             pixelShaderFile.open(fragmentSourceDir.data());
+
+            if (!vertexShaderFile.is_open())
+                throw std::runtime_error("could not open vertex shader file...");
+
+            if (!pixelShaderFile.is_open())
+                throw std::runtime_error("could not open fragment shader file...");
 
             // read file buffer into the streams
             vertexShaderStream << vertexShaderFile.rdbuf();

@@ -521,7 +521,7 @@ void _glfwUpdateKeyNamesWin32(void)
 }
 
 // Replacement for IsWindowsVersionOrGreater, as we cannot rely on the
-// application having a correct embedded manifest
+// renderer having a correct embedded manifest
 //
 BOOL _glfwIsWindowsVersionOrGreaterWin32(WORD major, WORD minor, WORD sp)
 {

@@ -3,14 +3,17 @@
 #include <memory>
 
 // Renderer library
-#include <application.hh>
+#include <renderer.hh>
 
 int main() {
-    std::printf("application entry point...\n");
+    std::printf("renderer entry point...\n");
 
-    auto app{ std::make_unique<kate::application>() };
+    auto app{ std::make_unique<kate::renderer>() };
 
     app->start_up();
-    app->run();
+
+    if (app->ok())
+        app->run();
+
     return 0;
 }

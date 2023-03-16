@@ -510,7 +510,7 @@ VisualInfoGDI (GLContext* ctx)
       if(!(pfd.dwFlags & PFD_SUPPORT_OPENGL)
 	 || (drawableonly && (pfd.dwFlags & PFD_DRAW_TO_BITMAP))) continue;
       /* other criteria could be tested here for actual pixel format
-	 choosing in an application:
+	 choosing in an renderer:
 	   
 	 for (...each pixel format...) {
 	 if (pfd.dwFlags & PFD_SUPPORT_OPENGL &&

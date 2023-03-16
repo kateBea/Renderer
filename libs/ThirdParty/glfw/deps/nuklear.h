@@ -28,7 +28,7 @@
 /// ## About
 /// This is a minimal state immediate mode graphical user interface toolkit
 /// written in ANSI C and licensed under public domain. It was designed as a simple
-/// embeddable user interface for application and does not have any dependencies,
+/// embeddable user interface for renderer and does not have any dependencies,
 /// a default renderbackend or OS window and input handling but instead provides a very modular
 /// library approach by using simple input state for input and draw
 /// commands describing primitive shapes as output. So instead of providing a
@@ -991,7 +991,7 @@ NK_API void nk_input_end(struct nk_context*);
 /// without actually needing it is not. So there are multiple things you could do.
 ///
 /// First is only update on input. This of course is only an option if your
-/// application only depends on the UI and does not require any outside calculations.
+/// renderer only depends on the UI and does not require any outside calculations.
 /// If you actually only update on input make sure to update the UI two times each
 /// frame and call `nk_clear` directly after the first pass and only draw in
 /// the second pass. In addition it is recommended to also add additional timers

@@ -673,7 +673,7 @@ extern "C" {
  *  This occurs if a GLFW function was called that must not be called unless the
  *  library is [initialized](@ref intro_init).
  *
- *  @analysis application programmer error.  Initialize GLFW before calling any
+ *  @analysis renderer programmer error.  Initialize GLFW before calling any
  *  function that requires initialization.
  */
 #define GLFW_NOT_INITIALIZED        0x00010001
@@ -683,7 +683,7 @@ extern "C" {
  *  current OpenGL or OpenGL ES context but no context is current on the calling
  *  thread.  One such function is @ref glfwSwapInterval.
  *
- *  @analysis application programmer error.  Ensure a context is current before
+ *  @analysis renderer programmer error.  Ensure a context is current before
  *  calling functions that require a current context.
  */
 #define GLFW_NO_CURRENT_CONTEXT     0x00010002
@@ -692,7 +692,7 @@ extern "C" {
  *  One of the arguments to the function was an invalid enum value, for example
  *  requesting @ref GLFW_RED_BITS with @ref glfwGetWindowAttrib.
  *
- *  @analysis application programmer error.  Fix the offending call.
+ *  @analysis renderer programmer error.  Fix the offending call.
  */
 #define GLFW_INVALID_ENUM           0x00010003
 /*! @brief One of the arguments to the function was an invalid value.
@@ -703,7 +703,7 @@ extern "C" {
  *  Requesting a valid but unavailable OpenGL or OpenGL ES version will instead
  *  result in a @ref GLFW_VERSION_UNAVAILABLE error.
  *
- *  @analysis application programmer error.  Fix the offending call.
+ *  @analysis renderer programmer error.  Fix the offending call.
  */
 #define GLFW_INVALID_VALUE          0x00010004
 /*! @brief A memory allocation failed.
@@ -736,7 +736,7 @@ extern "C" {
  *  or framebuffer hints) is not available on this machine.
  *
  *  @analysis The machine does not support your requirements.  If your
- *  application is sufficiently flexible, downgrade your requirements and try
+ *  renderer is sufficiently flexible, downgrade your requirements and try
  *  again.  Otherwise, inform the user that their machine does not match your
  *  requirements.
  *
@@ -768,7 +768,7 @@ extern "C" {
  *
  *  @analysis If emitted during window creation, one or more
  *  [hard constraints](@ref window_hints_hard) did not match any of the
- *  available pixel formats.  If your application is sufficiently flexible,
+ *  available pixel formats.  If your renderer is sufficiently flexible,
  *  downgrade your requirements and try again.  Otherwise, inform the user that
  *  their machine does not match your requirements.
  *
@@ -782,7 +782,7 @@ extern "C" {
  *  A window that does not have an OpenGL or OpenGL ES context was passed to
  *  a function that requires it to have one.
  *
- *  @analysis application programmer error.  Fix the offending call.
+ *  @analysis renderer programmer error.  Fix the offending call.
  */
 #define GLFW_NO_WINDOW_CONTEXT      0x0001000A
 /*! @} */
@@ -1761,12 +1761,12 @@ typedef struct GLFWgamepadstate
 /*! @brief Initializes the GLFW library.
  *
  *  This function initializes the GLFW library.  Before most GLFW functions can
- *  be used, GLFW must be initialized, and before an application terminates GLFW
+ *  be used, GLFW must be initialized, and before an renderer terminates GLFW
  *  should be terminated in order to free any resources allocated during or
  *  after initialization.
  *
  *  If this function fails, it calls @ref glfwTerminate before returning.  If it
- *  succeeds, you should call @ref glfwTerminate before the application exits.
+ *  succeeds, you should call @ref glfwTerminate before the renderer exits.
  *
  *  Additional calls to this function after successful initialization but before
  *  termination will return `GLFW_TRUE` immediately.
@@ -1777,12 +1777,12 @@ typedef struct GLFWgamepadstate
  *  @errors Possible errors libs @ref GLFW_PLATFORM_ERROR.
  *
  *  @remark @macos This function will change the current directory of the
- *  application to the `Contents/Resources` subdirectory of the application's
+ *  renderer to the `Contents/Resources` subdirectory of the renderer's
  *  bundle, if present.  This can be disabled with the @ref
  *  GLFW_COCOA_CHDIR_RESOURCES init hint.
  *
  *  @remark @x11 This function will set the `LC_CTYPE` category of the
- *  application locale according to the current environment if that category is
+ *  renderer locale according to the current environment if that category is
  *  still "C".  This is because the "C" locale breaks Unicode text input.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -1804,7 +1804,7 @@ GLFWAPI int glfwInit(void);
  *  you will be able to use most GLFW functions.
  *
  *  If GLFW has been successfully initialized, this function should be called
- *  before the application exits.  If initialization fails, there is no need to
+ *  before the renderer exits.  If initialization fails, there is no need to
  *  call this function, as it is called by @ref glfwInit before it returns
  *  failure.
  *
@@ -2623,7 +2623,7 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  OpenGL 3.0 and 3.1 contexts are not supported at all on macOS.
  *
  *  @remark @macos The GLFW window has no icon, as it is not a document
- *  window, but the dock icon will be the same as the application bundle's icon.
+ *  window, but the dock icon will be the same as the renderer bundle's icon.
  *  For more information on bundles, see the
  *  [Bundle Programming Guide](https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/)
  *  in the Mac Developer Library.
@@ -2632,14 +2632,14 @@ GLFWAPI void glfwWindowHintString(int hint, const char* value);
  *  If GLFW finds a `MainMenu.nib` it is loaded and assumed to contain a menu
  *  bar.  Otherwise a minimal menu bar is created manually with common commands
  *  like Hide, Quit and About.  The About entry opens a minimal about dialog
- *  with information from the application's bundle.  Menu bar creation can be
+ *  with information from the renderer's bundle.  Menu bar creation can be
  *  disabled entirely with the @ref GLFW_COCOA_MENUBAR init hint.
  *
  *  @remark @macos On OS X 10.10 and later the window frame will not be rendered
  *  at full resolution on Retina displays unless the
  *  [GLFW_COCOA_RETINA_FRAMEBUFFER](@ref GLFW_COCOA_RETINA_FRAMEBUFFER_hint)
  *  hint is `GLFW_TRUE` and the `NSHighResolutionCapable` key is enabled in the
- *  application bundle's `Info.plist`.  For more information, see
+ *  renderer bundle's `Info.plist`.  For more information, see
  *  [High Resolution Guidelines for OS X](https://developer.apple.com/library/mac/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Explained/Explained.html)
  *  in the Mac Developer Library.  The GLFW test and example programs use
  *  a custom `Info.plist` template for this, which can be found as
@@ -2815,12 +2815,12 @@ GLFWAPI void glfwSetWindowTitle(GLFWwindow* window, const char* title);
  *
  *  @remark @macos The GLFW window has no icon, as it is not a document
  *  window, so this function does nothing.  The dock icon will be the same as
- *  the application bundle's icon.  For more information on bundles, see the
+ *  the renderer bundle's icon.  For more information on bundles, see the
  *  [Bundle Programming Guide](https://developer.apple.com/library/mac/documentation/CoreFoundation/Conceptual/CFBundles/)
  *  in the Mac Developer Library.
  *
  *  @remark @wayland There is no existing protocol to change an icon, the
- *  window will thus inherit the one defined in the application's desktop file.
+ *  window will thus inherit the one defined in the renderer's desktop file.
  *  This function always emits @ref GLFW_PLATFORM_ERROR.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -2850,7 +2850,7 @@ GLFWAPI void glfwSetWindowIcon(GLFWwindow* window, int count, const GLFWimage* i
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED and @ref
  *  GLFW_PLATFORM_ERROR.
  *
- *  @remark @wayland There is no way for an application to retrieve the global
+ *  @remark @wayland There is no way for an renderer to retrieve the global
  *  position of its windows, this function will always emit @ref
  *  GLFW_PLATFORM_ERROR.
  *
@@ -2884,7 +2884,7 @@ GLFWAPI void glfwGetWindowPos(GLFWwindow* window, int* xpos, int* ypos);
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED and @ref
  *  GLFW_PLATFORM_ERROR.
  *
- *  @remark @wayland There is no way for an application to set the global
+ *  @remark @wayland There is no way for an renderer to set the global
  *  position of its windows, this function will always emit @ref
  *  GLFW_PLATFORM_ERROR.
  *
@@ -3371,7 +3371,7 @@ GLFWAPI void glfwHideWindow(GLFWwindow* window);
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED and @ref
  *  GLFW_PLATFORM_ERROR.
  *
- *  @remark @wayland It is not possible for an application to bring its windows
+ *  @remark @wayland It is not possible for an renderer to bring its windows
  *  to front, this function will always emit @ref GLFW_PLATFORM_ERROR.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -3389,17 +3389,17 @@ GLFWAPI void glfwFocusWindow(GLFWwindow* window);
  *
  *  This function requests user attention to the specified window.  On
  *  platforms where this is not supported, attention is requested to the
- *  application as a whole.
+ *  renderer as a whole.
  *
  *  Once the user has given attention, usually by focusing the window or
- *  application, the system will end the request automatically.
+ *  renderer, the system will end the request automatically.
  *
  *  @param[in] window The window to request attention to.
  *
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED and @ref
  *  GLFW_PLATFORM_ERROR.
  *
- *  @remark @macos Attention is requested to the application as a whole, not the
+ *  @remark @macos Attention is requested to the renderer as a whole, not the
  *  specific window.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -3475,7 +3475,7 @@ GLFWAPI GLFWmonitor* glfwGetWindowMonitor(GLFWwindow* window);
  *  your viewport if the framebuffer size has changed.
  *
  *  @remark @wayland The desired window position is ignored, as there is no way
- *  for an application to set this property.
+ *  for an renderer to set this property.
  *
  *  @remark @wayland Setting the window to full screen will not attempt to
  *  change the mode, no matter what the requested size or refresh rate.
@@ -3634,7 +3634,7 @@ GLFWAPI void* glfwGetWindowUserPointer(GLFWwindow* window);
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED.
  *
  *  @remark @wayland This callback will never be called, as there is no way for
- *  an application to know its global position.
+ *  an renderer to know its global position.
  *
  *  @thread_safety This function must only be called from the main thread.
  *
@@ -3704,7 +3704,7 @@ GLFWAPI GLFWwindowsizefun glfwSetWindowSizeCallback(GLFWwindow* window, GLFWwind
  *
  *  @errors Possible errors libs @ref GLFW_NOT_INITIALIZED.
  *
- *  @remark @macos Selecting Quit from the application menu will trigger the
+ *  @remark @macos Selecting Quit from the renderer menu will trigger the
  *  close callback for all windows.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -3929,7 +3929,7 @@ GLFWAPI GLFWwindowcontentscalefun glfwSetWindowContentScaleCallback(GLFWwindow* 
  *  event processing functions like this one.  While it is necessary to poll for
  *  events, window systems that require GLFW to register callbacks of its own
  *  can pass events to GLFW in response to many window system function calls.
- *  GLFW will pass those events on to the application callbacks before
+ *  GLFW will pass those events on to the renderer callbacks before
  *  returning.
  *
  *  Event processing is not required for joystick input to work.
@@ -3974,7 +3974,7 @@ GLFWAPI void glfwPollEvents(void);
  *  event processing functions like this one.  While it is necessary to poll for
  *  events, window systems that require GLFW to register callbacks of its own
  *  can pass events to GLFW in response to many window system function calls.
- *  GLFW will pass those events on to the application callbacks before
+ *  GLFW will pass those events on to the renderer callbacks before
  *  returning.
  *
  *  Event processing is not required for joystick input to work.
@@ -4021,7 +4021,7 @@ GLFWAPI void glfwWaitEvents(void);
  *  event processing functions like this one.  While it is necessary to poll for
  *  events, window systems that require GLFW to register callbacks of its own
  *  can pass events to GLFW in response to many window system function calls.
- *  GLFW will pass those events on to the application callbacks before
+ *  GLFW will pass those events on to the renderer callbacks before
  *  returning.
  *
  *  Event processing is not required for joystick input to work.
@@ -4223,7 +4223,7 @@ GLFWAPI int glfwRawMouseMotionSupported(void);
  *  - `GLFW_KEY_KP_EQUAL`
  *
  *  Names for printable keys depend on keyboard layout, while names for
- *  non-printable keys are the same across layouts but depend on the application
+ *  non-printable keys are the same across layouts but depend on the renderer
  *  language and should be localized along with other user interface text.
  *
  *  @param[in] key The key to query, or `GLFW_KEY_UNKNOWN`.
@@ -5567,7 +5567,7 @@ GLFWAPI void glfwSwapBuffers(GLFWwindow* window);
  *  interval to be reset to zero once it has been set to a non-zero value.
  *
  *  @remark Some GPU drivers do not honor the requested swap interval, either
- *  because of a user setting that overrides the application's request or due to
+ *  because of a user setting that overrides the renderer's request or due to
  *  bugs in the driver.
  *
  *  @thread_safety This function may be called from any thread.

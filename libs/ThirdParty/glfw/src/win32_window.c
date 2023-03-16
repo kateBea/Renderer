@@ -670,7 +670,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
                         break;
                 }
 
-                // User trying to access application menu using ALT?
+                // User trying to access renderer menu using ALT?
                 case SC_KEYMENU:
                     return 0;
             }
