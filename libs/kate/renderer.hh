@@ -60,7 +60,7 @@ namespace kate {
 
         // Member variables
         GLFWwindow*         m_window{};
-        kate::shader        m_shader_program{};
+        kate::shader        m_default_shader{};
         std::uint32_t       m_vertex_buffer_id{};
         std::uint32_t       m_vertex_array_id{};
 
@@ -135,8 +135,9 @@ namespace kate {
         while (!glfwWindowShouldClose(this->m_window)) {
             glfwPollEvents();
 
-            m_shader_program.use();
+            m_default_shader.use();
 
+            glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             // 1st attribute buffer : vertices
@@ -161,8 +162,6 @@ namespace kate {
             0.0f, -0.5f, 0.0f,
         };
 
-        glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
-
         glGenVertexArrays(1, &m_vertex_array_id);
         glBindVertexArray(m_vertex_array_id);
 
@@ -172,7 +171,7 @@ namespace kate {
         glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
         glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(decltype(vertex_positions)::value_type), vertex_positions.data(), GL_STATIC_DRAW);
 
-        m_shader_program = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
+        m_default_shader = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
 
     }
 

@@ -5,12 +5,14 @@
 #ifndef RENDERER_CAMERA_HH
 #define RENDERER_CAMERA_HH
 
-class camera {
-public:
+namespace kate {
+    class camera {
+    public:
 
 
 
-private:
+    private:
 
-};
+    };
+}
 #endif //RENDERER_CAMERA_HH
