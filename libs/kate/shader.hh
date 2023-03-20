@@ -19,7 +19,7 @@ namespace kate {
         shader() = default;
 
         /**
-         * Copy constructor. Marked as delete to shader aliasing
+         * Copy constructor. Marked as delete to avoid shader aliasing
          * */
         shader(const shader& other) = delete;
 
