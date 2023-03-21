@@ -20,10 +20,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 // Project Libraries
 #include <camera.hh>
 #include <shader.hh>
@@ -42,11 +38,10 @@ namespace kate {
          * @param appName Title for the renderer window
          * */
         explicit renderer(std::string_view appName = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
-
+        auto        ok() const -> bool;
         auto        run() -> void;
         auto        start_up() -> void;
         static auto show_current_working_directory() -> void;
-        auto        ok() const -> bool;
 
         ~renderer();
 
@@ -70,7 +65,7 @@ namespace kate {
             std::cerr << "Failed to initialize glfw...\n"
                          "----------------------------\n";
 
-            this->m_init = true;
+            this->m_init = false;
             return;
         }
 
