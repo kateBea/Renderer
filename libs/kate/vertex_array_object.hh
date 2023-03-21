@@ -1,16 +1,26 @@
-#ifndef VERTEX_ARRAY_OBJECT_CLASS_HH
-#define VERTEX_ARRAY_OBJECT_CLASS_HH
+/**
+ * @file vertex_array_object.hh
+ * @author kate
+ * @brief Defines the vertex array object class
+ * @version 1.0
+ * @date 2023-03-21
+ */
+
+#ifndef VAO_HH
+#define VAO_HH
 
 #include <iostream>
-#include <cstdint>
+#include <cstddef>
 #include <array>
 
+// Third-Party Libraries
 #include <GL/glew.h>
 
-#include "vertex_buffer_object.hh"
+// Project Libraries
+#include <vertex_buffer_object.hh>
 
 namespace kate {
-    class vertex_array_object {
+    class vao {
     public:
 
 
@@ -20,4 +30,4 @@ namespace kate {
 
 } //END NAMESPACE KATE
 
-#endif	// END VERTEX_ARRAY_OBJECT_CLASS_HH
+#endif	// END VAO_HH

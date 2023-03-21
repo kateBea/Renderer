@@ -1,3 +1,11 @@
+/**
+ * @file shader.hh
+ * @author kate
+ * @brief Defines the shader interface
+ * @version 1.0
+ * @date 2023-03-21
+ */
+
 #ifndef SHADER_H
 #define SHADER_H
 
@@ -60,7 +68,6 @@ namespace kate {
          * @param fragmentSourceDir directory to the pixel shader source file
          * */
         shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir);
-
 
         /**
          * Use this shader program

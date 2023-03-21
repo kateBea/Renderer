@@ -1,9 +1,13 @@
-//
-// Created by kate on 3/16/2023.
-//
+/**
+ * @file renderer.hh
+ * @author kate
+ * @brief Defines the renderer interface
+ * @version 1.0
+ * @date 2023-03-16
+ */
 
-#ifndef RENDERER_RENDERER_HH
-#define RENDERER_RENDERER_HH
+#ifndef RENDERER_HH
+#define RENDERER_HH
 
 // C++ Standard Library
 #include <array>
@@ -39,13 +43,15 @@ namespace kate {
          * @param appName Title for the renderer window
          * */
         explicit renderer(std::string_view appName = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
-        auto        ok() const -> bool;
-        auto        run() -> void;
-        auto        start_up() -> void;
+
+        [[nodiscard]]
+        auto ok() const -> bool;
+
+        auto run() -> void;
+        auto start_up() -> void;
         static auto show_current_working_directory() -> void;
 
         ~renderer();
-
 
     private:
         // Member variables
@@ -168,4 +174,4 @@ namespace kate {
 }
 
 
-#endif //RENDERER_RENDERER_HH
+#endif // RENDERER_HH

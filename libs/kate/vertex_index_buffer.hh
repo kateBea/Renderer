@@ -1,3 +1,11 @@
+/**
+ * @file vertex_index_buffer.hh
+ * @author kate
+ * @brief Defines the vertex index buffer class
+ * @version 1.0
+ * @date 2023-03-21
+ */
+
 #ifndef VIO_HH
 #define VIO_HH
 

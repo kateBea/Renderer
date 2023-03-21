@@ -1,9 +1,16 @@
-//
-// Created by kate on 3/16/2023.
-//
+/**
+ * @file camera.hh
+ * @author kate
+ * @brief Defines the camera class
+ * @version 1.0
+ * @date 2023-03-16
+ */
 
 #ifndef RENDERER_CAMERA_HH
 #define RENDERER_CAMERA_HH
+
+// C++ Standard Library
+#include <cstddef>
 
 // Third-Party Libraries
 #define GLEW_STATIC

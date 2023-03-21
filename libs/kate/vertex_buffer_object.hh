@@ -1,3 +1,12 @@
+/**
+ * @file vertex_buffer_object.hh
+ * @author kate
+ * @brief Defines the vertex buffer object class
+ * @version 1.0
+ * @date 2023-03-21
+ */
+
+
 #ifndef VBO_HH
 #define VBO_HH
 
@@ -30,6 +39,16 @@ namespace kate {
          * Ensure one vbo id is held by one vbo object
          * */
         vbo& operator=(const vbo& other) = delete;
+
+        /**
+         * Move constructor
+         * */
+        vbo(vbo&& other) noexcept;
+
+        /**
+         * Move constructor assignment
+         * */
+        vbo& operator=(vbo&& other) noexcept;
 
         /**
          * Mark this vertex buffer as current
@@ -73,12 +92,12 @@ namespace kate {
     };
 
     inline vbo::vbo(std::span<float> vertices) noexcept
-        :   m_id{}, m_size{ vertices.size() }
+        :   m_id{}, m_size{ vertices.size() * sizeof(decltype(vertices)::value_type) }
     {
-        // size refers to size in bytes of the content in data
         glGenBuffers(1, &this->m_id);
 
         if (m_size) {
+            // size m_size to size in bytes of the content in data
             glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
             glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), GL_STATIC_DRAW);
         }
@@ -104,8 +123,25 @@ namespace kate {
         return this->m_size;
     }
 
-    auto vbo::get_count() const -> std::size_t {
+    inline auto vbo::get_count() const -> std::size_t {
         return this->m_size / sizeof (float);
+    }
+
+    inline vbo::vbo(vbo&& other) noexcept
+        :   m_id{ other.get_id() }, m_size{ other.get_size() }
+    {
+        other.m_id = 0;
+        other.m_size = 0;
+    }
+
+    inline vbo& vbo::operator=(vbo&& other) noexcept {
+        this->m_id = other.get_id();
+        this->m_size = other.get_size();
+
+        other.m_id = 0;
+        other.m_size = 0;
+
+        return *this;
     }
 
 }
