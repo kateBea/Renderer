@@ -1,44 +1,113 @@
-#ifndef VERTEX_BUFFER_OBJECT_CLASS_HH
-#define VERTEX_BUFFER_OBJECT_CLASS_HH
+#ifndef VBO_HH
+#define VBO_HH
 
-#include <cstdint>
+// C++ Standard Library
+#include <span>
+#include <cstddef>
 
+// Third-Party Libraries
 #include <GL/glew.h>
 
 namespace kate {
-    class vertex_buffer_object {
+    class vbo {
     public:
-        vertex_buffer_object(const float *data, std::size_t size);
+        /**
+         * Creates a new vertex buffer and initializes it with the data
+         * from indices. If no data is provided simply creates a new index
+         * buffer object with a valid id
+         * @param vertices buffer containing all the vertices
+         * */
+        explicit vbo(std::span<float> vertices) noexcept;
 
+        /**
+         * Copy constructor. Marked as delete to avoid vbo aliasing
+         * Ensure one vbo id is held by one vbo object
+         * */
+        vbo(const vbo& other) = delete;
+
+        /**
+         * Copy assigment. Marked as delete to avoid vbo aliasing
+         * Ensure one vbo id is held by one vbo object
+         * */
+        vbo& operator=(const vbo& other) = delete;
+
+        /**
+         * Mark this vertex buffer as current
+         * */
         auto bind() const -> void;
 
+        /**
+         * Returns the identifier of this vertex buffer
+         * @return id of this object
+         * */
+        [[nodiscard]]
+        auto get_id() const -> std::uint32_t;
+
+        /**
+         * Returns the total size in bytes of the contents of this vertex buffer
+         * @return total size in bytes of the vertices of this buffer
+         * */
+        [[nodiscard]]
+        auto get_size() const -> std::size_t;
+
+        /**
+         * Returns the total count of vertices of this vertex buffer
+         * @return count of vertices
+         * */
+        [[nodiscard]]
+        auto get_count() const -> std::size_t;
+
+        /**
+         * Releases the currently bound vertex buffer object
+         * */
         static auto unbind() -> void;
 
-        ~vertex_buffer_object();
+        /**
+         * Releases resources from this vertex buffer
+         * */
+        ~vbo();
 
     private:
         std::uint32_t m_id{};
+        std::size_t m_size{};
     };
 
-    inline vertex_buffer_object::vertex_buffer_object(const float *data, std::size_t size) {
+    inline vbo::vbo(std::span<float> vertices) noexcept
+        :   m_id{}, m_size{ vertices.size() }
+    {
         // size refers to size in bytes of the content in data
         glGenBuffers(1, &this->m_id);
-        glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-        glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+
+        if (m_size) {
+            glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
+            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), GL_STATIC_DRAW);
+        }
     }
 
-    inline auto vertex_buffer_object::bind() const -> void {
+    inline auto vbo::bind() const -> void {
         glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
     }
 
-    inline auto vertex_buffer_object::unbind() -> void {
+    inline auto vbo::unbind() -> void {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    inline vertex_buffer_object::~vertex_buffer_object() {
+    inline vbo::~vbo() {
         glDeleteBuffers(1, &this->m_id);
-    } // END CLASS VERTEX_BUFFER_OBJECT
+    }
 
-} // END NAMESPACE KATE
+    inline auto vbo::get_id() const -> std::uint32_t {
+        return this->m_id;
+    }
 
-#endif	// END VERTEX_BUFFER_OBJECT_CLASS_HH
+    inline auto vbo::get_size() const -> std::size_t {
+        return this->m_size;
+    }
+
+    auto vbo::get_count() const -> std::size_t {
+        return this->m_size / sizeof (float);
+    }
+
+}
+
+#endif	// END VBO_HH

@@ -1,13 +1,15 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+// C++ Standard Library
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <string_view>
-#include <cstdint>
+#include <cstddef>
 
+// Third-Party Libraries
 #include <GL/glew.h>
 
 namespace kate {
@@ -20,8 +22,15 @@ namespace kate {
 
         /**
          * Copy constructor. Marked as delete to avoid shader aliasing
+         * Ensure one shader id is held by one shader object
          * */
         shader(const shader& other) = delete;
+
+        /**
+         * Copy assigment. Marked as delete to avoid shader aliasing
+         * Ensure one shader id is held by one shader object
+         * */
+        shader& operator=(const shader& other) = delete;
 
         /**
          * Move constructor

@@ -1,52 +1,100 @@
-#ifndef VERTEX_INDEX_OBJECT_CLASS_HH 
-#define VERTEX_INDEX_OBJECT_CLASS_HH
+#ifndef VIO_HH
+#define VIO_HH
 
-#include <cstdint>
+// C++ Standard Library
+#include <span>
+#include <cstddef>
+
+// Third-Party Libraries
 #include <GL/glew.h>
 
 namespace kate {
-    class vertex_index_buffer {
+    class vio {
     public:
-        vertex_index_buffer(const std::uint32_t *data, std::size_t count);
+        /**
+         * Creates a new vertex index buffer and initializes it with the data
+         * from indices. If no data is provided simply creates a new index buffer object with a valid id
+         * @param indices buffer containing all the indices values
+         * */
+        explicit vio(std::span<std::uint32_t> indices);
 
-        auto                bind() const -> void;
+        /**
+         * Mark this vertex index buffer as current
+         * */
+        auto bind() const -> void;
 
-        static auto         unbind() -> void;
+        /**
+         * Copy constructor. Marked as delete to avoid vio aliasing
+         * Ensure one vio id is held by one vio object
+         * */
+        vio(const vio& other) = delete;
 
-        [[nodiscard]] auto  getCount() const -> std::size_t;
+        /**
+         * Copy assigment. Marked as delete to avoid vio aliasing
+         * Ensure one vio id is held by one vio object
+         * */
+        vio& operator=(const vio& other) = delete;
 
-        ~vertex_index_buffer();
+        /**
+         * Returns the total count of indices of this vertex index buffer
+         * @return count of indices
+         * */
+        [[nodiscard]]
+        auto get_count() const -> std::size_t;
+
+        /**
+         * Returns the identifier of this vertex index buffer
+         * @return id of this object
+         * */
+        [[nodiscard]]
+        auto get_id() const -> std::uint32_t;
+
+        /**
+         * Releases the currently bound vertex index object
+         * */
+        static auto unbind() -> void;
+
+        /**
+         * Releases resources from this vertex index buffer
+         * */
+        ~vio();
 
     private:
         std::uint32_t m_id{};
         std::size_t m_count{};
     };
 
-    inline vertex_index_buffer::vertex_index_buffer(const std::uint32_t *data, std::size_t count)
-            : m_id{}, m_count{count}
+    inline vio::vio(std::span<std::uint32_t> indices)
+        : m_id{}, m_count{ indices.size() }
     {
-        // count refers to the amount of elements (and not bytes) inside "data"
         glGenBuffers(1, &this->m_id);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(std::uint32_t), data, GL_STATIC_DRAW);
+
+        if (m_count) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), GL_STATIC_DRAW);
+        }
     }
 
-    inline auto vertex_index_buffer::bind() const -> void {
+    inline auto vio::bind() const -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
     }
 
-    inline auto vertex_index_buffer::unbind() -> void {
+    inline auto vio::unbind() -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    inline vertex_index_buffer::~vertex_index_buffer() {
+    inline vio::~vio() {
         glDeleteBuffers(1, &this->m_id);
     }
 
-    inline auto vertex_index_buffer::getCount() const -> std::size_t {
+    auto vio::get_id() const -> std::uint32_t {
+        return this->m_id;
+    }
+
+    auto vio::get_count() const -> std::size_t {
         return this->m_count;
     }
 
-} // END NAMESPACE KATE
+}
 
-#endif // END VERTEX_INDEX_OBJECT_CLASS_HH
+#endif // END VIO_HH
