@@ -6,8 +6,8 @@
  * @date 2023-03-21
  */
 
-#ifndef SHADER_H
-#define SHADER_H
+#ifndef SHADER_HH
+#define SHADER_HH
 
 // C++ Standard Library
 #include <string>
@@ -207,6 +207,6 @@ namespace kate {
         glDeleteProgram(this->m_program_id);
     }
 
-} // END NAMESPACE KATE
+}
 
-#endif // END SHADER_H
+#endif // END SHADER_HH

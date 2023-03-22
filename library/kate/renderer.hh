@@ -49,7 +49,6 @@ namespace kate {
 
         auto run() -> void;
         auto start_up() -> void;
-        static auto show_current_working_directory() -> void;
 
         ~renderer();
 
@@ -153,12 +152,6 @@ namespace kate {
 
         m_default_shader = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
 
-    }
-
-    inline auto renderer::show_current_working_directory() -> void {
-        //Print the current working directory
-        std::filesystem::path cwd = std::filesystem::current_path();
-        std::cout << cwd << std::endl;
     }
 
     inline renderer::~renderer() {

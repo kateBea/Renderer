@@ -28,6 +28,6 @@ namespace kate {
 
     };
 
-} //END NAMESPACE KATE
+}
 
 #endif	// END VAO_HH

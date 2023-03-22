@@ -6,8 +6,8 @@
  * @date 2023-03-16
  */
 
-#ifndef RENDERER_CAMERA_HH
-#define RENDERER_CAMERA_HH
+#ifndef CAMERA_HH
+#define CAMERA_HH
 
 // C++ Standard Library
 #include <cstddef>
@@ -31,4 +31,4 @@ namespace kate {
 
     };
 }
-#endif //RENDERER_CAMERA_HH
+#endif // END CAMERA_HH
