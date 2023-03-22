@@ -54,10 +54,10 @@ namespace kate {
 
     private:
         // Member variables
-        GLFWwindow*         m_window{};
-        kate::shader        m_default_shader{};
-        std::uint32_t       m_vertex_buffer_id{};
-        std::uint32_t       m_vertex_array_id{};
+        GLFWwindow*         m_window{};     // main window
+        kate::shader        m_dshader{};    // shader program id for fragment and vertex shaders
+        std::uint32_t       m_vbo{};        // Vertex buffer object identifier
+        std::uint32_t       m_vao{};        // Vertex array object identifier
 
         // flags that define the state of the renderer
         bool m_init{};
@@ -95,7 +95,6 @@ namespace kate {
         glfwMakeContextCurrent(this->m_window);
 
         glewExperimental = GL_TRUE;
-
         if (glewInit() != GLEW_OK) {
             std::cerr << "Failed to initialize GLEW!\n"
                          "--------------------------\n";
@@ -105,8 +104,8 @@ namespace kate {
 
         // start-up succeeded
         this->m_init = true;
-        std::cerr << "Start-up succeeded...\n";
-        std::cerr << "---------------------\n";
+        std::cerr << "Start-up succeeded...\n"
+                     "---------------------\n";
     }
 
     inline auto renderer::run() -> void {
@@ -114,15 +113,15 @@ namespace kate {
         while (!glfwWindowShouldClose(this->m_window)) {
             glfwPollEvents();
 
-            m_default_shader.use();
+            m_dshader.use();
 
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // 1st attribute buffer : vertices
+            // enable first attribute: vertex positions
             glEnableVertexAttribArray(0);
 
-            glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+            glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, static_cast<const void*>(nullptr));
 
             glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -141,22 +140,22 @@ namespace kate {
             0.0f, -0.5f, 0.0f,
         };
 
-        glGenVertexArrays(1, &m_vertex_array_id);
-        glBindVertexArray(m_vertex_array_id);
+        glGenVertexArrays(1, &m_vao);
+        glBindVertexArray(m_vao);
 
         glEnableVertexAttribArray(0);
 
-        glGenBuffers(1, &m_vertex_buffer_id);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer_id);
+        glGenBuffers(1, &m_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
         glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(decltype(vertex_positions)::value_type), vertex_positions.data(), GL_STATIC_DRAW);
 
-        m_default_shader = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
+        m_dshader = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
 
     }
 
     inline renderer::~renderer() {
-        glDeleteBuffers(1, &m_vertex_buffer_id);
-        glDeleteVertexArrays(1, &m_vertex_array_id);
+        glDeleteBuffers(1, &m_vbo);
+        glDeleteVertexArrays(1, &m_vao);
 
         glfwTerminate();
     }
