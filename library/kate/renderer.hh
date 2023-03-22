@@ -45,7 +45,7 @@ namespace kate {
         explicit renderer(std::string_view appName = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
 
         [[nodiscard]]
-        auto ok() const -> bool;
+        auto init_ok() const -> bool;
 
         auto run() -> void;
         auto start_up() -> void;
@@ -161,7 +161,7 @@ namespace kate {
         glfwTerminate();
     }
 
-    inline auto renderer::ok() const -> bool {
+    inline auto renderer::init_ok() const -> bool {
         return this->m_init;
     }
 }

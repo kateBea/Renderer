@@ -10,7 +10,7 @@ int main() {
     auto app{ std::make_unique<kate::renderer>() };
     app->start_up();
 
-    if (app->ok())
+    if (app->init_ok())
         app->run();
 
     return 0;
