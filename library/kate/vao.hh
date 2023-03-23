@@ -1,5 +1,5 @@
 /**
- * @file vertex_array_object.hh
+ * @file vao.hh
  * @author kate
  * @brief Defines the vertex array object class
  * @version 1.0
@@ -17,7 +17,7 @@
 #include <GL/glew.h>
 
 // Project Libraries
-#include <vertex_buffer_object.hh>
+#include <vbo.hh>
 
 namespace kate {
     class vao {

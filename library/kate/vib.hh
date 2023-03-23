@@ -1,5 +1,5 @@
 /**
- * @file vertex_index_buffer.hh
+ * @file vib.hh
  * @author kate
  * @brief Defines the vertex index buffer class
  * @version 1.0
@@ -17,14 +17,14 @@
 #include <GL/glew.h>
 
 namespace kate {
-    class vio {
+    class vib {
     public:
         /**
          * Creates a new vertex index buffer and initializes it with the data
          * from indices. If no data is provided simply creates a new index buffer object with a valid id
          * @param indices buffer containing all the indices values
          * */
-        explicit vio(std::span<std::uint32_t> indices);
+        explicit vib(std::span<std::uint32_t> indices);
 
         /**
          * Mark this vertex index buffer as current
@@ -32,16 +32,16 @@ namespace kate {
         auto bind() const -> void;
 
         /**
-         * Copy constructor. Marked as delete to avoid vio aliasing
-         * Ensure one vio id is held by one vio object
+         * Copy constructor. Marked as delete to avoid vib aliasing
+         * Ensure one vib id is held by one vib object
          * */
-        vio(const vio& other) = delete;
+        vib(const vib& other) = delete;
 
         /**
-         * Copy assigment. Marked as delete to avoid vio aliasing
-         * Ensure one vio id is held by one vio object
+         * Copy assigment. Marked as delete to avoid vib aliasing
+         * Ensure one vib id is held by one vib object
          * */
-        vio& operator=(const vio& other) = delete;
+        vib& operator=(const vib& other) = delete;
 
         /**
          * Returns the total count of indices of this vertex index buffer
@@ -65,14 +65,14 @@ namespace kate {
         /**
          * Releases resources from this vertex index buffer
          * */
-        ~vio();
+        ~vib();
 
     private:
         std::uint32_t m_id{};
         std::size_t m_count{};
     };
 
-    inline vio::vio(std::span<std::uint32_t> indices)
+    inline vib::vib(std::span<std::uint32_t> indices)
         : m_id{}, m_count{ indices.size() }
     {
         glGenBuffers(1, &this->m_id);
@@ -83,23 +83,23 @@ namespace kate {
         }
     }
 
-    inline auto vio::bind() const -> void {
+    inline auto vib::bind() const -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
     }
 
-    inline auto vio::unbind() -> void {
+    inline auto vib::unbind() -> void {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
-    inline vio::~vio() {
+    inline vib::~vib() {
         glDeleteBuffers(1, &this->m_id);
     }
 
-    auto vio::get_id() const -> std::uint32_t {
+    auto vib::get_id() const -> std::uint32_t {
         return this->m_id;
     }
 
-    auto vio::get_count() const -> std::size_t {
+    auto vib::get_count() const -> std::size_t {
         return this->m_count;
     }
 

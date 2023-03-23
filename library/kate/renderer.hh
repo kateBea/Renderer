@@ -28,10 +28,10 @@
 // Project Libraries
 #include <camera.hh>
 #include <shader.hh>
-#include <obj_parser.hh>
-#include <vertex_array_object.hh>
-#include <vertex_buffer_object.hh>
-#include <vertex_index_buffer.hh>
+#include <parser.hh>
+#include <vao.hh>
+#include <vbo.hh>
+#include <vib.hh>
 
 namespace kate {
     class renderer {

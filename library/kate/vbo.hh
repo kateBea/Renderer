@@ -1,5 +1,5 @@
 /**
- * @file vertex_buffer_object.hh
+ * @file vbo.hh
  * @author kate
  * @brief Defines the vertex buffer object class
  * @version 1.0

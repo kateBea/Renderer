@@ -1,9 +1,13 @@
-//
-// Created by kate on 3/17/2023.
-//
+/**
+ * @file parser.hh
+ * @author kate
+ * @brief Defines the object parser interface
+ * @version 1.0
+ * @date 2023-03-22
+ */
 
-#ifndef RENDERER_OBJ_PARSER_H
-#define RENDERER_OBJ_PARSER_H
+#ifndef PARSER_HH
+#define PARSER_HH
 
 #include <filesystem>
 #include <fstream>
@@ -23,8 +27,7 @@ namespace kate {
          *    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
          *   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
          *   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         *
-         *  see assets/vertices.txt for an example
+         *   ...
          * */
 
         // This function will only return the values as floats contained with in
@@ -44,4 +47,4 @@ namespace kate {
         return retVal;
     }
 }
-#endif //RENDERER_OBJ_PARSER_H
+#endif // END PARSER_HH
