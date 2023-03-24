@@ -42,7 +42,7 @@ namespace kate {
         ~window();
     private:
         auto start_up() -> bool;
-        static auto shutdown() -> void;
+        auto shutdown() -> void;
         GLFWwindow*     m_window{};
         std::string     m_name{};
         std::int32_t    m_width{};
@@ -91,6 +91,7 @@ namespace kate {
     }
 
     inline auto window::shutdown() -> void {
+        //glfwDestroyWindow(this->m_window);
         glfwTerminate();
     }
 

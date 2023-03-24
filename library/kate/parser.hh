@@ -38,8 +38,7 @@ namespace kate {
 
         if (file.is_open()) {
             while (std::getline(file, temp, ','))
-                if (not temp.starts_with("//"))
-                    retVal.push_back(std::stof(temp));
+                retVal.push_back(std::stof(temp));
         }
         else
             std::cerr << "Could not open file containing vertices data...\n";
