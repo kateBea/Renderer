@@ -94,12 +94,9 @@ namespace kate {
     };
 
     inline vbo::vbo(std::span<float> vertices, GLenum usage) noexcept
-        :   m_id{}, m_size{ vertices.size() * sizeof(decltype(vertices)::value_type) }
+        :   m_id{}, m_size{}
     {
-        if (m_size) {
-            glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
-        }
+        load_data(vertices, vertices.size() * sizeof(decltype(vertices)::value_type));
     }
 
     inline auto vbo::bind() const -> void {
@@ -148,7 +145,6 @@ namespace kate {
     }
 
     inline auto vbo::load_data(std::span<float> vertices, GLenum usage) -> void {
-
         if (!vertices.empty()) {
             m_size = vertices.size() * sizeof(decltype(vertices)::value_type);
             glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
