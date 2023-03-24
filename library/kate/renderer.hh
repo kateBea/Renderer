@@ -53,7 +53,7 @@ namespace kate {
 
     private:
         // Member variables
-        std::unique_ptr<kate::window>   m_window{};     // main window
+        kate::window   m_window{};     // main window
         kate::shader                    m_dshader{};    // shader program id for fragment and vertex shaders
         kate::vao                  m_vao{};        // Vertex array object identifier
         kate::vbo                   m_vbo{};        // Vertex buffer object identifier
@@ -63,7 +63,7 @@ namespace kate {
 
     // IMPLEMENTATION
     inline renderer::renderer(std::string_view name, std::int32_t width, std::int32_t height)
-        :   m_window{ std::make_unique<kate::window>(name, width, height) }
+        :   m_window{ name, width, height }
         ,   m_dshader{}
         ,   m_vao{}
         ,   m_vbo{}
@@ -72,9 +72,9 @@ namespace kate {
     }
 
     inline auto renderer::run() -> void {
-        while (!m_window->should_close()) {
-            m_window->resize();
-            m_window->show_cursor_pos();
+        while (!m_window.should_close()) {
+            m_window.resize();
+            m_window.show_cursor_pos();
 
             // Clear background
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
@@ -88,7 +88,7 @@ namespace kate {
 
             // draw commands
             glDrawArrays(GL_TRIANGLES, 0, 3);
-            m_window->draw();
+            m_window.draw();
         }
     }
 
