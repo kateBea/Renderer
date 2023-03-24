@@ -20,13 +20,14 @@
 namespace kate {
     class vbo {
     public:
+        explicit vbo();
         /**
          * Creates a new vertex buffer and initializes it with the data
          * from indices. If no data is provided simply creates a new index
          * buffer object with a valid id
          * @param vertices buffer containing all the vertices
          * */
-        explicit vbo(std::span<float> vertices) noexcept;
+        explicit vbo(std::span<float> vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid vbo aliasing
@@ -81,25 +82,23 @@ namespace kate {
          * */
         static auto unbind() -> void;
 
+        auto load_data(std::span<float> vertices, GLenum usage = GL_STATIC_DRAW) -> void;
         /**
          * Releases resources from this vertex buffer
          * */
         ~vbo();
 
     private:
-        std::uint32_t m_id{};
-        std::size_t m_size{};
+        std::uint32_t m_id{};   // Identifier of this vertex buffer object
+        std::size_t m_size{};   // size in BYTES of the total count of vertices
     };
 
-    inline vbo::vbo(std::span<float> vertices) noexcept
+    inline vbo::vbo(std::span<float> vertices, GLenum usage) noexcept
         :   m_id{}, m_size{ vertices.size() * sizeof(decltype(vertices)::value_type) }
     {
-        glGenBuffers(1, &this->m_id);
-
         if (m_size) {
-            // size m_size to size in bytes of the content in data
             glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
         }
     }
 
@@ -142,6 +141,19 @@ namespace kate {
         other.m_size = 0;
 
         return *this;
+    }
+
+    inline vbo::vbo() {
+        glGenBuffers(1, &this->m_id);
+    }
+
+    inline auto vbo::load_data(std::span<float> vertices, GLenum usage) -> void {
+
+        if (!vertices.empty()) {
+            m_size = vertices.size() * sizeof(decltype(vertices)::value_type);
+            glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
+            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
+        }
     }
 
 }

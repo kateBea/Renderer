@@ -6,8 +6,8 @@
  * @date 2023-03-21
  */
 
-#ifndef VIO_HH
-#define VIO_HH
+#ifndef VIB_HH
+#define VIB_HH
 
 // C++ Standard Library
 #include <span>
@@ -19,12 +19,13 @@
 namespace kate {
     class vib {
     public:
+        explicit vib() = default;
         /**
          * Creates a new vertex index buffer and initializes it with the data
          * from indices. If no data is provided simply creates a new index buffer object with a valid id
          * @param indices buffer containing all the indices values
          * */
-        explicit vib(std::span<std::uint32_t> indices);
+        explicit vib(std::span<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW);
 
         /**
          * Mark this vertex index buffer as current
@@ -72,14 +73,14 @@ namespace kate {
         std::size_t m_count{};
     };
 
-    inline vib::vib(std::span<std::uint32_t> indices)
+    inline vib::vib(std::span<std::uint32_t> indices, GLenum usage)
         : m_id{}, m_count{ indices.size() }
     {
         glGenBuffers(1, &this->m_id);
 
         if (m_count) {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), usage);
         }
     }
 
@@ -105,4 +106,4 @@ namespace kate {
 
 }
 
-#endif // END VIO_HH
+#endif // END VIB_HH

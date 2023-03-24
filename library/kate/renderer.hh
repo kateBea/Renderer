@@ -18,6 +18,7 @@
 #include <string_view>
 #include <string>
 #include <vector>
+#include <memory>
 
 // Third-Party Libraries
 #define GLEW_STATIC
@@ -29,6 +30,7 @@
 #include <camera.hh>
 #include <shader.hh>
 #include <parser.hh>
+#include <window.hh>
 #include <vao.hh>
 #include <vbo.hh>
 #include <vib.hh>
@@ -42,10 +44,7 @@ namespace kate {
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
          * @param appName Title for the renderer window
          * */
-        explicit renderer(std::string_view appName = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
-
-        [[nodiscard]]
-        auto init_ok() const -> bool;
+        explicit renderer(std::string_view name = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
 
         auto run() -> void;
         auto start_up() -> void;
@@ -54,115 +53,60 @@ namespace kate {
 
     private:
         // Member variables
-        GLFWwindow*         m_window{};     // main window
-        kate::shader        m_dshader{};    // shader program id for fragment and vertex shaders
-        std::uint32_t       m_vbo{};        // Vertex buffer object identifier
-        std::uint32_t       m_vao{};        // Vertex array object identifier
+        std::unique_ptr<kate::window>   m_window{};     // main window
+        kate::shader                    m_dshader{};    // shader program id for fragment and vertex shaders
+        kate::vao                  m_vao{};        // Vertex array object identifier
+        kate::vbo                   m_vbo{};        // Vertex buffer object identifier
 
-        // flags that define the state of the renderer
-        bool m_init{};
     };
 
 
     // IMPLEMENTATION
-    inline renderer::renderer(std::string_view appName, std::int32_t width, std::int32_t height) {
-        // Init GLFW Library
-        if (!glfwInit()) {
-            std::cerr << "Failed to initialize glfw...\n"
-                         "----------------------------\n";
+    inline renderer::renderer(std::string_view name, std::int32_t width, std::int32_t height)
+        :   m_window{ std::make_unique<kate::window>(name, width, height) }
+        ,   m_dshader{}
+        ,   m_vao{}
+        ,   m_vbo{}
+    {
 
-            this->m_init = false;
-            return;
-        }
-
-        // Set OpenGL major and minor version numbers for OpenGL 3.3
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-        // Create valid context
-        m_window = glfwCreateWindow(width, height, appName.data(), nullptr, nullptr);
-
-        if (!m_window) {
-            std::cerr << "There was an error creating the Window\n"
-                         "--------------------------------------\n";
-            this->m_init = false;
-            return;
-        }
-
-        // Create a valid context for initializing GLEW
-        glfwMakeContextCurrent(this->m_window);
-
-        glewExperimental = GL_TRUE;
-        if (glewInit() != GLEW_OK) {
-            std::cerr << "Failed to initialize GLEW!\n"
-                         "--------------------------\n";
-            this->m_init = false;
-            return;
-        }
-
-        // start-up succeeded
-        this->m_init = true;
-        std::cerr << "Start-up succeeded...\n"
-                     "---------------------\n";
     }
 
     inline auto renderer::run() -> void {
-        // main loop
-        while (!glfwWindowShouldClose(this->m_window)) {
-            glfwPollEvents();
+        while (!m_window->should_close()) {
+            m_window->resize();
+            m_window->show_cursor_pos();
 
-            m_dshader.use();
-
+            // Clear background
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // enable first attribute: vertex positions
-            glEnableVertexAttribArray(0);
+            m_dshader.use();
 
-            glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, static_cast<const void*>(nullptr));
+            // vertex position attribute
+            m_vbo.bind();
+            m_vao.define_layout(0, 3, 0);
 
+            // draw commands
             glDrawArrays(GL_TRIANGLES, 0, 3);
-            glDisableVertexAttribArray(0);
-
-            glfwSwapBuffers(this->m_window);
+            m_window->draw();
         }
     }
 
     inline auto renderer::start_up() -> void {
         // setup vertices
-        std::vector vertex_positions {
-            // Positions
-            0.5f, 0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
-            0.0f, -0.5f, 0.0f,
-        };
+        auto v_pos{ kate::get_vertices_data("assets/vertices") };
 
-        glGenVertexArrays(1, &m_vao);
-        glBindVertexArray(m_vao);
-
-        glEnableVertexAttribArray(0);
-
-        glGenBuffers(1, &m_vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(decltype(vertex_positions)::value_type), vertex_positions.data(), GL_STATIC_DRAW);
-
-        m_dshader = std::move(kate::shader("assets/shaders/defaultVertexShader.glsl", "assets/shaders/defaultPixelShader.glsl"));
-
+        m_vbo.load_data(v_pos);
+        m_dshader.load_shaders(
+            "assets/shaders/defaultVertexShader.glsl",
+            "assets/shaders/defaultPixelShader.glsl"
+        );
     }
 
     inline renderer::~renderer() {
-        glDeleteBuffers(1, &m_vbo);
-        glDeleteVertexArrays(1, &m_vao);
-
         glfwTerminate();
     }
 
-    inline auto renderer::init_ok() const -> bool {
-        return this->m_init;
-    }
 }
 
 

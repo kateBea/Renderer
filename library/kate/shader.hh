@@ -26,7 +26,7 @@ namespace kate {
         /**
          * Default initialization for shader
          * */
-        shader() = default;
+        shader();
 
         /**
          * Copy constructor. Marked as delete to avoid shader aliasing
@@ -44,19 +44,19 @@ namespace kate {
          * Move constructor
          * */
          shader(shader&& other) noexcept
-            : m_program_id{other.m_program_id }
+            : m_id{other.m_id }
         {
             // when other is a temporary 0 is ignored if
             // passed to glDeleteProgram(). We avoid deleting a valid program this way
-            other.m_program_id = 0;
+            other.m_id = 0;
         }
 
         /**
          * Move constructor assignment
          * */
         shader& operator=(shader&& other) noexcept {
-            m_program_id = other.m_program_id;
-            other.m_program_id = 0;
+            m_id = other.m_id;
+            other.m_id = 0;
 
             return *this;
         }
@@ -81,6 +81,7 @@ namespace kate {
         [[nodiscard]]
         auto getProgramId() const -> std::uint32_t;
 
+        auto load_shaders(std::string_view vertexSourceDir, std::string_view fragmentSourceDir) -> void;
         /**
          * Perform cleanup
          * */
@@ -90,7 +91,7 @@ namespace kate {
         /*
          * Helper function to retrieve shader compilation/linking status
          * */
-        static auto show_status_shader(std::uint32_t objectId, const char* str, GLenum name) -> void{
+        static auto show_status_shader(std::uint32_t objectId, std::string_view str, GLenum name) -> void{
             std::array<char, 512> outStr{};
             std::int32_t success{};
             std::int32_t length{};
@@ -99,14 +100,14 @@ namespace kate {
             glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
             if (length > 0) {
                 glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-                std::printf("%s: %s\n", str, outStr.data());
+                std::printf("%s: %s\n", str.data(), outStr.data());
             }
         }
 
         /*
          * Helper function to retrieve shader compilation/linking status
          * */
-        static auto show_status_program(std::uint32_t objectId, const char* str, GLenum name) -> void{
+        static auto show_status_program(std::uint32_t objectId, std::string_view str, GLenum name) -> void{
             std::array<char, 1024> outStr{};
             std::int32_t success{};
             std::int32_t length{};
@@ -115,17 +116,37 @@ namespace kate {
             glGetProgramiv(objectId, GL_INFO_LOG_LENGTH, &length);
             if (length > 0) {
                 glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-                std::printf("%s: %s\n", str, outStr.data());
+                std::printf("%s: %s\n", str.data(), outStr.data());
             }
         }
 
         /**
          * Identifier of this shader program
          * */
-        std::uint32_t m_program_id{};
+        std::uint32_t m_id{};
     };
 
     inline shader::shader(std::string_view vertexSourceDir, std::string_view fragmentSourceDir) {
+        load_shaders(vertexSourceDir, fragmentSourceDir);
+    }
+
+    inline void shader::use() const {
+        glUseProgram(this->m_id);
+    }
+
+    inline std::uint32_t shader::getProgramId() const {
+        return this->m_id;
+    }
+
+    inline shader::~shader() {
+        glDeleteProgram(this->m_id);
+    }
+
+    inline shader::shader() {
+        m_id = glCreateProgram();
+    }
+
+    inline auto shader::load_shaders(std::string_view vertexSourceDir, std::string_view fragmentSourceDir) -> void {
         std::string vertexShaderSource{};
         std::string pixelShaderSource{};
 
@@ -181,30 +202,17 @@ namespace kate {
         show_status_shader(pixelShaderID, "Error on fragment shader compilation: ", GL_COMPILE_STATUS);
 
         // Create and link program against compiled shader binaries
-        this->m_program_id = glCreateProgram();
-        glAttachShader(this->m_program_id, vertexShaderID);
-        glAttachShader(this->m_program_id, pixelShaderID);
-        glLinkProgram(this->m_program_id);
-        show_status_program(this->m_program_id, "Error on program linking: ", GL_LINK_STATUS);
+        glAttachShader(this->m_id, vertexShaderID);
+        glAttachShader(this->m_id, pixelShaderID);
+        glLinkProgram(this->m_id);
+        show_status_program(this->m_id, "Error on program linking: ", GL_LINK_STATUS);
 
-        glDetachShader(this->m_program_id, vertexShaderID);
-        glDetachShader(this->m_program_id, pixelShaderID);
+        glDetachShader(this->m_id, vertexShaderID);
+        glDetachShader(this->m_id, pixelShaderID);
 
         // cleanup
         glDeleteShader(vertexShaderID);
         glDeleteShader(pixelShaderID);
-    }
-
-    inline void shader::use() const {
-        glUseProgram(this->m_program_id);
-    }
-
-    inline std::uint32_t shader::getProgramId() const {
-        return this->m_program_id;
-    }
-
-    inline shader::~shader() {
-        glDeleteProgram(this->m_program_id);
     }
 
 }

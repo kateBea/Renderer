@@ -9,9 +9,7 @@ int main() {
     std::printf("renderer entry point...\n");
     auto app{ std::make_unique<kate::renderer>() };
     app->start_up();
-
-    if (app->init_ok())
-        app->run();
+    app->run();
 
     return 0;
 }
