@@ -38,12 +38,12 @@ namespace kate {
 
     private:
         auto get_projection() -> glm::mat4 {
-
+            // TODO: Implement
             return {};
         }
 
         auto get_view() -> glm::mat4 {
-
+            // TODO: Implement
             return {};
         }
     };
