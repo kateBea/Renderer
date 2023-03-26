@@ -37,11 +37,19 @@ namespace kate {
 
 
     private:
-        
+        auto get_projection() -> glm::mat4 {
+
+            return {};
+        }
+
+        auto get_view() -> glm::mat4 {
+
+            return {};
+        }
     };
 
     // CAMERA IMPLEMENTATION
-    inline auto update() -> void {
+    inline auto camera::update() -> void {
         glm::mat4 projection{ get_projection() };
         glm::mat4 view{ get_view() };
         glm::mat4 model{ glm::mat4(1.0) };

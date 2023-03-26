@@ -56,6 +56,7 @@ namespace kate {
         kate::shader    m_dshader{};    // shader program id for fragment and vertex shaders
         kate::vao       m_vao{};        // Vertex array object identifier
         kate::vbo       m_vbo{};        // Vertex buffer object identifier
+        kate::camera    m_camera{};
 
     };
 
