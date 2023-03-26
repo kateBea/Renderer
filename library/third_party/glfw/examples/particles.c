@@ -39,6 +39,7 @@
 #include <getopt.h>
 #include <linmath.h>
 
+#define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -169,7 +170,7 @@ const unsigned char floor_texture[ F_TEX_WIDTH * F_TEX_HEIGHT ] = {
 // Bounce friction (1.0 = no friction, 0.0 = maximum friction)
 #define FRICTION        0.75f
 
-// "Fountain" m_height (m)
+// "Fountain" height (m)
 #define FOUNTAIN_HEIGHT 3.f
 
 // Fountain radius (m)

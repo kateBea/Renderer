@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -192,7 +193,7 @@ void init_opengl(void)
 
 
 //========================================================================
-// Modify the m_height of each vertex according to the pressure
+// Modify the height of each vertex according to the pressure
 //========================================================================
 
 void adjust_grid(void)
@@ -447,7 +448,7 @@ int main(int argc, char* argv[])
             calc_grid();
         }
 
-        // Compute m_height of each vertex
+        // Compute height of each vertex
         adjust_grid();
 
         // Draw wave grid to OpenGL display

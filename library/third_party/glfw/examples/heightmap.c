@@ -29,11 +29,12 @@
 #include <assert.h>
 #include <stddef.h>
 
+#define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 
-/* Map m_height updates */
+/* Map height updates */
 #define MAX_CIRCLE_SIZE (5.0f)
 #define MAX_DISPLACEMENT (1.0f)
 #define DISPLACEMENT_SIGN_LIMIT (0.3f)
@@ -468,7 +469,7 @@ int main(int argc, char** argv)
     make_mesh(shader_program);
 
     /* Create vao + vbo to store the mesh */
-    /* Create the vbo to store all the information for the grid and the m_height */
+    /* Create the vbo to store all the information for the grid and the height */
 
     /* setup the scene ready for rendering */
     glfwGetFramebufferSize(window, &width, &height);

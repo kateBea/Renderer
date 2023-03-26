@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -42,7 +43,7 @@
 
   Input:  inner_radius - radius of hole at center
           outer_radius - radius at center of teeth
-          m_width - m_width of gear teeth - number of teeth
+          width - width of gear teeth - number of teeth
           tooth_depth - depth of tooth
 
  **/

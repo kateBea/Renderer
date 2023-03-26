@@ -22,7 +22,7 @@ ABOUT:
 
 BUILDING:
 
-   You can #define STBIW_ASSERT(x) before the #library to avoid using assert.h.
+   You can #define STBIW_ASSERT(x) before the #include to avoid using assert.h.
    You can #define STBIW_MALLOC(), STBIW_REALLOC(), and STBIW_FREE() to replace
    malloc,realloc,free.
    You can #define STBIW_MEMMOVE() to replace memmove()
@@ -217,9 +217,9 @@ STBIWDEF void stbi_flip_vertically_on_write(int flip_boolean);
 #include <math.h>
 
 #if defined(STBIW_MALLOC) && defined(STBIW_FREE) && (defined(STBIW_REALLOC) || defined(STBIW_REALLOC_SIZED))
-// init_ok
+// ok
 #elif !defined(STBIW_MALLOC) && !defined(STBIW_FREE) && !defined(STBIW_REALLOC) && !defined(STBIW_REALLOC_SIZED)
-// init_ok
+// ok
 #else
 #error "Must define all or none of STBIW_MALLOC, STBIW_FREE, and STBIW_REALLOC (or STBIW_REALLOC_SIZED)."
 #endif
@@ -1535,11 +1535,11 @@ static int stbi_write_jpg_core(stbi__write_context *s, int width, int height, in
             for(x = 0; x < width; x += 16) {
                float Y[256], U[256], V[256];
                for(row = y, pos = 0; row < y+16; ++row) {
-                  // row >= m_height => use last input row
+                  // row >= height => use last input row
                   int clamped_row = (row < height) ? row : height - 1;
                   int base_p = (stbi__flip_vertically_on_write ? (height-1-clamped_row) : clamped_row)*width*comp;
                   for(col = x; col < x+16; ++col, ++pos) {
-                     // if col >= m_width => use pixel from last input column
+                     // if col >= width => use pixel from last input column
                      int p = base_p + ((col < width) ? col : (width-1))*comp;
                      float r = dataR[p], g = dataG[p], b = dataB[p];
                      Y[pos]= +0.29900f*r + 0.58700f*g + 0.11400f*b - 128;
@@ -1573,11 +1573,11 @@ static int stbi_write_jpg_core(stbi__write_context *s, int width, int height, in
             for(x = 0; x < width; x += 8) {
                float Y[64], U[64], V[64];
                for(row = y, pos = 0; row < y+8; ++row) {
-                  // row >= m_height => use last input row
+                  // row >= height => use last input row
                   int clamped_row = (row < height) ? row : height - 1;
                   int base_p = (stbi__flip_vertically_on_write ? (height-1-clamped_row) : clamped_row)*width*comp;
                   for(col = x; col < x+8; ++col, ++pos) {
-                     // if col >= m_width => use pixel from last input column
+                     // if col >= width => use pixel from last input column
                      int p = base_p + ((col < width) ? col : (width-1))*comp;
                      float r = dataR[p], g = dataG[p], b = dataB[p];
                      Y[pos]= +0.29900f*r + 0.58700f*g + 0.11400f*b - 128;

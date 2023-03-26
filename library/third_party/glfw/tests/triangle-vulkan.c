@@ -41,6 +41,7 @@
 #include <windows.h>
 #endif
 
+#define GLAD_VULKAN_IMPLEMENTATION
 #include <glad/vulkan.h>
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
@@ -522,7 +523,7 @@ static void demo_draw(struct demo *demo) {
 
     // Wait for the present complete semaphore to be signaled to ensure
     // that the image won't be rendered to until the presentation
-    // engine has fully released ownership to the renderer, and it is
+    // engine has fully released ownership to the application, and it is
     // okay to render to the image.
 
     demo_draw_build_cmd(demo);
@@ -593,7 +594,7 @@ static void demo_prepare_buffers(struct demo *demo) {
     assert(!err);
 
     VkExtent2D swapchainExtent;
-    // m_width and m_height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
+    // width and height are either both 0xFFFFFFFF, or both not 0xFFFFFFFF.
     if (surfCapabilities.currentExtent.width == 0xFFFFFFFF) {
         // If the surface size is undefined, the size is set to the size
         // of the images requested, which must fit within the minimum and
@@ -622,14 +623,14 @@ static void demo_prepare_buffers(struct demo *demo) {
     VkPresentModeKHR swapchainPresentMode = VK_PRESENT_MODE_FIFO_KHR;
 
     // Determine the number of VkImage's to use in the swap chain.
-    // renderer desires to only acquire 1 image at a time (which is
+    // Application desires to only acquire 1 image at a time (which is
     // "surfCapabilities.minImageCount").
     uint32_t desiredNumOfSwapchainImages = surfCapabilities.minImageCount;
     // If maxImageCount is 0, we can ask for as many images as we want;
     // otherwise we're limited to maxImageCount
     if ((surfCapabilities.maxImageCount > 0) &&
         (desiredNumOfSwapchainImages > surfCapabilities.maxImageCount)) {
-        // renderer must settle for fewer images than desired:
+        // Application must settle for fewer images than desired:
         desiredNumOfSwapchainImages = surfCapabilities.maxImageCount;
     }
 
@@ -1246,7 +1247,7 @@ static void demo_prepare_pipeline(struct demo *demo) {
     VkPipelineDepthStencilStateCreateInfo ds;
     VkPipelineViewportStateCreateInfo vp;
     VkPipelineMultisampleStateCreateInfo ms;
-    VkDynamicState dynamicStateEnables[2];
+    VkDynamicState dynamicStateEnables[(VK_DYNAMIC_STATE_STENCIL_REFERENCE - VK_DYNAMIC_STATE_VIEWPORT + 1)];
     VkPipelineDynamicStateCreateInfo dynamicState;
 
     VkResult U_ASSERT_ONLY err;
@@ -1915,7 +1916,7 @@ static void demo_init_vk_swapchain(struct demo *demo) {
 
     // TODO: Add support for separate queues, including presentation,
     //       synchronization, and appropriate tracking for QueueSubmit.
-    // NOTE: While it is possible for an renderer to use a separate graphics
+    // NOTE: While it is possible for an application to use a separate graphics
     //       and a present queues, this demo program assumes it is only using
     //       one:
     if (graphicsQueueNodeIndex != presentQueueNodeIndex) {
