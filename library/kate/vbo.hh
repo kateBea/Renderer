@@ -27,7 +27,7 @@ namespace kate {
          * buffer object with a valid id
          * @param vertices buffer containing all the vertices
          * */
-        explicit vbo(std::vector<float> vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
+        explicit vbo(const std::vector<float>& vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid vbo aliasing
@@ -82,7 +82,7 @@ namespace kate {
          * */
         static auto unbind() -> void;
 
-        auto load_data(std::vector<float> vertices, GLenum usage = GL_STATIC_DRAW) -> void;
+        auto load_data(const std::vector<float>& vertices, GLenum usage = GL_STATIC_DRAW) -> void;
         /**
          * Releases resources from this vertex buffer
          * */
@@ -93,10 +93,10 @@ namespace kate {
         std::size_t m_size{};   // size in BYTES of the total count of vertices
     };
 
-    inline vbo::vbo(std::vector<float> vertices, GLenum usage) noexcept
+    inline vbo::vbo(const std::vector<float>& vertices, GLenum usage) noexcept
         :   m_id{}, m_size{}
     {
-        load_data(vertices, vertices.size() * sizeof(decltype(vertices)::value_type));
+        load_data(vertices, vertices.size() * sizeof(float));
     }
 
     inline auto vbo::bind() const -> void {
@@ -144,9 +144,9 @@ namespace kate {
         glGenBuffers(1, &this->m_id);
     }
 
-    inline auto vbo::load_data(std::vector<float> vertices, GLenum usage) -> void {
+    inline auto vbo::load_data(const std::vector<float>& vertices, GLenum usage) -> void {
         if (!vertices.empty()) {
-            m_size = vertices.size() * sizeof(decltype(vertices)::value_type);
+            m_size = vertices.size() * sizeof(float);
             glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
             glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
         }
