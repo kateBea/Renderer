@@ -1,3 +1,6 @@
 [submodule "library/third_party/glm"]
 	path = library/third_party/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "library/third_party/glew"]
+	path = library/third_party/glew
+	url = https://github.com/nigels-com/glew.git
