@@ -67,6 +67,7 @@ namespace kate {
         ,   m_dshader{}
         ,   m_vao{}
         ,   m_vbo{}
+        ,   m_camera{}
     {
 
     }
@@ -94,12 +95,12 @@ namespace kate {
 
     inline auto renderer::start_up() -> void {
         // setup vertices
-        auto v_pos{ kate::get_vertices_data("assets/vertices") };
+        auto v_pos{ kate::get_vertices_data("../assets/vertices") };
 
         m_vbo.load_data(v_pos);
         m_dshader.load_shaders(
-            "assets/shaders/defaultVertexShader.glsl",
-            "assets/shaders/defaultPixelShader.glsl"
+            "../assets/shaders/defaultVertexShader.glsl",
+            "../assets/shaders/defaultPixelShader.glsl"
         );
     }
 
