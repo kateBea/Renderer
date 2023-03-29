@@ -15,12 +15,15 @@ include_directories(
 add_subdirectory(library/third_party/glew/build/cmake)
 add_subdirectory(library/third_party/glfw)
 
+
+# Renderer main app build
+add_executable(renderer main.cpp)
+target_link_libraries(renderer glfw glew_s)
+target_compile_definitions(renderer PUBLIC GLEW_STATIC)
+
 # Tests build
 
 # Test window
 add_executable(test_window test/test_window.cpp)
 target_link_libraries(test_window glfw glew_s)
-
-# Renderer main app build
-add_executable(renderer main.cpp)
-target_link_libraries(renderer glfw glew_s)
+target_compile_definitions(test_window PUBLIC GLEW_STATIC)
