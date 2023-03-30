@@ -16,7 +16,7 @@ add_subdirectory(library/glfw)
 
 
 # Renderer main app build
-add_executable(renderer main.cpp)
+add_executable(renderer src/main.cpp)
 target_link_libraries(renderer glfw glew_s)
 target_compile_definitions(renderer PUBLIC GLEW_STATIC)
 
