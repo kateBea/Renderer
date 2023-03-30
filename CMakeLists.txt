@@ -5,14 +5,14 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(
-    library/third_party/glew/include
-    library/third_party/glfw/include
-    library/third_party/glm
-    library/kate
+    library/glew/include
+    library/glfw/include
+    library/glm
+    src/
 )
 
-add_subdirectory(library/third_party/glew/build/cmake)
-add_subdirectory(library/third_party/glfw)
+add_subdirectory(library/glew/build/cmake)
+add_subdirectory(library/glfw)
 
 
 # Renderer main app build
