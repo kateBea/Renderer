@@ -8,6 +8,7 @@ include_directories(
     library/glew/include
     library/glfw/include
     library/glm
+    library/stb
     src/
 )
 
@@ -20,7 +21,7 @@ add_executable(renderer src/main.cpp)
 target_link_libraries(renderer glfw glew_s)
 target_compile_definitions(renderer PUBLIC GLEW_STATIC)
 
-# Tests build
+# Tests builds
 
 # Test window
 add_executable(test_window test/test_window.cpp)

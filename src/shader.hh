@@ -11,6 +11,7 @@
 
 // C++ Standard Library
 #include <string>
+#include <array>
 #include <fstream>
 #include <sstream>
 #include <iostream>
