@@ -12,21 +12,17 @@ include_directories(
     src/
 )
 
-find_package(OpenGL REQUIRED)
-
-add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
-
-set(LIBRARIES glfw glew_s)
+add_subdirectory(library/glfw)
 
 # Renderer main app build
 add_executable(renderer src/main.cpp)
-target_link_libraries(renderer ${LIBRARIES})
+target_link_libraries(renderer glfw glew_s)
 target_compile_definitions(renderer PUBLIC GLEW_STATIC)
 
 # Tests builds
 
 # Test window
 add_executable(test_window test/test_window.cpp)
-target_link_libraries(test_window ${LIBRARIES})
+target_link_libraries(test_window glfw glew_s)
 target_compile_definitions(test_window PUBLIC GLEW_STATIC)

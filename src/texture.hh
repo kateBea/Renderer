@@ -15,10 +15,16 @@
 #include <filesystem>
 #include <stdexcept>
 #include <cstddef>
+#include <iostream>
 
 // Third-Party Libraries
 #include <GL/glew.h>
+
+#define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
+// Project Libraries
+#include <utils.hh>
 
 namespace kate {
     class texture {
@@ -59,7 +65,9 @@ namespace kate {
          * */
         auto bind() const -> void;
 
-
+        /**
+         * Unbinds the currently bound texture object
+        */
         static auto unbind() -> void;
 
         /**
@@ -84,11 +92,6 @@ namespace kate {
         auto get_count() const -> std::size_t;
 
         /**
-         * Releases the currently bound vertex buffer object
-         * */
-        static auto unbind() -> void;
-
-        /**
          * Creates a new texture object and fills it with the data
          * from texture file in path. If no data is provided it simply creates
          * a valid texture object with a valid id
@@ -102,27 +105,67 @@ namespace kate {
         ~texture();
 
     private:
-        std::uint32_t m_id{};   // Identifier of this vertex buffer object
+        std::uint32_t m_id{};               // Identifier of this vertex buffer object
+        std::int32_t m_height{};            // Texture height
+        std::int32_t m_width{};             // Texture width
+        std::int32_t m_channels{};          // imagne components in texture file
         std::vector<std::uint8_t> m_data{}; // Holds the texture data
+        kate::texture_t m_type{};
     };
 
 
     // IMPLEMENTATION
-    texture::texture(const std::filesystem::path& path) noexcept {
+    texture::texture() 
+        :   m_height{}, m_width{}, m_data{}
+    {
+        glGenTextures(1, &this->m_id);
+    }
+
+    texture::texture(const std::filesystem::path& path) noexcept 
+        :   m_height{}, m_width{}, m_data{}
+    {
         glGenTextures(1, &this->m_id);
         load_data(path);
     }
 
     auto texture::load_data(const std::filesystem::path& path) -> void {
-        bind();
+
+        std::uint8_t* image_data{ stbi_load(path.c_str(), &m_width, &m_height, &m_channels, 0) };
+
+        if (image_data) {
+            bind();
+            std::cerr << "Texture data loaded succesfully...\n";
+            // setup wrapping and filtering options
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            stbi_image_free(image_data);
+        }  
+        else {
+            std::cerr << "Could not load texture data...\n";
+        }
+        
     }
 
     auto texture::bind() const -> void {
-        glBindTexture(GL_TEXTURE_2D, this->m_id);
+        glBindTexture(GL_TEXTURE_2D, get_id());
     }
 
     auto texture::unbind() -> void {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    auto texture::get_id() const -> std::uint32_t {
+        return m_id;
+    }
+
+    texture::~texture() {
+        glDeleteTextures(1, &this->m_id);
     }
 }
 #endif

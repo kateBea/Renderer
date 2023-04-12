@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace kate {
     inline auto get_vertices_data(const std::filesystem::path& path) -> std::vector<float> {
@@ -32,18 +33,24 @@ namespace kate {
 
         // This function will only return the values as floats contained with in
         // a vector. User must ensure to specify buffer layout with appropriate function calls
-        std::ifstream file{ path };
         std::string temp{};
-        std::vector<float> retVal{};
+        std::ifstream file{ path };
+        std::vector<float> result{};
 
         if (file.is_open()) {
-            while (std::getline(file, temp, ','))
-                retVal.push_back(std::stof(temp));
+            while (std::getline(file, temp)) {
+                if (!temp.starts_with("//")) {
+                    std::istringstream stream{ temp };
+
+                    while(std::getline(stream, temp, ','))
+                        result.push_back(std::stof(temp));
+                }
+            }
         }
         else
             std::cerr << "Could not open file containing vertices data...\n";
 
-        return retVal;
+        return result;
     }
 }
 #endif // END PARSER_HH

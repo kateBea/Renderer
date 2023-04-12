@@ -25,13 +25,13 @@
 #include <GLFW/glfw3.h>
 
 // Project Libraries
+#include <mesh.hh>
 #include <camera.hh>
 #include <shader.hh>
 #include <parser.hh>
 #include <window.hh>
 #include <vao.hh>
 #include <vbo.hh>
-#include <vib.hh>
 
 namespace kate {
     class renderer {
@@ -55,6 +55,8 @@ namespace kate {
         kate::vao       m_vao{};        // Vertex array object identifier
         kate::vbo       m_vbo{};        // Vertex buffer object identifier
         kate::camera    m_camera{};
+        kate::texture   m_texture{};
+        std::vector<mesh> m_meshes{};
 
     };
 
@@ -73,7 +75,7 @@ namespace kate {
     inline auto renderer::run() -> void {
         while (!m_window.should_close()) {
             m_window.resize();
-            m_window.show_cursor_pos();
+            //m_window.show_cursor_pos();
 
             // Clear background
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
@@ -83,7 +85,12 @@ namespace kate {
 
             // vertex position attribute
             m_vbo.bind();
-            m_vao.define_layout(0, 3, 0);
+            m_vao.define_layout(0, 0);
+            m_vao.define_layout(0, 0, 3, GL_FLOAT, 5);
+
+            // vertex texture attribute
+            m_vbo.bind();
+            m_vao.define_layout(1, 3, 2, GL_FLOAT, 5);
 
             // draw commands
             glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -100,6 +107,7 @@ namespace kate {
             "../assets/shaders/defaultVertexShader.glsl",
             "../assets/shaders/defaultPixelShader.glsl"
         );
+        m_texture.load_data("../assets/textures/lava512x512.png");
     }
 
     inline renderer::~renderer() {
