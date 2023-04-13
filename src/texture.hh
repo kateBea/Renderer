@@ -71,6 +71,12 @@ namespace kate {
         static auto unbind() -> void;
 
         /**
+         * Activates GL_TEXTUREX unit where goes from 0 to amount
+         * of supported texture units
+        */
+       static auto bind_texture_unit(std::uint32_t unit);
+
+        /**
          * Returns the identifier of this texture
          * @return id of this object
          * */
@@ -130,6 +136,7 @@ namespace kate {
 
     auto texture::load_data(const std::filesystem::path& path) -> void {
 
+        stbi_set_flip_vertically_on_load(true); 
         std::uint8_t* image_data{ stbi_load(path.c_str(), &m_width, &m_height, &m_channels, 0) };
 
         if (image_data) {
@@ -138,12 +145,14 @@ namespace kate {
             // setup wrapping and filtering options
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
             glGenerateMipmap(GL_TEXTURE_2D);
 
+            unbind();
             stbi_image_free(image_data);
         }  
         else {
@@ -152,20 +161,14 @@ namespace kate {
         
     }
 
-    auto texture::bind() const -> void {
-        glBindTexture(GL_TEXTURE_2D, get_id());
-    }
+    auto texture::bind() const -> void { glBindTexture(GL_TEXTURE_2D, get_id()); }
 
-    auto texture::unbind() -> void {
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
+    auto texture::unbind() -> void { glBindTexture(GL_TEXTURE_2D, 0); }
 
-    auto texture::get_id() const -> std::uint32_t {
-        return m_id;
-    }
+    auto texture::get_id() const -> std::uint32_t { return m_id; }
 
-    texture::~texture() {
-        glDeleteTextures(1, &this->m_id);
-    }
+    texture::~texture() { glDeleteTextures(1, &this->m_id); }
+
+    static auto bind_texture_unit(std::uint32_t unit) { glActiveTexture(GL_TEXTURE0 + unit); }
 }
 #endif

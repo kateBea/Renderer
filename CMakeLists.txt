@@ -12,6 +12,9 @@ include_directories(
     src/
 )
 
+add_compile_options(-Wall -Wpedantic -Wextra -fsanitize=address)
+add_link_options(-fsanitize=address)
+
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(library/glfw)

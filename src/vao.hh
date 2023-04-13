@@ -54,7 +54,7 @@ namespace kate {
          * Defines a layout for this vertex array object for the
          * currently bound vertex buffer.
          * */
-        auto define_layout(std::uint32_t index, std::uint32_t pointer, std::int32_t size = 3, GLenum type = GL_FLOAT, std::int32_t stride = 3) const -> void;
+        auto layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type = GL_FLOAT) const -> void;
 
         ~vao();
 
@@ -89,7 +89,7 @@ namespace kate {
         glBindVertexArray(0);
     }
 
-    auto vao::define_layout(std::uint32_t index, std::uint32_t pointer, std::int32_t size, GLenum type, std::int32_t stride) const -> void
+    auto vao::layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type) const -> void
     {
         bind();
         glEnableVertexAttribArray(index);
@@ -101,6 +101,7 @@ namespace kate {
             stride * sizeof(float),          // byte offset between consecutive vertices
             reinterpret_cast<const void*>(pointer * sizeof(float))  // pointer to the attribute within the buffer
         );
+        unbind();
     }
 
     inline vao::~vao() {

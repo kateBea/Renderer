@@ -54,6 +54,7 @@ namespace kate {
         kate::shader    m_dshader{};    // shader program id for fragment and vertex shaders
         kate::vao       m_vao{};        // Vertex array object identifier
         kate::vbo       m_vbo{};        // Vertex buffer object identifier
+        kate::vib       m_vib{};
         kate::camera    m_camera{};
         kate::texture   m_texture{};
         std::vector<mesh> m_meshes{};
@@ -81,19 +82,13 @@ namespace kate {
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            m_dshader.use();
-
-            // vertex position attribute
-            m_vbo.bind();
-            m_vao.define_layout(0, 0);
-            m_vao.define_layout(0, 0, 3, GL_FLOAT, 5);
-
-            // vertex texture attribute
-            m_vbo.bind();
-            m_vao.define_layout(1, 3, 2, GL_FLOAT, 5);
+            m_texture.bind();
 
             // draw commands
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            m_dshader.use();
+            m_vao.bind();
+            m_vib.bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             m_window.draw();
         }
     }
@@ -101,13 +96,27 @@ namespace kate {
     inline auto renderer::start_up() -> void {
         // setup vertices
         auto v_pos{ kate::get_vertices_data("../assets/vertices") };
+        auto indices{ std::move(std::vector<std::uint32_t>{ 0, 1, 3, 1, 2, 3 }) };
 
         m_vbo.load_data(v_pos);
+        m_vib.load_data(indices);
         m_dshader.load_shaders(
             "../assets/shaders/defaultVertexShader.glsl",
             "../assets/shaders/defaultPixelShader.glsl"
         );
-        m_texture.load_data("../assets/textures/lava512x512.png");
+        m_texture.load_data("../assets/textures/container.jpg");
+
+        // vertex position attribute
+        m_vbo.bind();
+        m_vao.layout(0, 3, 0, 8);
+
+        // vertex color attribute
+        m_vbo.bind();
+        m_vao.layout(1, 3, 3, 8);
+
+        // vertex texture attribute
+        m_vbo.bind();
+        m_vao.layout(2, 2, 6, 8);
     }
 
     inline renderer::~renderer() {

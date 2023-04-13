@@ -10,7 +10,7 @@
 #define VIB_HH
 
 // C++ Standard Library
-#include <span>
+#include <vector>
 #include <cstddef>
 
 // Third-Party Libraries
@@ -25,7 +25,7 @@ namespace kate {
          * from indices. If no data is provided simply creates a new index buffer object with a valid id
          * @param indices buffer containing all the indices values
          * */
-        explicit vib(std::span<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW);
+        explicit vib(std::vector<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW);
 
         /**
          * Mark this vertex index buffer as current
@@ -63,7 +63,7 @@ namespace kate {
          * */
         static auto unbind() -> void;
 
-        auto load_data(std::span<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW) -> void;
+        auto load_data(std::vector<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW) -> void;
 
         /**
          * Releases resources from this vertex index buffer
@@ -75,14 +75,19 @@ namespace kate {
         std::size_t m_count{};
     };
 
-    inline vib::vib(std::span<std::uint32_t> indices, GLenum usage)
+    inline vib::vib() {
+        glGenBuffers(1, &this->m_id);
+    }
+
+    inline vib::vib(std::vector<std::uint32_t> indices, GLenum usage)
         : m_id{}, m_count{}
     {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, get_id());
         load_data(indices, usage);
     }
 
     inline auto vib::bind() const -> void {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, get_id());
     }
 
     inline auto vib::unbind() -> void {
@@ -101,14 +106,10 @@ namespace kate {
         return this->m_count;
     }
 
-    inline vib::vib() {
-        glGenBuffers(1, &this->m_id);
-    }
-
-    inline auto vib::load_data(std::span<std::uint32_t> indices, GLenum usage) -> void {
+    inline auto vib::load_data(std::vector<std::uint32_t> indices, GLenum usage) -> void {
         if (!indices.empty()) {
+            bind();
             m_count = indices.size();
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_id);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), usage);
         }
     }
