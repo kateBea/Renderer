@@ -17,6 +17,8 @@
 #include <cstddef>
 #include <iostream>
 #include <utility>
+#include <cstdlib>
+#include <cstring>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -145,10 +147,18 @@ namespace Kate {
     }
 
     auto Texture::load(const std::filesystem::path& path) -> void {
+        constexpr std::size_t maxPathLenght{ 256 };
+        char fileDir[maxPathLenght]{};
+
+#ifdef WINDOWS
+        std::wcstombs(fileDir, path.c_str(), maxPathLenght);
+#else
+        std::memcpy(fileDir, path.c_str(), std::strlen(path.c_str()));
+#endif
 
         stbi_set_flip_vertically_on_load(true);
-        // casted to const char because on windows path.c_str() returns a const wchar_t
-        std::uint8_t* image_data{ stbi_load(static_cast<const char*>(path.c_str()), &m_width, &m_height, &m_channels, 0) };
+        // cast to const char because on windows path.c_str() returns a const wchar_t
+        std::uint8_t* image_data{ stbi_load(fileDir, &m_width, &m_height, &m_channels, 0) };
 
         if (image_data) {
             bind();

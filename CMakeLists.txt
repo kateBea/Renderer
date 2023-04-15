@@ -16,7 +16,10 @@ include_directories(
 )
 
 # Compiler flags
-if (NOT MSVC)
+if (MSVC)
+    # Compile commands for Windows
+    add_compile_options(/DWINDOWS)
+else()
     # Compile commands for Linux
     add_compile_options(-Wall -Wpedantic -Wextra -fsanitize=address)
     add_link_options(-fsanitize=address)

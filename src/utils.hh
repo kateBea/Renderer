@@ -7,7 +7,11 @@
  */
 
 // C++ Standard Library
+#include <filesystem>
 #include <fstream>
+#include <vector>
+#include <string>
+#include <sstream>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -80,7 +84,6 @@ namespace Kate {
         SPECULAR,
         INVALID,
     };
-
 
     // FUNCTION UTILITIES
     inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
