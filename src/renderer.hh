@@ -42,7 +42,7 @@ namespace kate {
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
          * @param appName Title for the renderer window
          * */
-        explicit renderer(std::string_view name = "renderer", std::int32_t width = 1280, std::int32_t height = 720);
+        explicit renderer(std::string_view name = "renderer", std::int32_t width = 900, std::int32_t height = 720);
 
         auto run() -> void;
         auto start_up() -> void;

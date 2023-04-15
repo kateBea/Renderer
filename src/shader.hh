@@ -97,7 +97,7 @@ namespace kate {
             std::int32_t success{};
             std::int32_t length{};
 
-            glGetShaderiv(objectId, GL_COMPILE_STATUS, &success);
+            glGetShaderiv(objectId, name, &success);
             glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
             if (length > 0) {
                 glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
@@ -113,7 +113,7 @@ namespace kate {
             std::int32_t success{};
             std::int32_t length{};
 
-            glGetProgramiv(objectId, GL_LINK_STATUS, &success);
+            glGetProgramiv(objectId, name, &success);
             glGetProgramiv(objectId, GL_INFO_LOG_LENGTH, &length);
             if (length > 0) {
                 glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());

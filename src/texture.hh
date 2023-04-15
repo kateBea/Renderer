@@ -115,20 +115,19 @@ namespace kate {
         std::int32_t m_height{};            // Texture height
         std::int32_t m_width{};             // Texture width
         std::int32_t m_channels{};          // imagne components in texture file
-        std::vector<std::uint8_t> m_data{}; // Holds the texture data
         kate::texture_t m_type{};
     };
 
 
     // IMPLEMENTATION
     texture::texture() 
-        :   m_height{}, m_width{}, m_data{}
+        :   m_height{}, m_width{}
     {
         glGenTextures(1, &this->m_id);
     }
 
     texture::texture(const std::filesystem::path& path) noexcept 
-        :   m_height{}, m_width{}, m_data{}
+        :   m_height{}, m_width{}
     {
         glGenTextures(1, &this->m_id);
         load_data(path);

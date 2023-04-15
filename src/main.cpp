@@ -1,5 +1,4 @@
 // C++ Standard Library
-#include <cstdio>
 #include <memory>
 
 // Renderer library

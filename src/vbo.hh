@@ -96,7 +96,7 @@ namespace kate {
     inline vbo::vbo(const std::vector<float>& vertices, GLenum usage) noexcept
         :   m_id{}, m_size{}
     {
-        load_data(vertices, vertices.size() * sizeof(float));
+        load_data(vertices, usage);
     }
 
     inline auto vbo::bind() const -> void {
