@@ -1,7 +1,7 @@
 /**
- * @file vao.hh
- * @author kate
- * @brief Defines the vertex array object class
+ * @file Vao.hh
+ * @author Kate
+ * @brief Defines the Vertex array object class
  * @version 1.0
  * @date 2023-03-21
  */
@@ -16,47 +16,47 @@
 // Third-Party Libraries
 #include <GL/glew.h>
 
-namespace kate {
-    class vao {
+namespace Kate {
+    class Vao {
     public:
-        explicit vao();
+        explicit Vao();
 
         /**
-         * Copy constructor. Marked as delete to avoid vao aliasing
-         * Ensure one vao id is held by one vao object
+         * Copy constructor. Marked as delete to avoid Vao aliasing
+         * Ensure one Vao id is held by one Vao object
          * */
-        vao(const vao& other) = delete;
+        Vao(const Vao& other) = delete;
 
         /**
-         * Copy assigment. Marked as delete to avoid vao aliasing
-         * Ensure one vao id is held by one vao object
+         * Copy assigment. Marked as delete to avoid Vao aliasing
+         * Ensure one Vao id is held by one Vao object
          * */
-        vao& operator=(const vao& other) = delete;
+        Vao& operator=(const Vao& other) = delete;
 
         /**
          * Move constructor
          * */
-        vao(vao&& other) noexcept;
+        Vao(Vao&& other) noexcept;
 
         /**
          * Move constructor assignment
          * */
-        vao& operator=(vao&& other) noexcept;
+        Vao& operator=(Vao&& other) noexcept;
 
         [[nodiscard]]
-        auto get_id() const -> std::uint32_t;
+        auto getId() const -> std::uint32_t;
 
         auto bind() const -> void;
 
         static auto unbind() -> void;
 
         /**
-         * Defines a layout for this vertex array object for the
-         * currently bound vertex buffer.
+         * Defines a layout for this Vertex array object for the
+         * currently bound Vertex buffer.
          * */
         auto layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type = GL_FLOAT) const -> void;
 
-        ~vao();
+        ~Vao();
 
     private:
         std::uint32_t m_id{};
@@ -64,38 +64,38 @@ namespace kate {
 
     // IMPLEMENTATION VERTEX ARRAY OBJECT CLASS
 
-    inline vao::vao(vao&& other) noexcept
-        :   m_id{ other.get_id() }
+    inline Vao::Vao(Vao&& other) noexcept
+        :   m_id{other.getId() }
     {
         other.m_id = 0;
     }
 
-    inline vao& vao::operator=(vao&& other) noexcept {
-        this->m_id = other.get_id();
+    inline Vao& Vao::operator=(Vao&& other) noexcept {
+        this->m_id = other.getId();
         other.m_id = 0;
 
         return *this;
     }
 
-    inline auto vao::get_id() const -> std::uint32_t {
+    inline auto Vao::getId() const -> std::uint32_t {
         return this->m_id;
     }
 
-    inline auto vao::bind() const -> void {
+    inline auto Vao::bind() const -> void {
         glBindVertexArray(this->m_id);
     }
 
-    inline auto vao::unbind() -> void {
+    inline auto Vao::unbind() -> void {
         glBindVertexArray(0);
     }
 
-    auto vao::layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type) const -> void
+    auto Vao::layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type) const -> void
     {
         bind();
         glEnableVertexAttribArray(index);
         glVertexAttribPointer(
             index,      // Attribute index
-            size,       // Count of elements per attribute (e.g 3 floats per vertex positions)
+            size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
             type,       // type of data of the attribute
             GL_FALSE,   // normalized?
             stride * sizeof(float),          // byte offset between consecutive vertices
@@ -104,11 +104,11 @@ namespace kate {
         unbind();
     }
 
-    inline vao::~vao() {
+    inline Vao::~Vao() {
         glDeleteVertexArrays(1, &m_id);
     }
 
-    inline vao::vao() {
+    inline Vao::Vao() {
         glGenVertexArrays(1, &m_id);
     }
 

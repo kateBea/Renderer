@@ -1,10 +1,13 @@
 /**
  * @file utils.hh
- * @author kate
+ * @author Kate
  * @brief Defines a list of utils
  * @version 1.0
  * @date 2023-04-11
  */
+
+// C++ Standard Library
+#include <fstream>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -17,61 +20,104 @@
 #ifndef UTILS_HH
 #define UTILS_HH
 
-namespace kate {
-    struct vertex {
+namespace Kate {
+    // CLASS UTILITIES
+    struct Vertex {
         glm::vec3 m_pos{};
         glm::vec3 m_norm{};
         glm::vec2 m_tex{};
 
-        vertex() = default;
-        ~vertex() = default;
+        Vertex() = default;
+        ~Vertex() = default;
 
         /**
-         * Return reference to the vertex positions
+         * Return reference to the Vertex positions
         */
-        auto get_positions() -> glm::vec3& { return m_pos; }
+        auto getPositions() -> glm::vec3& { return m_pos; }
         /**
-         * Return reference to the vertex positions
+         * Return reference to the Vertex positions
         */
-        auto get_positions() const -> const glm::vec3& { return m_pos; }
+        auto getPositions() const -> const glm::vec3& { return m_pos; }
 
         /**
-         * Return reference to the vertex normals
+         * Return reference to the Vertex normals
         */
-        auto get_normals() -> glm::vec3& { return m_norm; }
+        auto getNormals() -> glm::vec3& { return m_norm; }
         /**
-         * Return reference to the vertex normals
+         * Return reference to the Vertex normals
         */
-        auto get_normals() const -> const glm::vec3& { return m_norm; }
+        auto getNormals() const -> const glm::vec3& { return m_norm; }
 
         /**
-         * Return reference to the vertex textures
+         * Return reference to the Vertex textures
         */
-        auto get_textures() -> glm::vec2& { return m_tex; }
+        auto getTextures() -> glm::vec2& { return m_tex; }
         /**
-         * Return reference to the vertex textures
+         * Return reference to the Vertex textures
         */
-        auto get_textures() const -> const glm::vec2& { return m_tex; } 
+        auto getTextures() const -> const glm::vec2& { return m_tex; }
 
 
         /**
-         * Set the vertex positions to the given data
+         * Set the Vertex positions to the given data
         */
-        auto set_positions(const glm::vec3& data) -> void { m_pos = data; }
+        auto setPositions(const glm::vec3& data) -> void { m_pos = data; }
         /**
-         * Set the vertex normals to the given data
+         * Set the Vertex normals to the given data
         */
-        auto set_normals(const glm::vec3& data) -> void { m_norm = data; }
+        auto setNormals(const glm::vec3& data) -> void { m_norm = data; }
         /**
-         * Set the vertex textures to the given data
+         * Set the Vertex textures to the given data
         */
-        auto set_textures(const glm::vec3& data) -> void { m_tex = data; }
+        auto setTextures(const glm::vec3& data) -> void { m_tex = data; }
     };
 
-    enum class texture_t {
+    /**
+     * Defines a type of Texture
+     * */
+    enum class TextureType {
         DIFFUSE,
         SPECULAR,
+        INVALID,
     };
+
+
+    // FUNCTION UTILITIES
+    inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
+
+        // parses files with vertices in the format:
+        /**
+         *    //   POSITIONS        TEXTURES
+         *   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         *    0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         *    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         *    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         *   -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         *   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         *   ...
+         * */
+
+        // This function will only return the values as floats contained with in
+        // a vector. User must ensure to specify buffer layout with appropriate function calls
+        std::string temp{};
+        std::ifstream file{ path };
+        std::vector<float> result{};
+
+        if (file.is_open()) {
+            while (std::getline(file, temp)) {
+                if (!temp.starts_with("//")) {
+                    std::istringstream stream{ temp };
+
+                    while(std::getline(stream, temp, ','))
+                        result.push_back(std::stof(temp));
+                }
+            }
+        }
+        else
+            std::cerr << "Could not open file containing vertices data...\n";
+
+        return result;
+    }
     
 }
 #endif

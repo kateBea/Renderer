@@ -2,11 +2,13 @@
 #include <memory>
 
 // Renderer library
-#include <renderer.hh>
+#include <Renderer.hh>
 
 int main() {
-    auto app{ std::make_unique<kate::renderer>() };
-    app->start_up();
+    auto app{ std::make_unique<Kate::Renderer>() };
+
+    app->startUp();
     app->run();
+
     return 0;
 }

@@ -1,7 +1,7 @@
 /**
- * @file camera.hh
- * @author kate
- * @brief Defines the camera class
+ * @file Camera.hh
+ * @author Kate
+ * @brief Defines the Camera class
  * @version 1.0
  * @date 2023-03-16
  */
@@ -21,38 +21,38 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Project Libraries
-#include <input.hh>
+#include <InputManager.hh>
 
-namespace kate {
-    class camera {
+namespace Kate {
+    class Camera {
     public:
-        explicit camera() = default;
+        explicit Camera() = default;
 
-        camera(const camera&) = delete;
-        camera& operator=(const camera&) = delete;
+        Camera(const Camera&) = delete;
+        Camera& operator=(const Camera&) = delete;
 
-        camera(camera&&) = delete;
-        camera& operator=(camera&&) = delete;
+        Camera(Camera&&) = delete;
+        Camera& operator=(Camera&&) = delete;
 
         auto update() -> void;
 
 
     private:
-        auto get_projection() -> glm::mat4 {
+        auto getProjection() -> glm::mat4 {
             // TODO: Implement
             return {};
         }
 
-        auto get_view() -> glm::mat4 {
+        auto getView() -> glm::mat4 {
             // TODO: Implement
             return {};
         }
     };
 
     // CAMERA IMPLEMENTATION
-    inline auto camera::update() -> void {
-        glm::mat4 projection{ get_projection() };
-        glm::mat4 view{ get_view() };
+    inline auto Camera::update() -> void {
+        glm::mat4 projection{ getProjection() };
+        glm::mat4 view{ getView() };
         glm::mat4 model{ glm::mat4(1.0) };
     }
 }
