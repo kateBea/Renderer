@@ -38,27 +38,35 @@ namespace Kate {
          * Return reference to the Vertex positions
         */
         auto getPositions() -> glm::vec3& { return m_pos; }
+
         /**
          * Return reference to the Vertex positions
         */
+        [[nodiscard]]
         auto getPositions() const -> const glm::vec3& { return m_pos; }
 
         /**
          * Return reference to the Vertex normals
         */
+        [[nodiscard]]
         auto getNormals() -> glm::vec3& { return m_norm; }
+
         /**
          * Return reference to the Vertex normals
         */
+        [[nodiscard]]
         auto getNormals() const -> const glm::vec3& { return m_norm; }
 
         /**
          * Return reference to the Vertex textures
         */
+        [[nodiscard]]
         auto getTextures() -> glm::vec2& { return m_tex; }
+
         /**
          * Return reference to the Vertex textures
         */
+        [[nodiscard]]
         auto getTextures() const -> const glm::vec2& { return m_tex; }
 
 
@@ -86,6 +94,11 @@ namespace Kate {
     };
 
     // FUNCTION UTILITIES
+
+    /**
+     * Parses a file containing vertices with very basic formatting
+     * @see assests/vertices
+     * */
     inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
 
         // parses files with vertices in the format:
