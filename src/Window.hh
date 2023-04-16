@@ -42,6 +42,11 @@ namespace Kate {
         [[nodiscard]]
         auto isKeyPressed(std::int32_t key) const -> bool;
 
+        [[nodiscard]]
+        auto getDeltaTime() const -> float;
+
+        auto updateDeltaTime() -> void;
+
         auto resize() -> void;
         auto draw() -> void;
         ~Window();
@@ -51,6 +56,9 @@ namespace Kate {
 
         auto startUp() -> bool;
         auto shutdown() -> void;
+
+        float m_DeltaTime{};	// Time between current frame and last frame
+        float m_LastFrame{}; // Time of last frame
 
         GLFWwindow*     m_window{};
         std::string     m_name{};
@@ -62,7 +70,7 @@ namespace Kate {
 
     // WINDOW CLASS IMPLEMENTATION
     inline Window::Window(std::string_view window_name, std::int32_t width, std::int32_t height)
-        :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_Input{}
+        :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_Input{}, m_DeltaTime{}, m_LastFrame{}
     {
         startUp();
     }
@@ -139,6 +147,16 @@ namespace Kate {
 
     auto Window::isKeyPressed(std::int32_t key) const -> bool {
         return m_Input.isKeyDown(key);
+    }
+
+    auto Window::getDeltaTime() const -> float {
+        return m_DeltaTime;
+    }
+
+    auto Window::updateDeltaTime() -> void {
+        float currentFrame{ static_cast<float>(glfwGetTime()) };
+        m_DeltaTime = currentFrame - m_LastFrame;
+        m_LastFrame = currentFrame;
     }
 }
 #endif // END WINDOW_HH

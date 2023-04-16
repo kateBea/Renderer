@@ -36,6 +36,7 @@ namespace Kate {
         
     private:
         auto setup() -> void;
+
         // Mesh data
         std::vector<Kate::Vertex> m_Vertices{};
         std::vector<std::uint32_t> m_Indices{};
@@ -50,7 +51,9 @@ namespace Kate {
 
 
     // IMPLEMENTATION
-    inline Mesh::Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures)
+    inline Mesh::Mesh(std::vector<Kate::Vertex>& vertices,
+                      std::vector<std::uint32_t>& indices,
+                      std::vector<Kate::Texture>& textures)
         :   m_Vertices{}, m_Indices{}, m_Textures{}
     {
         m_Vertices = std::move(vertices);

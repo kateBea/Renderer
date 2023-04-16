@@ -91,6 +91,30 @@ namespace Kate {
         auto load(const std::filesystem::path& vShaderPath, const std::filesystem::path& fShaderPath) const -> void;
 
         /**
+         * Sets the given boolean value to the uniform identified by "name",
+         * it has no effect if this Shader has no uniform with given identifier
+         * @param name name of the uniform
+         * @param value value to be set
+         * */
+        auto setUniformBool(std::string_view name, bool value) const -> void;
+
+        /**
+         * Sets the given integer value to the uniform identified by "name",
+         * it has no effect if this Shader has no uniform with given identifier
+         * @param name name of the uniform
+         * @param value value to be set
+         * */
+        auto setUniformInt(std::string_view name, std::int32_t value) const -> void;
+
+        /**
+         * Sets the given floating value to the uniform identified by "name",
+         * it has no effect if this Shader has no uniform with given identifier
+         * @param name name of the uniform
+         * @param value value to be set
+         * */
+        auto setUniformFloat(std::string_view name, float value) const -> void;
+
+        /**
          * Perform cleanup
          * */
         ~Shader();
@@ -102,37 +126,16 @@ namespace Kate {
          * @param fShader file contents of the fragment shader
          * */
         static auto build(const char* vShader, const char* fShader, std::uint32_t id) -> void;
-        /*
+
+        /**
          * Helper function to retrieve Shader compilation/linking status
          * */
-        static auto showShaderStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void{
-            std::array<char, 512> outStr{};
-            std::int32_t success{};
-            std::int32_t length{};
+        static auto showShaderStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void;
 
-            glGetShaderiv(objectId, name, &success);
-            glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
-            if (length > 0) {
-                glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-                std::printf("%s: %s\n", str.data(), outStr.data());
-            }
-        }
-
-        /*
+        /**
          * Helper function to retrieve Shader compilation/linking status
          * */
-        static auto showProgramStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void{
-            std::array<char, 1024> outStr{};
-            std::int32_t success{};
-            std::int32_t length{};
-
-            glGetProgramiv(objectId, name, &success);
-            glGetProgramiv(objectId, GL_INFO_LOG_LENGTH, &length);
-            if (length > 0) {
-                glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-                std::printf("%s: %s\n", str.data(), outStr.data());
-            }
-        }
+        static auto showProgramStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void;
 
         /**
          * Identifier of this Shader program
@@ -226,6 +229,61 @@ namespace Kate {
         glDeleteShader(pixelShaderID);
     }
 
+    auto Shader::setUniformBool(std::string_view name, bool value) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Not a valid uniform name for this program shader\n";
+        else
+            glUniform1i(ret, static_cast<std::int32_t>(value));
+    }
+
+    auto Shader::setUniformInt(std::string_view name, std::int32_t value) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Not a valid uniform name for this program shader\n";
+        else
+            glUniform1i(ret, value);
+    }
+
+    auto Shader::setUniformFloat(std::string_view name, float value) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Not a valid uniform name for this program shader\n";
+        else
+            glUniform1f(ret, value);
+    }
+
+    inline auto Shader::showShaderStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void {
+        std::array<char, 512> outStr{};
+        std::int32_t success{};
+        std::int32_t length{};
+
+        glGetShaderiv(objectId, name, &success);
+        glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
+        if (length > 0) {
+            glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
+            std::printf("%s: %s\n", str.data(), outStr.data());
+        }
+    }
+
+    inline auto Shader::showProgramStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void {
+        std::array<char, 1024> outStr{};
+        std::int32_t success{};
+        std::int32_t length{};
+
+        glGetProgramiv(objectId, name, &success);
+        glGetProgramiv(objectId, GL_INFO_LOG_LENGTH, &length);
+        if (length > 0) {
+            glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
+            std::printf("%s: %s\n", str.data(), outStr.data());
+        }
+    }
 }
 
 #endif // END SHADER_HH

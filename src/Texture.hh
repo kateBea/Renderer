@@ -87,7 +87,7 @@ namespace Kate {
          * Activates a unit where goes from 0 to amount
          * of supported Texture N units. GL_TEXTURE0, GL_TEXTURE1 ... GL_TEXTUREN
         */
-       static auto bindUnit(std::int32_t unit) -> void ;
+        auto bindUnit(std::int32_t unit) -> void ;
 
         /**
          * Returns the identifier of this Texture
@@ -147,13 +147,14 @@ namespace Kate {
     }
 
     auto Texture::load(const std::filesystem::path& path) -> void {
-        constexpr std::size_t maxPathLenght{ 256 };
+        constexpr std::size_t maxPathLenght{ 4096 };
         char fileDir[maxPathLenght]{};
 
 #ifdef WINDOWS
         std::wcstombs(fileDir, path.c_str(), maxPathLenght);
 #else
-        std::memcpy(fileDir, path.c_str(), std::strlen(path.c_str()));
+        // reinterpret cast 'cause IDE issues
+        std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char *>(path.c_str())));
 #endif
 
         stbi_set_flip_vertically_on_load(true);
@@ -190,9 +191,7 @@ namespace Kate {
 
     Texture::~Texture() { glDeleteTextures(1, &this->m_id); }
 
-    Texture::Texture(Texture &&other) noexcept {
-        *this = std::move(other);
-    }
+    Texture::Texture(Texture &&other) noexcept { *this = std::move(other); }
 
     Texture &Texture::operator=(Texture &&other) noexcept {
         m_id = other.getId();
@@ -211,6 +210,7 @@ namespace Kate {
     }
 
     auto Texture::bindUnit(std::int32_t unit) -> void {
+        bind();
         glActiveTexture(GL_TEXTURE0 + unit);
     }
 

@@ -10,6 +10,7 @@
 #define CAMERA_HH
 
 // C++ Standard Library
+#include <iostream>
 #include <cstddef>
 
 // Third-Party Libraries
@@ -22,11 +23,12 @@
 
 // Project Libraries
 #include <InputManager.hh>
+#include <Window.hh>
 
 namespace Kate {
     class Camera {
     public:
-        explicit Camera() = default;
+        explicit Camera() noexcept;
 
         Camera(const Camera&) = delete;
         Camera& operator=(const Camera&) = delete;
@@ -34,26 +36,64 @@ namespace Kate {
         Camera(Camera&&) = delete;
         Camera& operator=(Camera&&) = delete;
 
-        auto update() -> void;
+        auto update(const Kate::Window& window) -> void;
 
+        auto showCameraPos() const -> void;
 
     private:
-        auto getProjection() -> glm::mat4 {
-            // TODO: Implement
-            return {};
-        }
+        glm::vec3 m_CameraPos{};
+        glm::vec3 m_CameraFront{};
+        glm::vec3 m_CameraUp{};
 
-        auto getView() -> glm::mat4 {
-            // TODO: Implement
-            return {};
-        }
+        auto handleInput(const Kate::Window& window) -> void;
+
     };
 
     // CAMERA IMPLEMENTATION
-    inline auto Camera::update() -> void {
-        glm::mat4 projection{ getProjection() };
-        glm::mat4 view{ getView() };
-        glm::mat4 model{ glm::mat4(1.0) };
+    inline auto Camera::update(const Kate::Window& window) -> void {
+        handleInput(window);
+
+        glm::mat4 view;
+
+        // camera direction
+        glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 cameraDirection = glm::normalize(m_CameraPos - cameraTarget);
+
+        // positive x-axis of the camera
+        glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+        glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+
+        view = glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
     }
+
+    auto Camera::handleInput(const Window &window) -> void {
+        const float cameraSpeed{ 2.5f * window.getDeltaTime() };
+
+        if (window.isKeyPressed(GLFW_KEY_W))
+            m_CameraPos += cameraSpeed * m_CameraFront;
+
+        if (window.isKeyPressed(GLFW_KEY_S))
+            m_CameraPos -= cameraSpeed * m_CameraFront;
+
+        if (window.isKeyPressed(GLFW_KEY_A))
+            m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraFront)) * cameraSpeed;
+
+        if (window.isKeyPressed(GLFW_KEY_D))
+            m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraFront)) * cameraSpeed;
+    }
+
+    Camera::Camera() noexcept
+        :   m_CameraPos{ glm::vec3(0.0f, 0.0f,  3.0f) }
+        ,   m_CameraFront{ glm::vec3(0.0f, 0.0f, -1.0f) }
+        ,   m_CameraUp{ glm::vec3(0.0f, 1.0f,  0.0f) }
+    {
+
+    }
+
+    auto Camera::showCameraPos() const -> void {
+        std::cout << "Camera at pos: [" << m_CameraPos[0];
+        std::cout << ',' << m_CameraPos[0] << ',' << m_CameraPos[0] << "]\n";
+    }
+
 }
 #endif // END CAMERA_HH

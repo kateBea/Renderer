@@ -73,15 +73,18 @@ namespace Kate {
                 auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
                 input->m_Keys[key] = action == GLFW_PRESS;
             });
-            glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
+
+            glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
                 auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
-                input->m_MousePos.first = xpos;
-                input->m_MousePos.second = ypos;
+                input->m_MousePos.first = x;
+                input->m_MousePos.second = y;
             });
+
             glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
                 auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
                 input->m_MouseKeys[button] = action == GLFW_PRESS;
             });
+
             glfwSetWindowUserPointer(window, this);
         }
         else

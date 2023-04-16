@@ -55,33 +55,41 @@ namespace Kate {
         Kate::Vao       m_Vao{};        // Vertex array object identifier
         Kate::Vbo       m_Vbo{};        // Vertex buffer object identifier
         Kate::Vib       m_Vib{};
-        Kate::Camera    m_Camera{};
-        Kate::Texture   m_Texture{};
+        std::vector<Kate::Texture> m_Texture{};
         std::vector<Mesh> m_Meshes{};
+        Kate::Camera    m_Camera{};
     };
 
 
     // IMPLEMENTATION
     inline Renderer::Renderer(std::string_view name, std::int32_t width, std::int32_t height)
-        : m_Window{name, width, height }
-        , m_DefaultShaders{}
-        , m_Vao{}
-        , m_Vbo{}
-        , m_Camera{}
+        :   m_Window{name, width, height }
+        ,   m_DefaultShaders{}
+        ,   m_Vao{}
+        ,   m_Vbo{}
+        ,   m_Vib{}
+        ,   m_Texture(2)
+        ,   m_Meshes{}
+        ,   m_Camera{}
     {
 
     }
 
     inline auto Renderer::run() -> void {
         while (!m_Window.shouldClose()) {
+            m_Window.updateDeltaTime();
             m_Window.resize();
-            m_Window.showCursorPos();
+            //m_Window.showCursorPos();
 
             // Clear background
             glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            m_Texture.bind();
+            m_Texture[0].bindUnit(0);
+            m_Texture[1].bindUnit(1);
+
+            m_DefaultShaders.setUniformInt("texture1", 0);
+            m_DefaultShaders.setUniformInt("texture2", 1);
 
             // draw commands
             m_DefaultShaders.use();
@@ -103,7 +111,8 @@ namespace Kate {
                 "../assets/shaders/defaultVertexShader.glsl",
                 "../assets/shaders/defaultPixelShader.glsl"
         );
-        m_Texture.load("../assets/textures/container.jpg");
+        m_Texture[0].load("../assets/textures/container.jpg");
+        m_Texture[1].load("../assets/textures/awesomeface.png");
 
         // Vertex position attribute
         m_Vbo.bind();
