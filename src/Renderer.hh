@@ -76,13 +76,42 @@ namespace Kate {
     }
 
     inline auto Renderer::run() -> void {
+        float red{};
+        float blue{};
+        float green{};
+
+        auto someTests{ [&]() -> void {
+            if (m_Window.isKeyPressed(GLFW_KEY_1)) {
+                std::cerr << "Pressed key [1]\n";
+                red += red >= 1.0f ? -red : 0.01f;
+            }
+
+            if (m_Window.isKeyPressed(GLFW_KEY_2)) {
+                std::cerr << "Pressed key [2]\n";
+                green += green >= 1.0f ? -green : 0.01f;
+            }
+
+            if (m_Window.isKeyPressed(GLFW_KEY_3)) {
+                std::cerr << "Pressed key [3]\n";
+                blue += blue >= 1.0f ? -blue : 0.01f;
+            }
+
+            if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
+                std::cerr << "Pressed key [BackSpace]\n";
+                m_Window.showCursorPos();
+            }
+        }};
+
+        std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position\n";
+
         while (!m_Window.shouldClose()) {
             m_Window.updateDeltaTime();
             m_Window.resize();
-            //m_Window.showCursorPos();
+
+            someTests();
 
             // Clear background
-            glClearColor(0.2f, 0.5f, 0.4f, 0.0f);
+            glClearColor(red, green, green, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             m_Texture[0].bindUnit(0);

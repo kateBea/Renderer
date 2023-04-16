@@ -31,13 +31,13 @@ namespace Kate {
 
         /**
          * Copy constructor. Marked as delete to avoid Shader aliasing
-         * Ensure one Shader id is held by one Shader object
+         * Ensure one Shader resources are held by single Shader object
          * */
         Shader(const Shader& other) = delete;
 
         /**
          * Copy assigment. Marked as delete to avoid Shader aliasing
-         * Ensure one Shader id is held by one Shader object
+         * Ensure one Shader resources are held by single Shader object
          * */
         Shader& operator=(const Shader& other) = delete;
 
@@ -45,15 +45,15 @@ namespace Kate {
          * Move constructor
          * */
          Shader(Shader&& other) noexcept
-            : m_id{other.m_id }
+            : m_id{ other.getProgram() }
         {
-            // when other is a temporary 0 is ignored if
-            // passed to glDeleteProgram(). We avoid deleting a valid program this way
+            // assign 0 so that it can be safely passed to glDeleteProgram().
+            // We avoid deleting a valid program this way
             other.m_id = 0;
         }
 
         /**
-         * Move constructor assignment
+         * Move assignment
          * */
         Shader& operator=(Shader&& other) noexcept {
             m_id = other.m_id;
@@ -125,7 +125,7 @@ namespace Kate {
          * @param vShader file contents of the vertex shader
          * @param fShader file contents of the fragment shader
          * */
-        static auto build(const char* vShader, const char* fShader, std::uint32_t id) -> void;
+        auto build(const char* vShader, const char* fShader) const -> void;
 
         /**
          * Helper function to retrieve Shader compilation/linking status
@@ -197,10 +197,10 @@ namespace Kate {
         const char* vShaderContents{vTemp.c_str() };
         const char* fShaderContents{fTemp.c_str() };
 
-        build(vShaderContents, fShaderContents, getProgram());
+        build(vShaderContents, fShaderContents);
     }
 
-    auto Shader::build(const char* vShader, const char* fShader, std::uint32_t id) -> void {
+    auto Shader::build(const char* vShader, const char* fShader) const -> void {
         // Load and compile Vertex Shader
         std::uint32_t vertexShaderID{};
         vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
@@ -216,13 +216,13 @@ namespace Kate {
         showShaderStatus(pixelShaderID, "Error on fragment Shader compilation: ", GL_COMPILE_STATUS);
 
         // Create and link program against compiled Shader binaries
-        glAttachShader(id, vertexShaderID);
-        glAttachShader(id, pixelShaderID);
-        glLinkProgram(id);
-        showProgramStatus(id, "Error on program linking: ", GL_LINK_STATUS);
+        glAttachShader(getProgram(), vertexShaderID);
+        glAttachShader(getProgram(), pixelShaderID);
+        glLinkProgram(getProgram());
+        showProgramStatus(getProgram(), "Error on program linking: ", GL_LINK_STATUS);
 
-        glDetachShader(id, vertexShaderID);
-        glDetachShader(id, pixelShaderID);
+        glDetachShader(getProgram(), vertexShaderID);
+        glDetachShader(getProgram(), pixelShaderID);
 
         // cleanup
         glDeleteShader(vertexShaderID);
