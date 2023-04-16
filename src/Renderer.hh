@@ -83,17 +83,26 @@ namespace Kate {
         auto someTests{ [&]() -> void {
             if (m_Window.isKeyPressed(GLFW_KEY_1)) {
                 std::cerr << "Pressed key [1]\n";
-                red += red >= 1.0f ? -red : 0.01f;
+                if (red >= 1.0f)
+                    red = 0.0f;
+                else
+                    red += 0.01;
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_2)) {
                 std::cerr << "Pressed key [2]\n";
-                green += green >= 1.0f ? -green : 0.01f;
+                if (green >= 1.0f)
+                    green = 0.0f;
+                else
+                    green += 0.01;
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_3)) {
                 std::cerr << "Pressed key [3]\n";
-                blue += blue >= 1.0f ? -blue : 0.01f;
+                if (blue >= 1.0f)
+                    blue = 0.0f;
+                else
+                    blue += 0.01;
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
@@ -111,13 +120,13 @@ namespace Kate {
             someTests();
 
             // Clear background
-            glClearColor(red, green, green, 0.0f);
+            glClearColor(red, green, green, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            m_Texture[0].bindUnit(0);
+            //m_Texture[0].bindUnit(0);
             m_Texture[1].bindUnit(1);
 
-            m_DefaultShaders.setUniformInt("texture1", 0);
+            //m_DefaultShaders.setUniformInt("texture1", 0);
             m_DefaultShaders.setUniformInt("texture2", 1);
 
             // draw commands
