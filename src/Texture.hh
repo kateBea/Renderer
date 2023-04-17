@@ -37,7 +37,12 @@ namespace Kate {
          * */
         using Dimensions = std::pair<std::int32_t, std::int32_t>;
 
-        explicit Texture();
+        /**
+         * Initializes this Texture creating a new
+         * Texture object
+         * */
+        explicit Texture() noexcept;
+
         /**
          * Creates a new Texture object and fills it with the data
          * from Texture file in path. If no data is provided it simply creates
@@ -60,6 +65,7 @@ namespace Kate {
 
         /**
          * Move constructor
+         * @param other move from Texture
          * */
         Texture(Texture&& other) noexcept;
 
@@ -79,13 +85,19 @@ namespace Kate {
         */
         static auto unbind() -> void;
 
+        /**
+         * Returns the dimensions of the image file for this Texture
+         * @return image dimensions
+         * */
         [[nodiscard]]
         Dimensions getDimensions() const;
 
 
         /**
          * Activates a unit where goes from 0 to amount
-         * of supported Texture N units. GL_TEXTURE0, GL_TEXTURE1 ... GL_TEXTUREN
+         * of supported Texture N units. GL_TEXTURE0, GL_TEXTURE1 ... GL_TEXTUREN.
+         * This function ensures to mark this Texture as current one, so a previous
+         * call to <b>Texture::bind()</b> is unnecessary
         */
         auto bindUnit(std::int32_t unit) const -> void ;
 
@@ -124,34 +136,32 @@ namespace Kate {
         ~Texture();
 
     private:
-        std::uint32_t m_id{};               // Identifier of this Vertex buffer object
-        std::int32_t m_height{};            // Texture height
-        std::int32_t m_width{};             // Texture width
-        std::int32_t m_channels{};          // components in image file
-        Kate::TextureType m_type{};         // type of Texture
+        std::uint32_t m_Id{};               // Identifier of this Vertex buffer object
+        std::int32_t m_Height{};            // Texture height
+        std::int32_t m_Width{};             // Texture width
+        std::int32_t m_Channels{};          // components in image file
+        Kate::TextureType m_Type{};         // type of Texture
     };
 
 
     // IMPLEMENTATION
-    Texture::Texture()
-        :   m_height{}, m_width{}
+    Texture::Texture() noexcept
+        :   m_Height{}, m_Width{}
     {
-        glGenTextures(1, &this->m_id);
+        glGenTextures(1, &this->m_Id);
     }
 
     Texture::Texture(const std::filesystem::path& path) noexcept
-        :   m_height{}, m_width{}
+        :   m_Height{}, m_Width{}
     {
-        glGenTextures(1, &this->m_id);
+        glGenTextures(1, &this->m_Id);
         load(path);
     }
 
     auto Texture::load(const std::filesystem::path& path) -> void {
-        constexpr std::size_t maxPathLenght{ 4096 };
-        char fileDir[maxPathLenght]{};
-
+        char fileDir[4096]{};
 #ifdef WINDOWS
-        std::wcstombs(fileDir, path.c_str(), maxPathLenght);
+        std::wcstombs(fileDir, path.c_str(), 4096);
 #else
         // reinterpret cast 'cause IDE issues
         std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char *>(path.c_str())));
@@ -159,11 +169,11 @@ namespace Kate {
 
         stbi_set_flip_vertically_on_load(true);
         // cast to const char because on windows path.c_str() returns a const wchar_t
-        std::uint8_t* imageData{ stbi_load(fileDir, &m_width, &m_height, &m_channels, 4) };
+        std::uint8_t* imageData{ stbi_load(fileDir, &m_Width, &m_Height, &m_Channels, 4) };
 
         if (imageData) {
             bind();
-            std::cerr << "Texture data loaded successfully...\n";
+            std::cout << "Texture data loaded successfully..." << std::endl;
             // setup wrapping and filtering options
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
@@ -171,7 +181,7 @@ namespace Kate {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
             glGenerateMipmap(GL_TEXTURE_2D);
 
             unbind();
@@ -187,24 +197,24 @@ namespace Kate {
 
     auto Texture::unbind() -> void { glBindTexture(GL_TEXTURE_2D, 0); }
 
-    auto Texture::getId() const -> std::uint32_t { return m_id; }
+    auto Texture::getId() const -> std::uint32_t { return m_Id; }
 
-    Texture::~Texture() { glDeleteTextures(1, &this->m_id); }
+    Texture::~Texture() { glDeleteTextures(1, &this->m_Id); }
 
     Texture::Texture(Texture &&other) noexcept { *this = std::move(other); }
 
     Texture &Texture::operator=(Texture &&other) noexcept {
-        m_id = other.getId();
-        m_width = other.getDimensions().first;
-        m_height = other.getDimensions().second;
-        m_channels = other.getChannels();
-        m_type = other.getType();
+        m_Id = other.getId();
+        m_Width = other.getDimensions().first;
+        m_Height = other.getDimensions().second;
+        m_Channels = other.getChannels();
+        m_Type = other.getType();
 
-        other.m_id = 0;
-        other.m_width = 0;
-        other.m_height = 0;
-        other.m_channels = 0;
-        m_type = TextureType::INVALID;
+        other.m_Id = 0;
+        other.m_Width = 0;
+        other.m_Height = 0;
+        other.m_Channels = 0;
+        m_Type = TextureType::INVALID;
 
         return *this;
     }
@@ -215,15 +225,15 @@ namespace Kate {
     }
 
     Texture::Dimensions Texture::getDimensions() const {
-        return std::make_pair(m_width, m_height);
+        return std::make_pair(m_Width, m_Height);
     }
 
     auto Texture::getChannels() const -> std::int32_t {
-        return m_channels;
+        return m_Channels;
     }
 
     auto Texture::getType() const -> TextureType {
-        return m_type;
+        return m_Type;
     }
 }
 #endif

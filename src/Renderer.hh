@@ -82,7 +82,6 @@ namespace Kate {
 
         auto someTests{ [&]() -> void {
             if (m_Window.isKeyPressed(GLFW_KEY_1)) {
-                std::cerr << "Pressed key [1]\n";
                 if (red >= 1.0f)
                     red = 0.0f;
                 else
@@ -90,7 +89,6 @@ namespace Kate {
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_2)) {
-                std::cerr << "Pressed key [2]\n";
                 if (green >= 1.0f)
                     green = 0.0f;
                 else
@@ -98,7 +96,6 @@ namespace Kate {
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_3)) {
-                std::cerr << "Pressed key [3]\n";
                 if (blue >= 1.0f)
                     blue = 0.0f;
                 else
@@ -106,12 +103,11 @@ namespace Kate {
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
-                std::cerr << "Pressed key [BackSpace]\n";
                 m_Window.showCursorPos();
             }
         }};
 
-        std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position\n";
+        std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position" << std::endl;
 
         while (!m_Window.shouldClose()) {
             m_Window.updateDeltaTime();
@@ -120,13 +116,13 @@ namespace Kate {
             someTests();
 
             // Clear background
-            glClearColor(red, green, green, 1.0f);
+            glClearColor(red, green, blue, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            //m_Texture[0].bindUnit(0);
+            m_Texture[0].bindUnit(0);
             m_Texture[1].bindUnit(1);
 
-            //m_DefaultShaders.setUniformInt("texture1", 0);
+            m_DefaultShaders.setUniformInt("texture1", 0);
             m_DefaultShaders.setUniformInt("texture2", 1);
 
             // draw commands

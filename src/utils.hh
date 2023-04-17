@@ -97,7 +97,7 @@ namespace Kate {
 
     /**
      * Parses a file containing vertices with very basic formatting
-     * @see assests/vertices
+     * @see assets/vertices
      * */
     inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
 
