@@ -136,6 +136,17 @@ namespace Kate {
         ~Texture();
 
     private:
+        /**
+         * Enables blending
+         * */
+        static auto enableBlending() -> void;
+
+        /**
+         * Defines blending properties, can be used to customize
+         * how blending is performed
+         * */
+        static auto setupBlendingProperties() -> void;
+
         std::uint32_t m_Id{};               // Identifier of this Vertex buffer object
         std::int32_t m_Height{};            // Texture height
         std::int32_t m_Width{};             // Texture width
@@ -166,6 +177,9 @@ namespace Kate {
         // reinterpret cast 'cause IDE issues
         std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char *>(path.c_str())));
 #endif
+        // configure and enable blending
+        enableBlending();
+        setupBlendingProperties();
 
         stbi_set_flip_vertically_on_load(true);
         // cast to const char because on windows path.c_str() returns a const wchar_t
@@ -234,6 +248,14 @@ namespace Kate {
 
     auto Texture::getType() const -> TextureType {
         return m_Type;
+    }
+
+    inline auto Texture::enableBlending() -> void {
+        glEnable(GL_BLEND);
+    }
+
+    auto Texture::setupBlendingProperties() -> void {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 }
 #endif
