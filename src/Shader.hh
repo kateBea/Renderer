@@ -115,6 +115,13 @@ namespace Kate {
         auto setUniformFloat(std::string_view name, float value) const -> void;
 
         /**
+         * Sets the given matrix to the uniform matrix specified by the name
+         * @param name name of the uniform
+         * @param mat value for the uniform
+         * */
+        auto setUniformMat4(std::string_view name, const glm::mat4& mat) const -> void;
+
+        /**
          * Perform cleanup
          * */
         ~Shader();
@@ -283,6 +290,16 @@ namespace Kate {
             glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
             std::printf("%s: %s\n", str.data(), outStr.data());
         }
+    }
+
+    auto Shader::setUniformMat4(std::string_view name, const glm::mat4& mat) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Not a valid uniform name for this program shader\n";
+        else
+            glUniformMatrix4fv(ret, 1, GL_FALSE, &mat[0][0]);
     }
 }
 

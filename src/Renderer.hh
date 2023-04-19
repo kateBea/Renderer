@@ -24,6 +24,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 // Project Libraries
 #include <Mesh.hh>
 #include <Camera.hh>
@@ -80,6 +84,9 @@ namespace Kate {
         float blue{};
         float green{};
 
+        float left{ -2.0 };
+        float right{ 2.0 };
+
         auto someTests{ [&]() -> void {
             if (m_Window.isKeyPressed(GLFW_KEY_1)) {
                 if (red >= 1.0f)
@@ -105,6 +112,26 @@ namespace Kate {
             if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
                 m_Window.showCursorPos();
             }
+
+            if (m_Window.isKeyPressed(GLFW_KEY_LEFT)) {
+                right -= 0.01;
+                left -= 0.01;
+
+                if (left < -2.0f) {
+                    left = -2.0f;
+                    right = 2.0f;
+                }
+            }
+
+            if (m_Window.isKeyPressed(GLFW_KEY_RIGHT)) {
+                right += 0.01;
+                left += 0.01;
+
+                if (left > 2.0f) {
+                    left = -2.0f;
+                    right = 2.0f;
+                }
+            }
         }};
 
         std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position" << std::endl;
@@ -119,11 +146,14 @@ namespace Kate {
             glClearColor(red, green, blue, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            glm::mat4 proj = glm::ortho(left, right, -1.5f, 1.5f, -1.0f, 1.0f);
+            m_DefaultShaders.setUniformMat4("u_MVP", proj);
+
             m_Texture[0].bindUnit(0);
             m_Texture[1].bindUnit(1);
 
-            m_DefaultShaders.setUniformInt("texture1", 0);
-            m_DefaultShaders.setUniformInt("texture2", 1);
+            m_DefaultShaders.setUniformInt("u_Texture1", 0);
+            m_DefaultShaders.setUniformInt("u_Texture2", 1);
 
             // draw commands
             m_DefaultShaders.use();
