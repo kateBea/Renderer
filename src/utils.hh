@@ -97,7 +97,7 @@ namespace Kate {
 
     /**
      * Parses a file containing vertices with very basic formatting
-     * @see assets/vertices
+     * @see <a href="https://github.com/kateBea/Renderer/tree/main/assets/vertices">vertices file</a>
      * */
     inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
 

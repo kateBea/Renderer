@@ -61,7 +61,6 @@ namespace Kate {
         Kate::Vib       m_Vib{};
         std::vector<Kate::Texture> m_Texture{};
         std::vector<Mesh> m_Meshes{};
-        Kate::Camera    m_Camera{};
     };
 
 
@@ -74,7 +73,6 @@ namespace Kate {
         ,   m_Vib{}
         ,   m_Texture(2)
         ,   m_Meshes{}
-        ,   m_Camera{}
     {
 
     }

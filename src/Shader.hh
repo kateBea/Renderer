@@ -201,8 +201,8 @@ namespace Kate {
         vTemp = vertexShaderStream.str();
         fTemp = pixelShaderStream.str();
 
-        const char* vShaderContents{vTemp.c_str() };
-        const char* fShaderContents{fTemp.c_str() };
+        const char* vShaderContents{ vTemp.c_str() };
+        const char* fShaderContents{ fTemp.c_str() };
 
         build(vShaderContents, fShaderContents);
     }
