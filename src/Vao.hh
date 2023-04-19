@@ -43,16 +43,32 @@ namespace Kate {
          * */
         Vao& operator=(Vao&& other) noexcept;
 
+        /**
+         * Returns the identifier of this Vertex Array Object
+         * @return identifier of this vao
+         * */
         [[nodiscard]]
         auto getId() const -> std::uint32_t;
 
+        /**
+         * Mark this Vertex Array Object as current
+         * */
         auto bind() const -> void;
 
+        /**
+         * Unbinds the currently bound Vertex Array Object
+         * */
         static auto unbind() -> void;
 
         /**
-         * Defines a layout for this Vertex array object for the
-         * currently bound Vertex buffer.
+         * Defines the layout for the currently bound Vertex Buffer Object (vbo)
+         * for this Vertex Array Object. This method specifies the location and data format
+         * of the buffer containing de data to be rendered
+         * @param index specifies the index of the attribute
+         * @param size specifies the number of components for the attribute
+         * @param pointer specifies the position of the attribute within the buffer for a specific vertex
+         * @param stride specifies the amount of total components per vertex
+         * @param type this parameter is optional and specifies the type of data for the attribute, the default type used is GL_FLOAT
          * */
         auto layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type = GL_FLOAT) const -> void;
 
@@ -98,7 +114,7 @@ namespace Kate {
             size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
             type,       // type of data of the attribute
             GL_FALSE,   // normalized?
-            stride * sizeof(float),          // byte offset between consecutive vertices
+            stride * static_cast<decltype(stride)>(sizeof(float)),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
             reinterpret_cast<const void*>(pointer * sizeof(float))  // pointer to the attribute within the buffer
         );
         unbind();
