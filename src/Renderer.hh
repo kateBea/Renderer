@@ -59,6 +59,7 @@ namespace Kate {
         Kate::Vao       m_Vao{};        // Vertex array object identifier
         Kate::Vbo       m_Vbo{};        // Vertex buffer object identifier
         Kate::Vib       m_Vib{};
+        Kate::Camera    m_Camera{};
         std::vector<Kate::Texture> m_Texture{};
         std::vector<Mesh> m_Meshes{};
     };
@@ -71,6 +72,7 @@ namespace Kate {
         ,   m_Vao{}
         ,   m_Vbo{}
         ,   m_Vib{}
+        ,   m_Camera{}
         ,   m_Texture(2)
         ,   m_Meshes{}
     {
@@ -130,7 +132,7 @@ namespace Kate {
 
             // view
             glm::mat4 view = glm::mat4(1.0f);
-            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+            view = m_Camera.update(m_Window);
 
             // projection
             glm::mat4 projection;

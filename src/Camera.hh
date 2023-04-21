@@ -36,7 +36,7 @@ namespace Kate {
         Camera(Camera&&) = delete;
         Camera& operator=(Camera&&) = delete;
 
-        auto update(const Kate::Window& window) -> void;
+        auto update(const Kate::Window& window) -> glm::mat4;
 
         auto showCameraPos() const -> void;
 
@@ -50,10 +50,8 @@ namespace Kate {
     };
 
     // CAMERA IMPLEMENTATION
-    inline auto Camera::update(const Kate::Window& window) -> void {
+    inline auto Camera::update(const Kate::Window& window) -> glm::mat4 {
         handleInput(window);
-
-        glm::mat4 view;
 
         // camera direction
         glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -63,7 +61,7 @@ namespace Kate {
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
         glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 
-        view = glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
+        return glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
     }
 
     auto Camera::handleInput(const Window &window) -> void {
@@ -76,10 +74,10 @@ namespace Kate {
             m_CameraPos -= cameraSpeed * m_CameraFront;
 
         if (window.isKeyPressed(GLFW_KEY_A))
-            m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraFront)) * cameraSpeed;
+            m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
 
         if (window.isKeyPressed(GLFW_KEY_D))
-            m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraFront)) * cameraSpeed;
+            m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
     }
 
     Camera::Camera() noexcept
