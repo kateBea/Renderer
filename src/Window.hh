@@ -45,26 +45,36 @@ namespace Kate {
         [[nodiscard]]
         auto getDeltaTime() const -> float;
 
-        auto updateDeltaTime() -> void;
+        [[nodiscard]]
+        auto getWidth() const -> std::int32_t;
 
+        [[nodiscard]]
+        auto getHeight() const -> std::int32_t;
+
+        auto updateDeltaTime() -> void;
         auto resize() -> void;
+
         auto draw() -> void;
         ~Window();
     private:
         static constexpr std::int32_t glMajor{ 4 };
         static constexpr std::int32_t glMinor{ 1 };
 
-        auto startUp() -> bool;
+        auto startUp() -> void;
         auto shutdown() -> void;
+        static auto enableDepthTesting() -> void;
+        static auto setupGlfwHints() -> void;
+        auto setupGlfw() -> void;
+        auto setupGlew() -> void;
 
         float m_DeltaTime{};	// Time between current frame and last frame
         float m_LastFrame{}; // Time of last frame
 
-        GLFWwindow*     m_window{};
-        std::string     m_name{};
-        std::int32_t    m_width{};
-        std::int32_t    m_height{};
-        Kate::InputManager m_Input{};
+        GLFWwindow*         m_window{};
+        std::string         m_name{};
+        std::int32_t        m_width{};
+        std::int32_t        m_height{};
+        Kate::InputManager  m_Input{};
     };
 
 
@@ -75,39 +85,11 @@ namespace Kate {
         startUp();
     }
 
-    inline auto Window::startUp() -> bool {
-        // Init GLFW Library
-        if (glfwInit() == GL_FALSE) {
-            std::cerr << "Failed to initialize the GLFW library...\n";
-            return false;
-        }
-
-        // Set OpenGL major and minor version numbers for OpenGL 3.3
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glMajor);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMinor);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-        // Create valid context
-        m_window = glfwCreateWindow(m_width, m_height, m_name.data(), nullptr, nullptr);
-
-        if (m_window == nullptr) {
-            std::cerr << "There was an error creating the Window\n";
-            return false;
-        }
-
-        // Create a valid context for initializing GLEW
-        glfwMakeContextCurrent(this->m_window);
-
-        glewExperimental = GL_TRUE;
-        if (glewInit() != GLEW_OK) {
-            std::cerr << "Failed to initialize GLEW!\n";
-            return false;
-        }
-
-        // initialize the inputManager once everything is ok
+    inline auto Window::startUp() -> void {
+        setupGlfw();
+        setupGlew();
+        enableDepthTesting();
         m_Input.startUp(m_window);
-        return true;
     }
 
     inline auto Window::shutdown() -> void {
@@ -139,10 +121,8 @@ namespace Kate {
     }
 
     inline auto Window::resize() -> void {
-        std::int32_t width{};
-        std::int32_t height{};
-        glfwGetFramebufferSize(m_window, &width, &height);
-        glViewport(0, 0, width, height);
+        glfwGetFramebufferSize(m_window, &m_width, &m_width);
+        glViewport(0, 0, m_width, m_width);
     }
 
     auto Window::isKeyPressed(std::int32_t key) const -> bool {
@@ -157,6 +137,47 @@ namespace Kate {
         float currentFrame{ static_cast<float>(glfwGetTime()) };
         m_DeltaTime = currentFrame - m_LastFrame;
         m_LastFrame = currentFrame;
+    }
+
+    auto Window::getWidth() const -> std::int32_t {
+        return m_width;
+    }
+
+    auto Window::getHeight() const -> std::int32_t {
+        return m_height;
+    }
+
+    auto Window::enableDepthTesting() -> void {
+        glEnable(GL_DEPTH_TEST);
+    }
+
+    auto Window::setupGlfw() -> void {
+        // Init GLFW Library
+        if (glfwInit() == GL_FALSE)
+            throw std::runtime_error("Failed to initialize the GLFW library");
+
+        setupGlfwHints();
+
+        // Create valid context
+        m_window = glfwCreateWindow(m_width, m_height, m_name.data(), nullptr, nullptr);
+
+        if (m_window == nullptr)
+            throw std::runtime_error("There was an error creating the Window");
+    }
+
+    auto Window::setupGlew() -> void {
+        glfwMakeContextCurrent(this->m_window);
+        glewExperimental = GL_TRUE;
+        if (glewInit() != GLEW_OK)
+            throw std::runtime_error("Failed to initialize GLEW");
+
+    }
+
+    auto Window::setupGlfwHints() -> void {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMinor);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     }
 }
 #endif // END WINDOW_HH

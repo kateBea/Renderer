@@ -82,9 +82,6 @@ namespace Kate {
         float blue{};
         float green{};
 
-        float left{ -2.0 };
-        float right{ 2.0 };
-
         auto someTests{ [&]() -> void {
             if (m_Window.isKeyPressed(GLFW_KEY_1)) {
                 if (red >= 1.0f)
@@ -110,26 +107,6 @@ namespace Kate {
             if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
                 m_Window.showCursorPos();
             }
-
-            if (m_Window.isKeyPressed(GLFW_KEY_LEFT)) {
-                right -= 0.01;
-                left -= 0.01;
-
-                if (left < -2.0f) {
-                    left = -2.0f;
-                    right = 2.0f;
-                }
-            }
-
-            if (m_Window.isKeyPressed(GLFW_KEY_RIGHT)) {
-                right += 0.01;
-                left += 0.01;
-
-                if (left > 2.0f) {
-                    left = -2.0f;
-                    right = 2.0f;
-                }
-            }
         }};
 
         std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position" << std::endl;
@@ -142,10 +119,28 @@ namespace Kate {
 
             // Clear background
             glClearColor(red, green, blue, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT);
+            // use GL_DEPTH_BUFFER_BIT  because depth testing is enabled by default
+            // when creating a Kate::Window
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            glm::mat4 proj = glm::ortho(left, right, -1.5f, 1.5f, -1.0f, 1.0f);
-            m_DefaultShaders.setUniformMat4("u_MVP", proj);
+            // model
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            //model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+            // view
+            glm::mat4 view = glm::mat4(1.0f);
+            view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+            // projection
+            glm::mat4 projection;
+            projection = glm::perspective(glm::radians(45.0f),
+                                          static_cast<float>(m_Window.getWidth()) / static_cast<float>(m_Window.getHeight()),
+                                          0.1f, 100.0f);
+
+            m_DefaultShaders.setUniformMat4("model", model);
+            m_DefaultShaders.setUniformMat4("view", view);
+            m_DefaultShaders.setUniformMat4("projection", projection);
 
             m_Texture[0].bindUnit(0);
             m_Texture[1].bindUnit(1);
@@ -157,7 +152,7 @@ namespace Kate {
             m_DefaultShaders.use();
             m_Vao.bind();
             m_Vib.bind();
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+            glDrawArrays(GL_TRIANGLES, 0, 36);
             m_Window.draw();
         }
     }
@@ -178,15 +173,11 @@ namespace Kate {
 
         // Vertex position attribute
         m_Vbo.bind();
-        m_Vao.layout(0, 3, 0, 8);
-
-        // Vertex color attribute
-        m_Vbo.bind();
-        m_Vao.layout(1, 3, 3, 8);
+        m_Vao.layout(0, 3, 0, 5);
 
         // Vertex Texture attribute
         m_Vbo.bind();
-        m_Vao.layout(2, 2, 6, 8);
+        m_Vao.layout(1, 2, 3, 5);
     }
 
     inline Renderer::~Renderer() {

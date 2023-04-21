@@ -299,7 +299,7 @@ namespace Kate {
         if (ret == -1)
             std::cerr << "Not a valid uniform name for this program shader\n";
         else
-            glUniformMatrix4fv(ret, 1, GL_FALSE, &mat[0][0]);
+            glUniformMatrix4fv(ret, 1, GL_FALSE, glm::value_ptr(mat));
     }
 }
 
