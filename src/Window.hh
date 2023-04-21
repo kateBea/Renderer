@@ -34,8 +34,17 @@ namespace Kate {
         Window(Window&&)                    = delete;
         Window& operator=(Window&&)         = delete;
 
+        /**
+         * Prints to standard output the current position
+         * of the cursor in this Window
+         * */
         auto showCursorPos() -> void;
 
+        /**
+         * Returns true if the user attempts to close this Window,
+         * returns false otherwise
+         * @return true if window should close, false otherwise
+         * */
         [[nodiscard]]
         auto shouldClose() -> bool;
 
@@ -45,13 +54,20 @@ namespace Kate {
         [[nodiscard]]
         auto getDeltaTime() const -> float;
 
+        /**
+         * Returns the width of this Window
+         * @return Value of width
+         * */
         [[nodiscard]]
         auto getWidth() const -> std::int32_t;
 
+        /**
+         * Returns the height of this Window
+         * @return Value of height
+         * */
         [[nodiscard]]
         auto getHeight() const -> std::int32_t;
 
-        auto updateDeltaTime() -> void;
         auto resize() -> void;
 
         auto draw() -> void;
@@ -62,6 +78,12 @@ namespace Kate {
 
         auto startUp() -> void;
         auto shutdown() -> void;
+
+        /**
+         * Updates the time passed between frames
+         * */
+        auto updateDeltaTime() -> void;
+
         static auto enableDepthTesting() -> void;
         static auto setupGlfwHints() -> void;
         auto setupGlfw() -> void;
@@ -99,6 +121,7 @@ namespace Kate {
 
     inline auto Window::draw() -> void {
         glfwPollEvents();
+        updateDeltaTime();
         glfwSwapBuffers(this->m_window);
     }
 

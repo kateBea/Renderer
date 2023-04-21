@@ -114,7 +114,6 @@ namespace Kate {
         std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position" << std::endl;
 
         while (!m_Window.shouldClose()) {
-            m_Window.updateDeltaTime();
             m_Window.resize();
 
             someTests();
