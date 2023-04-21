@@ -70,6 +70,9 @@ namespace Kate {
 
         auto resize() -> void;
 
+        static auto enableWireframeMode() -> void;
+        static auto disableWireframeMode() -> void;
+
         auto draw() -> void;
         ~Window();
     private:
@@ -201,6 +204,14 @@ namespace Kate {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+    }
+
+    auto Window::enableWireframeMode() -> void {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
+
+    auto Window::disableWireframeMode() -> void {
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 }
 #endif // END WINDOW_HH

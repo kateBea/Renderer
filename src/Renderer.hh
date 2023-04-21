@@ -84,6 +84,8 @@ namespace Kate {
         float blue{};
         float green{};
 
+        bool wireframe{ false };
+
         auto someTests{ [&]() -> void {
             if (m_Window.isKeyPressed(GLFW_KEY_1)) {
                 if (red >= 1.0f)
@@ -107,12 +109,16 @@ namespace Kate {
             }
 
             if (m_Window.isKeyPressed(GLFW_KEY_BACKSPACE)) {
-                m_Window.showCursorPos();
+                wireframe = !wireframe;
+
+                if (wireframe)
+                    Kate::Window::enableWireframeMode();
+                else
+                    Kate::Window::disableWireframeMode();
             }
         }};
 
         std::cout << "Press 1, 2 or 3 to change background colors and Backspace to show cursor position" << std::endl;
-
         while (!m_Window.shouldClose()) {
             m_Window.resize();
 
@@ -152,7 +158,6 @@ namespace Kate {
             // draw commands
             m_DefaultShaders.use();
             m_Vao.bind();
-            m_Vib.bind();
             glDrawArrays(GL_TRIANGLES, 0, 36);
             m_Window.draw();
         }
