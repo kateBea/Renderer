@@ -6,6 +6,6 @@ various shapes, materials including lighting effects.
 
 This render is built using, or well, trying to at least, use modern C++ and 
 modern OpneGL. I've included the complete source code, along with some test 
-case in the [!test](/test) directory.
+case in the [test](/test) directory.
 
 This is still a work in progress.
