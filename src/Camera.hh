@@ -36,6 +36,7 @@ namespace Kate {
         Camera(Camera&&) = delete;
         Camera& operator=(Camera&&) = delete;
 
+        [[nodiscard]]
         auto update(const Kate::Window& window) -> glm::mat4;
 
         auto showCameraPos() const -> void;

@@ -175,7 +175,7 @@ namespace Kate {
                 "../assets/shaders/defaultPixelShader.glsl"
         );
         m_Texture[0].load("../assets/textures/container.jpg");
-        m_Texture[1].load("../assets/textures/awesomeface.png");
+        m_Texture[1].load("../assets/textures/lava512x512.png");
 
         // Vertex position attribute
         m_Vbo.bind();
