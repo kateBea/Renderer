@@ -25,7 +25,7 @@ namespace Kate {
          * from indices. If no data is provided simply creates a new index buffer object with a valid id
          * @param indices buffer containing all the indices values
          * */
-        explicit Vib(std::vector<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW);
+        explicit Vib(const std::vector<std::uint32_t> &indices, GLenum usage = GL_STATIC_DRAW);
 
         /**
          * Mark this Vertex index buffer as current
@@ -63,7 +63,7 @@ namespace Kate {
          * */
         static auto unbind() -> void;
 
-        auto load(std::vector<std::uint32_t> indices, GLenum usage = GL_STATIC_DRAW) -> void;
+        auto load(const std::vector<std::uint32_t> &indices, GLenum usage = GL_STATIC_DRAW) -> void;
 
         /**
          * Releases resources from this Vertex index buffer
@@ -74,46 +74,6 @@ namespace Kate {
         std::uint32_t m_id{};
         std::size_t m_count{};
     };
-
-    inline Vib::Vib() {
-        glGenBuffers(1, &this->m_id);
-    }
-
-    inline Vib::Vib(std::vector<std::uint32_t> indices, GLenum usage)
-        : m_id{}, m_count{}
-    {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getId());
-        load(indices, usage);
-    }
-
-    inline auto Vib::bind() const -> void {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getId());
-    }
-
-    inline auto Vib::unbind() -> void {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    inline Vib::~Vib() {
-        glDeleteBuffers(1, &this->m_id);
-    }
-
-    auto Vib::getId() const -> std::uint32_t {
-        return this->m_id;
-    }
-
-    auto Vib::getCount() const -> std::size_t {
-        return this->m_count;
-    }
-
-    inline auto Vib::load(std::vector<std::uint32_t> indices, GLenum usage) -> void {
-        if (!indices.empty()) {
-            bind();
-            m_count = indices.size();
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), usage);
-        }
-    }
-
 }
 
 #endif // END VIB_HH

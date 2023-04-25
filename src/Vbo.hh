@@ -92,66 +92,6 @@ namespace Kate {
         std::uint32_t m_id{};   // Identifier of this Vertex buffer object
         std::size_t m_size{};   // size in BYTES of the total count of vertices
     };
-
-    inline Vbo::Vbo(const std::vector<float>& vertices, GLenum usage) noexcept
-        :   m_id{}, m_size{}
-    {
-        load(vertices, usage);
-    }
-
-    inline auto Vbo::bind() const -> void {
-        glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-    }
-
-    inline auto Vbo::unbind() -> void {
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    }
-
-    inline Vbo::~Vbo() {
-        glDeleteBuffers(1, &this->m_id);
-    }
-
-    inline auto Vbo::getId() const -> std::uint32_t {
-        return this->m_id;
-    }
-
-    inline auto Vbo::getSize() const -> std::size_t {
-        return this->m_size;
-    }
-
-    inline auto Vbo::getCount() const -> std::size_t {
-        return this->m_size / sizeof (float);
-    }
-
-    inline Vbo::Vbo(Vbo&& other) noexcept
-        : m_id{other.getId() }, m_size{other.getSize() }
-    {
-        other.m_id = 0;
-        other.m_size = 0;
-    }
-
-    inline Vbo& Vbo::operator=(Vbo&& other) noexcept {
-        this->m_id = other.getId();
-        this->m_size = other.getSize();
-
-        other.m_id = 0;
-        other.m_size = 0;
-
-        return *this;
-    }
-
-    inline Vbo::Vbo() {
-        glGenBuffers(1, &this->m_id);
-    }
-
-    inline auto Vbo::load(const std::vector<float>& vertices, GLenum usage) -> void {
-        if (!vertices.empty()) {
-            m_size = vertices.size() * sizeof(float);
-            glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
-        }
-    }
-
 }
 
 #endif	// END VBO_HH

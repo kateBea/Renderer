@@ -33,7 +33,18 @@ add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
 
 # Renderer main app build
-add_executable(renderer src/main.cpp)
+add_executable(renderer src/main.cpp
+                src/Texture.cpp
+                src/Camera.cpp
+                src/InputManager.cpp
+                src/Mesh.cpp
+                src/Renderer.cpp
+                src/Shader.cpp
+                src/Vao.cpp
+                src/Vib.cpp
+                src/Vbo.cpp
+                src/Window.cpp
+                src/std_image.cpp)
 target_link_libraries(renderer ${LIBRARIES})
 target_compile_definitions(renderer PUBLIC GLEW_STATIC)
 
