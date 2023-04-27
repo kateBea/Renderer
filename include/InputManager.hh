@@ -12,6 +12,7 @@
 // C++ Standard Library
 #include <cstddef>
 #include <array>
+#include <cstdio>
 
 // Third-Party Libraries
 #include <GL/glew.h>

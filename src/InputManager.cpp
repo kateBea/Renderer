@@ -1,9 +1,6 @@
-#include <iostream>
-
 #include "../include/InputManager.hh"
 
 namespace Kate {
-    // IMPLEMENTATION
     InputManager::InputManager(GLFWwindow* window) {
         startUp(window);
 
@@ -42,6 +39,6 @@ namespace Kate {
             glfwSetWindowUserPointer(window, this);
         }
         else
-            std::cerr << "Could initialize InputManager. window == nullptr ...\n";
+            std::printf("Could initialize InputManager. window == nullptr ...\n");
     }
 }

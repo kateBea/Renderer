@@ -1,12 +1,6 @@
-//
-// Created by zanet on 4/25/2023.
-//
-
 #include "../include/Vao.hh"
 
 namespace Kate {
-    // IMPLEMENTATION VERTEX ARRAY OBJECT CLASS
-
     Vao::Vao(Vao&& other) noexcept
             :   m_id{other.getId() }
     {

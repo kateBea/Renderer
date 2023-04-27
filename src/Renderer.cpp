@@ -1,4 +1,3 @@
-
 #include "../include/Renderer.hh"
 
 namespace Kate {

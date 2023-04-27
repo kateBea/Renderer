@@ -1,7 +1,3 @@
-//
-// Created by zanet on 4/25/2023.
-//
-
 #include "../include/Vbo.hh"
 
 namespace Kate {

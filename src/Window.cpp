@@ -1,9 +1,6 @@
 #include "../include/Window.hh"
-#include "../include/Camera.hh"
-
 
 namespace Kate {
-    // WINDOW CLASS IMPLEMENTATION
     Window::Window(std::string_view window_name, std::int32_t width, std::int32_t height)
             :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_Input{}, m_DeltaTime{}, m_LastFrame{}
     {
