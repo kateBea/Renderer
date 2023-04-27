@@ -11,6 +11,8 @@ This is still a work in progress.
 
 
 # Build and execution
+Some steps on how to build and run on linux.
+Same commands should work on Windows PowerShell.
 ```shell
 # Clone repository
 git clone --recursive repo_url
