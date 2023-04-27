@@ -2,7 +2,7 @@
 // Created by zanet on 4/25/2023.
 //
 
-#include "Vib.hh"
+#include "../include/Vib.hh"
 
 namespace Kate {
     Vib::Vib() {

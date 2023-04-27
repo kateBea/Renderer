@@ -1,4 +1,4 @@
-#include <Texture.hh>
+#include "../include/Texture.hh"
 
 namespace  Kate {
     // IMPLEMENTATION

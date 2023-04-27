@@ -1,4 +1,4 @@
-#include "Shader.hh"
+#include "../include/Shader.hh"
 
 namespace Kate {
     Shader::Shader(const std::filesystem::path &vertexSourceDir, const std::filesystem::path &fragmentSourceDir) {
@@ -150,6 +150,18 @@ namespace Kate {
         if (ret == -1)
             std::cerr << "Not a valid uniform name for this program shader\n";
         else
+            /*
+             * If transpose is GL_FALSE, each matrix is assumed to be supplied in column major order.
+             * If transpose is GL_TRUE, each matrix is assumed to be supplied in row major order.
+             * The count argument indicates the number of matrices to be passed. A count of 1
+             * should be used if modifying the value of a single matrix, and a count greater
+             * than 1 can be used to modify an array of matrices.
+             * from: https://docs.gl/gl4/glUniform
+             *
+             * we pass GL_FALSE because glm::mat4 has each row stored contiguously in memory by default
+             * meaning the elements of the first row are stored first, followed by the
+             * elements of the second row, and so on.
+             * */
             glUniformMatrix4fv(ret, 1, GL_FALSE, glm::value_ptr(mat));
     }
 }

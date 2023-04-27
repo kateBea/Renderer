@@ -2,7 +2,7 @@
 #include <memory>
 
 // Renderer library
-#include <Renderer.hh>
+#include "../include/Renderer.hh"
 
 int main() {
     auto app{ std::make_unique<Kate::Renderer>() };

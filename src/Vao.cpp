@@ -2,7 +2,7 @@
 // Created by zanet on 4/25/2023.
 //
 
-#include "Vao.hh"
+#include "../include/Vao.hh"
 
 namespace Kate {
     // IMPLEMENTATION VERTEX ARRAY OBJECT CLASS

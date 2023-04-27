@@ -6,13 +6,36 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(LIBRARIES glfw glew_s)
 
+# Source files
+SET(SOURCES
+        src/main.cpp
+        src/Texture.cpp
+        src/Camera.cpp
+        src/InputManager.cpp
+        src/Mesh.cpp
+        src/Renderer.cpp
+        src/Shader.cpp
+        src/Vao.cpp
+        src/Vib.cpp
+        src/Vbo.cpp
+        src/Window.cpp
+        src/std_image.cpp
+        src/Model.cpp
+        library/imgui/imgui.cpp
+        library/imgui/backends/imgui_impl_glfw.cpp
+        library/imgui/imgui_widgets.cpp
+        library/imgui/imgui_draw.cpp
+        library/imgui/imgui_tables.cpp
+        library/imgui/backends/imgui_impl_opengl3.cpp)
+
 # Header files directories
 include_directories(
     library/glew/include
     library/glfw/include
     library/glm
     library/stb
-    src/
+    library/imgui
+    include/
 )
 
 # Compiler flags
@@ -33,23 +56,6 @@ add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
 
 # Renderer main app build
-add_executable(renderer src/main.cpp
-                src/Texture.cpp
-                src/Camera.cpp
-                src/InputManager.cpp
-                src/Mesh.cpp
-                src/Renderer.cpp
-                src/Shader.cpp
-                src/Vao.cpp
-                src/Vib.cpp
-                src/Vbo.cpp
-                src/Window.cpp
-                src/std_image.cpp)
+add_executable(renderer ${SOURCES})
 target_link_libraries(renderer ${LIBRARIES})
 target_compile_definitions(renderer PUBLIC GLEW_STATIC)
-
-# ************************* Tests builds *************************
-# Test Window
-add_executable(window test/WindowTest.cpp)
-target_link_libraries(window ${LIBRARIES})
-target_compile_definitions(window PUBLIC GLEW_STATIC)

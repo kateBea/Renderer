@@ -1,10 +1,6 @@
-//
-// Created by zanet on 4/25/2023.
-//
-
 #include <iostream>
 
-#include <InputManager.hh>
+#include "../include/InputManager.hh"
 
 namespace Kate {
     // IMPLEMENTATION
@@ -13,7 +9,7 @@ namespace Kate {
 
     }
 
-    auto InputManager::getMousePos() const -> InputManager::pos_t {
+    auto InputManager::getMousePos() const -> std::pair<double, double> {
         return m_MousePos;
     }
 

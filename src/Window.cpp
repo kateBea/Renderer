@@ -1,4 +1,6 @@
-#include "Window.hh"
+#include "../include/Window.hh"
+#include "../include/Camera.hh"
+
 
 namespace Kate {
     // WINDOW CLASS IMPLEMENTATION
@@ -13,6 +15,13 @@ namespace Kate {
         setupGlew();
         enableDepthTesting();
         m_Input.startUp(m_window);
+
+        // Set necessary callbacks ----------------
+
+        glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)-> void {
+            // math viewport to the current window size
+            glViewport(0, 0, width, height);
+        });
     }
 
     auto Window::shutdown() -> void {
@@ -23,6 +32,7 @@ namespace Kate {
     auto Window::draw() -> void {
         glfwPollEvents();
         updateDeltaTime();
+        glfwGetFramebufferSize(m_window, &m_width, &m_width);
         glfwSwapBuffers(this->m_window);
     }
 
@@ -42,11 +52,6 @@ namespace Kate {
 
         // glfwGetCursorPos(this->m_Window, &x_pos, &y_pos);
         std::printf("mouse cursor at position: [%f, %f]\n", x_pos, y_pos);
-    }
-
-    auto Window::resize() -> void {
-        glfwGetFramebufferSize(m_window, &m_width, &m_width);
-        glViewport(0, 0, m_width, m_width);
     }
 
     auto Window::isKeyPressed(std::int32_t key) const -> bool {
@@ -110,5 +115,17 @@ namespace Kate {
 
     auto Window::disableWireframeMode() -> void {
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
+
+    auto Window::getWindowPointer() const -> GLFWwindow * {
+        return m_window;
+    }
+
+    auto Window::isMouseButtonDown(std::int32_t button) -> bool {
+        return m_Input.isMouseButtonDown(button);
+    }
+
+    auto Window::getCursorPosition() const -> std::pair<double, double> {
+        return m_Input.getMousePos();
     }
 }

@@ -2,7 +2,7 @@
 // Created by zanet on 4/25/2023.
 //
 
-#include "Vbo.hh"
+#include "../include/Vbo.hh"
 
 namespace Kate {
     Vbo::Vbo(const std::vector<float>& vertices, GLenum usage) noexcept
