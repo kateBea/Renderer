@@ -28,9 +28,9 @@ namespace Kate {
             }
         }};
 
-        ImVec4 bgColor = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+        ImVec4 bgColor = ImVec4(0.254f, 0.083f, 0.144f, 1.00f);
         std::array<float, 3> rotationAngles{};
-        float alphaValue = 0.0f;
+        float alphaValue = 1.0f;
 
         while (!m_Window.shouldClose()) {
             // ImGui Frame Setup
@@ -102,7 +102,7 @@ namespace Kate {
                 "../assets/shaders/defaultVertex.glsl",
                 "../assets/shaders/defaultFragment.glsl"
         );
-        m_Texture[0].load("../assets/textures/Pack_4_stones_on_grass_PBR_nafgames/StoneOnGrass_4/stone_on_grass_4_diffuseOriginal.png");
+        m_Texture[0].load("../assets/textures/container2.png");
         m_Texture[1].load("../assets/textures/lava512x512.png");
 
         // Vertex position attribute

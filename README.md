@@ -8,3 +8,20 @@ modern OpneGL. I've included the complete source code.
 This is still a work in progress.
 
 ![Image sample](image/img1.png)
+
+
+# Build and execution
+```shell
+# Clone repository
+git clone --recursive repo_url
+cd Renderer
+
+# Build application
+mkdir build
+cd build
+cmake ..
+cmake --build .
+
+# Run application
+./renderer
+```

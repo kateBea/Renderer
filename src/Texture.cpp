@@ -18,10 +18,10 @@ namespace  Kate {
     auto Texture::load(const std::filesystem::path& path) -> void {
         char fileDir[4096]{};
 #ifdef WINDOWS
-        std::wcstombs(fileDir, path.c_str(), 4096);
+        wcstombs_s(nullptr, fileDir, sizeof(fileDir), path.c_str(), 4096);
 #else
         // reinterpret cast 'cause IDE issues
-        std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char *>(path.c_str())));
+        std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char*>(path.c_str())));
 #endif
         // configure and enable blending
         enableBlending();
@@ -48,7 +48,7 @@ namespace  Kate {
             stbi_image_free(imageData);
         }
         else {
-            std::cerr << "Could not load Texture data...\n";
+            throw std::runtime_error("Could not load Texture data");
         }
 
     }

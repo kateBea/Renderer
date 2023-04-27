@@ -135,6 +135,7 @@ namespace Kate {
          * from Texture file in path. If no data is provided it simply creates
          * a valid Texture object with a valid id
          * @param path the path to the Texture file
+         * @throws std::runtime_error if the file does not exist
          * */
         auto load(const std::filesystem::path& path) -> void;
         
