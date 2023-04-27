@@ -4,3 +4,10 @@
 [submodule "library/glm"]
 	path = library/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "library/imgui"]
+	path = library/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "library/stb"]
+	path = library/stb
+	url = https://github.com/nothings/stb.git
