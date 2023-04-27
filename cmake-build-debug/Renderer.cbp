@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Renderer"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="msvc8"/>
+		<Option virtualFolders="CMake Files\;CMake Files\library\;CMake Files\library\glfw\;CMake Files\library\glfw\CMake\;CMake Files\library\glfw\src\;CMake Files\library\glew\;CMake Files\library\glew\build\;CMake Files\library\glew\build\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 all"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/renderer.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_STATIC"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 renderer"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="renderer/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/renderer.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_STATIC"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 renderer/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 edit_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 list_install_components"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 install"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 install/local"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="uninstall">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\Makefile VERBOSE=1 uninstall"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src/glfw3.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-D_GLFW_WIN32"/>
+					<Add option="-DUNICODE"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-D_CRT_SECURE_NO_WARNINGS"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/src"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 glfw"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glfw/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src/glfw3.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-D_GLFW_WIN32"/>
+					<Add option="-DUNICODE"/>
+					<Add option="-D_UNICODE"/>
+					<Add option="-D_CRT_SECURE_NO_WARNINGS"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/src"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 glfw/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="update_mappings">
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glfw/src"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 update_mappings"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glfw\src\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/glew32d.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glew/build/cmake"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_BUILD"/>
+					<Add option="-DVC_EXTRALEAN"/>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glew"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/glew32d.dll" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glew/build/cmake"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_BUILD"/>
+					<Add option="-DVC_EXTRALEAN"/>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glew/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew_s">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/lib/libglew32d.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glew/build/cmake"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_STATIC"/>
+					<Add option="-DVC_EXTRALEAN"/>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glew_s"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glew_s/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/lib/libglew32d.lib" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/library/glew/build/cmake"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_STATIC"/>
+					<Add option="-DVC_EXTRALEAN"/>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glew_s/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glewinfo">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/glewinfo.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glewinfo"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="glewinfo/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/glewinfo.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 glewinfo/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="visualinfo">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/visualinfo.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 visualinfo"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="visualinfo/fast">
+				<Option output="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin/visualinfo.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/zanet/Desktop/Renderer/cmake-build-debug/bin"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="msvc8"/>
+				<Compiler>
+					<Add option="-DGLEW_NO_GLU"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glfw/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glm"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/stb"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/imgui"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/include"/>
+					<Add directory="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/../../include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include"/>
+					<Add directory="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\VS\include"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\include\10.0.22621.0\ucrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\um"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\shared"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\winrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\10\\include\10.0.22621.0\\cppwinrt"/>
+					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.8\include\um"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 visualinfo/fast"/>
+					<CompileFile command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+					<DistClean command="nmake /NOLOGO /f C:\Users\zanet\Desktop\Renderer\cmake-build-debug\library\glew\build\cmake\Makefile VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/build/glew.rc">
+			<Option target="glew"/>
+			<Option target="glew_s"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/build/glewinfo.rc">
+			<Option target="glewinfo"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/build/visualinfo.rc">
+			<Option target="visualinfo"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/include/GL/glew.h">
+			<Option target="glew"/>
+			<Option target="glew_s"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/include/GL/glxew.h">
+			<Option target="glew"/>
+			<Option target="glew_s"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/include/GL/wglew.h">
+			<Option target="glew"/>
+			<Option target="glew_s"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/src/glew.c">
+			<Option target="glew"/>
+			<Option target="glew_s"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/src/glewinfo.c">
+			<Option target="glewinfo"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/src/visualinfo.c">
+			<Option target="visualinfo"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/CMake/GenerateMappings.cmake">
+			<Option target="update_mappings"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/include/GLFW/glfw3.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/include/GLFW/glfw3native.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/egl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/input.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/internal.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/mappings.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/mappings.h.in">
+			<Option target="update_mappings"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/null_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/osmesa_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/platform.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/vulkan.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/wgl_context.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_init.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_joystick.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_joystick.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_module.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_monitor.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_platform.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_thread.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_thread.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_time.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_time.h">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/win32_window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/window.c">
+			<Option target="glfw"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/backends/imgui_impl_glfw.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/backends/imgui_impl_glfw.h">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/backends/imgui_impl_opengl3.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/backends/imgui_impl_opengl3.h">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/imgui.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/imgui.h">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/imgui_draw.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/imgui_tables.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/imgui/imgui_widgets.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Camera.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/InputManager.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Mesh.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Model.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Renderer.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Shader.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Texture.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Vao.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Vbo.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Vib.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/Window.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/main.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/src/std_image.cpp">
+			<Option target="renderer"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\library\glfw\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/CMake/cmake_uninstall.cmake.in">
+			<Option virtualFolder="CMake Files\library\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/CMake/glfw3.pc.in">
+			<Option virtualFolder="CMake Files\library\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/CMake/glfw3Config.cmake.in">
+			<Option virtualFolder="CMake Files\library\glfw\CMake\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glfw/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\library\glfw\src\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/glew.pc.in">
+			<Option virtualFolder="CMake Files\library\glew\"/>
+		</Unit>
+		<Unit filename="C:/Users/zanet/Desktop/Renderer/library/glew/build/cmake/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\library\glew\build\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

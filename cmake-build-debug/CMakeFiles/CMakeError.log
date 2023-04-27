@@ -1,0 +1,72 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: C:/Users/zanet/Desktop/Renderer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-h6l7tw
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_72c55\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_72c55.dir\build.make /nologo -L                  CMakeFiles\cmTC_72c55.dir\build
+Building C object CMakeFiles/cmTC_72c55.dir/src.c.obj
+	"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_72c55.dir\src.c.obj.d --working-dir=C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-h6l7tw --filter-prefix="Note: including file: " -- C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\cl.exe @C:\Users\zanet\AppData\Local\Temp\nm25B3.tmp
+src.c
+C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-h6l7tw\src.c(1): fatal error C1083: Cannot open include file: 'pthread.h': No such file or directory
+NMAKE : fatal error U1077: '"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe"' : return code '0x2'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"' : return code '0x2'
+Stop.
+
+
+Source file was:
+#include <pthread.h>
+
+static void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: C:/Users/zanet/Desktop/Renderer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-0og36q
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_71293\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_71293.dir\build.make /nologo -L                  CMakeFiles\cmTC_71293.dir\build
+Building C object CMakeFiles/cmTC_71293.dir/CheckFunctionExists.c.obj
+	"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_71293.dir\CheckFunctionExists.c.obj.d --working-dir=C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-0og36q --filter-prefix="Note: including file: " -- C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\cl.exe @C:\Users\zanet\AppData\Local\Temp\nm266F.tmp
+CheckFunctionExists.c
+Linking C executable cmTC_71293.exe
+	"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_71293.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\link.exe /nologo @CMakeFiles\cmTC_71293.dir\objects1 @C:\Users\zanet\AppData\Local\Temp\nm26BE.tmp
+LINK Pass 1: command "C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\link.exe /nologo @CMakeFiles\cmTC_71293.dir\objects1 /out:cmTC_71293.exe /implib:cmTC_71293.lib /pdb:C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-0og36q\cmTC_71293.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_71293.dir/intermediate.manifest CMakeFiles\cmTC_71293.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: cannot open file 'pthreads.lib'
+NMAKE : fatal error U1077: '"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe"' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"' : return code '0x2'
+Stop.
+
+
+
+Determining if the function pthread_create exists in the pthread failed with the following output:
+Change Dir: C:/Users/zanet/Desktop/Renderer/cmake-build-debug/CMakeFiles/CMakeScratch/TryCompile-u1ouyu
+
+Run Build Command(s):nmake -f Makefile /nologo cmTC_b60f0\fast && 	"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"  -f CMakeFiles\cmTC_b60f0.dir\build.make /nologo -L                  CMakeFiles\cmTC_b60f0.dir\build
+Building C object CMakeFiles/cmTC_b60f0.dir/CheckFunctionExists.c.obj
+	"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -E cmake_cl_compile_depends --dep-file=CMakeFiles\cmTC_b60f0.dir\CheckFunctionExists.c.obj.d --working-dir=C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-u1ouyu --filter-prefix="Note: including file: " -- C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\cl.exe @C:\Users\zanet\AppData\Local\Temp\nm2778.tmp
+CheckFunctionExists.c
+Linking C executable cmTC_b60f0.exe
+	"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_b60f0.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x86\mt.exe --manifests -- C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\link.exe /nologo @CMakeFiles\cmTC_b60f0.dir\objects1 @C:\Users\zanet\AppData\Local\Temp\nm27C7.tmp
+LINK Pass 1: command "C:\PROGRA~1\MICROS~2\2022\COMMUN~1\VC\Tools\MSVC\1433~1.316\bin\HostX86\x86\link.exe /nologo @CMakeFiles\cmTC_b60f0.dir\objects1 /out:cmTC_b60f0.exe /implib:cmTC_b60f0.lib /pdb:C:\Users\zanet\Desktop\Renderer\cmake-build-debug\CMakeFiles\CMakeScratch\TryCompile-u1ouyu\cmTC_b60f0.pdb /version:0.0 /machine:X86 /debug /INCREMENTAL /subsystem:console pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTFILE:CMakeFiles\cmTC_b60f0.dir/intermediate.manifest CMakeFiles\cmTC_b60f0.dir/manifest.res" failed (exit code 1104) with the following output:
+LINK : fatal error LNK1104: cannot open file 'pthread.lib'
+NMAKE : fatal error U1077: '"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe"' : return code '0xffffffff'
+Stop.
+NMAKE : fatal error U1077: '"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\bin\HostX86\x86\nmake.exe"' : return code '0x2'
+Stop.
+
+
+

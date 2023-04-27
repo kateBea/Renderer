@@ -1,0 +1,6 @@
+"C:\Program Files\JetBrains\CLion 2022.3.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - NMake Makefiles" -S C:\Users\zanet\Desktop\Renderer -B C:\Users\zanet\Desktop\Renderer\cmake-build-debug
+-- Could NOT find Doxygen (missing: DOXYGEN_EXECUTABLE) 
+-- Including Win32 support
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/zanet/Desktop/Renderer/cmake-build-debug
