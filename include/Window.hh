@@ -53,6 +53,9 @@ namespace Kate {
         auto isKeyPressed(std::int32_t key) const -> bool;
 
         [[nodiscard]]
+        auto getMouseScrollOffset() const -> const std::pair<double, double>&;
+
+        [[nodiscard]]
         auto getDeltaTime() const -> float;
 
         /**

@@ -37,10 +37,14 @@ namespace Kate {
         [[nodiscard]]
         auto isKeyDown(std::int32_t key) const -> bool;
 
+        [[nodiscard]]
+        auto getScrollOffset() const -> const std::pair<double, double>&;
+
         auto startUp(GLFWwindow* window) -> void;
 
 
     private:
+        std::pair<double, double> m_MouseScroll{};
         std::pair<double, double> m_MousePos{};
         std::array<bool, GLFW_KEY_LAST> m_Keys{};
         std::array<bool, GLFW_MOUSE_BUTTON_LAST> m_MouseKeys{};

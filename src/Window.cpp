@@ -125,4 +125,9 @@ namespace Kate {
     auto Window::getCursorPosition() const -> std::pair<double, double> {
         return m_Input.getMousePos();
     }
+
+    auto Window::getMouseScrollOffset() const -> const std::pair<double, double> & {
+        return m_Input.getScrollOffset();
+    }
+
 }

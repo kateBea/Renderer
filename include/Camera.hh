@@ -74,6 +74,11 @@ namespace Kate {
         auto getFieldOfView() const -> double;
 
         /**
+         *
+         * */
+        auto setFieldOfView(double offset) -> void;
+
+        /**
          * Returns the projection matrix of this Camera
          * @return projection matrix
          * */
@@ -110,6 +115,16 @@ namespace Kate {
          *
          * */
         static constexpr float farPlane{ 100.f };
+
+        /**
+         *
+         * */
+        static constexpr double minFov{ 0.5 };
+
+        /**
+         *
+         * */
+        static constexpr double maxFov{ 45.0 };
 
         /**
          *

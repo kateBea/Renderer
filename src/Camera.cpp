@@ -113,4 +113,11 @@ namespace Kate {
         m_Projection = glm::perspective(glm::radians(static_cast<float>(m_Fov)),
                                         static_cast<float>(width) / static_cast<float>(height),nearPlane, farPlane);
     }
+
+    auto Camera::setFieldOfView(double offset) -> void {
+        m_Fov = m_Fov - offset * m_Sensitivity;
+
+        if (m_Fov < minFov) m_Fov = 1.0f;
+        if (m_Fov > maxFov) m_Fov = 45.0f;
+    }
 }
