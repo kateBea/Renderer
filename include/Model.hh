@@ -6,6 +6,7 @@
 #define MODEL_HH
 
 // C++ Standard Library
+#include <filesystem>
 #include <vector>
 
 // Project Libraries
@@ -14,16 +15,16 @@
 namespace Kate {
     class Model {
     public:
-        enum class Axis {
-            X_AXIS,
-            Y_AXIS,
-            Z_AXIS,
-            LIMIT_AXIS,
-        };
+        /**
+         *
+         * */
+        explicit Model(const std::filesystem::path& path);
 
-        explicit Model() = default;
+        /**
+         *
+         * */
+        auto draw() -> void;
 
-        auto rotate(double degrees, Axis axis) -> void;
     private:
         std::vector<Kate::Mesh> components{};
 

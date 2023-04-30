@@ -17,6 +17,9 @@
 // Third-Party Libraries
 #include <GL/glew.h>
 
+// Project Libraries
+#include "Utils.hh"
+
 namespace Kate {
     class Vbo {
     public:
@@ -27,7 +30,7 @@ namespace Kate {
          * buffer object with a valid id
          * @param vertices buffer containing all the vertices
          * */
-        explicit Vbo(const std::vector<float>& vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
+        explicit Vbo(const std::vector<Kate::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid Vbo aliasing
@@ -82,7 +85,7 @@ namespace Kate {
          * */
         static auto unbind() -> void;
 
-        auto load(const std::vector<float>& vertices, GLenum usage = GL_STATIC_DRAW) -> void;
+        auto load(const std::vector<Kate::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) -> void;
         /**
          * Releases resources from this Vertex buffer
          * */

@@ -14,13 +14,14 @@
 
 #include "Vao.hh"
 #include "Vbo.hh"
+#include "Utils.hh"
 
 namespace Kate {
     class BasicLighting {
     public:
         explicit BasicLighting() noexcept;
 
-        explicit BasicLighting(const std::vector<float>& vertexPositions);
+        explicit BasicLighting(const std::vector<Vertex>& vertices);
 
         [[nodiscard]]
         auto getId() const -> std::uint32_t;
@@ -29,7 +30,7 @@ namespace Kate {
         auto getColor() const -> const glm::vec3&;
 
 
-        auto load(const std::vector<float> &vertexPositions) -> void;
+        auto load(const std::vector<Vertex>& vertices) -> void;
 
         auto bind() -> void;
 

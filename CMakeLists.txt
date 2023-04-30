@@ -8,7 +8,6 @@ set(LIBRARIES glfw glew_s fmt)
 
 # Source files
 SET(SOURCES
-        src/main.cpp
         src/Texture.cpp
         src/Camera.cpp
         src/InputManager.cpp
@@ -21,12 +20,13 @@ SET(SOURCES
         src/Window.cpp
         src/std_image.cpp
         src/Model.cpp
+        src/BasicLighting.cpp
         library/imgui/imgui.cpp
         library/imgui/backends/imgui_impl_glfw.cpp
         library/imgui/imgui_widgets.cpp
         library/imgui/imgui_draw.cpp
         library/imgui/imgui_tables.cpp
-        library/imgui/backends/imgui_impl_opengl3.cpp src/BasicLighting.cpp include/BasicLighting.hh)
+        library/imgui/backends/imgui_impl_opengl3.cpp)
 
 # Header files directories
 include_directories(
@@ -56,8 +56,17 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
 add_subdirectory(library/fmt)
+add_subdirectory(library/assimp)
 
-# Renderer main app build
-add_executable(renderer ${SOURCES})
-target_link_libraries(renderer ${LIBRARIES})
-target_compile_definitions(renderer PUBLIC GLEW_STATIC)
+
+# Test builds
+
+# Test with specular Lighting
+add_executable(specularLight test/SpecularLighting.cpp ${SOURCES})
+target_link_libraries(specularLight ${LIBRARIES})
+target_compile_definitions(specularLight PUBLIC GLEW_STATIC)
+
+# Test with Model Loading
+add_executable(modelLoading test/ModelLoading.cpp ${SOURCES})
+target_link_libraries(modelLoading ${LIBRARIES})
+target_compile_definitions(modelLoading PUBLIC GLEW_STATIC)

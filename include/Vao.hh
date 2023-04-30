@@ -19,6 +19,13 @@
 namespace Kate {
     class Vao {
     public:
+        enum class Attribute {
+            POSITION,
+            NORMAL,
+            TEXTURE,
+            NONE
+        };
+
         explicit Vao();
 
         /**
@@ -70,7 +77,7 @@ namespace Kate {
          * @param stride specifies the total count of components per vertex
          * @param type this parameter is optional and specifies the type of data for the attribute, the default type used is GL_FLOAT
          * */
-        auto layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type = GL_FLOAT) const -> void;
+        auto layout(std::uint32_t index, std::int32_t size, Attribute pointer, GLenum type = GL_FLOAT) const -> void;
 
         ~Vao();
 

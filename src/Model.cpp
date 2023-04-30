@@ -2,7 +2,11 @@
 
 namespace Kate {
 
-    auto Model::rotate(double degrees, Model::Axis axis) -> void {
+    Model::Model(const std::filesystem::path &path) {
+
+    }
+
+    auto Model::draw() -> void {
 
     }
 }

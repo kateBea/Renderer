@@ -19,8 +19,6 @@
 #include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #ifndef UTILS_HH
 #define UTILS_HH
@@ -39,6 +37,10 @@ namespace Kate {
         glm::vec3 m_Pos{};
         glm::vec3 m_Norm{};
         glm::vec2 m_Texture{};
+
+        Vertex(const glm::vec3& pos, const glm::vec3& norm, const glm::vec2& texture)
+            :   m_Pos{ pos }, m_Norm{ norm }, m_Texture{ texture }
+        {}
 
         Vertex() = default;
         ~Vertex() = default;
@@ -101,7 +103,7 @@ namespace Kate {
      * Parses a file containing vertices with very basic formatting
      * @see <a href="https://github.com/kateBea/Renderer/tree/main/assets/vertices">vertices file</a>
      * */
-    inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<float> {
+    inline auto parseVerticesFile(const std::filesystem::path& path) -> std::vector<Vertex> {
 
         // parses files with vertices in the format:
         /**
@@ -119,15 +121,43 @@ namespace Kate {
         // a vector. User must ensure to specify buffer layout with appropriate function calls
         std::string temp{};
         std::ifstream file{ path };
-        std::vector<float> result{};
+        std::vector<Vertex> result{};
+
+        glm::vec3 pos{};
+        glm::vec3 norm{};
+        glm::vec2 texture{};
+
 
         if (file.is_open()) {
             while (std::getline(file, temp)) {
-                if (!temp.starts_with("//")) {
+                if (!temp.starts_with("//") || !temp.starts_with("")) {
                     std::istringstream stream{ temp };
 
-                    while(std::getline(stream, temp, ','))
-                        result.push_back(std::stof(temp));
+                    std::getline(stream, temp, ',');
+                    pos[0] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    pos[1] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    pos[2] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    norm[0] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    norm[1] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    norm[2] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    texture[0] = std::stof(temp);
+
+                    std::getline(stream, temp, ',');
+                    texture[1] = std::stof(temp);
+
+                    result.emplace_back(pos, norm, texture);
                 }
             }
         }

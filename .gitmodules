@@ -14,3 +14,6 @@
 [submodule "library/fmt"]
 	path = library/fmt
 	url = https://github.com/fmtlib/fmt.git
+[submodule "library/assimp"]
+	path = library/assimp
+	url = https://github.com/assimp/assimp.git

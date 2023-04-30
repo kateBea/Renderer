@@ -1,4 +1,6 @@
 #include "../include/Vao.hh"
+#include "Utils.hh"
+#include <cstddef>
 
 namespace Kate {
     Vao::Vao(Vao&& other) noexcept
@@ -26,18 +28,47 @@ namespace Kate {
         glBindVertexArray(0);
     }
 
-    auto Vao::layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type) const -> void
+    auto Vao::layout(std::uint32_t index, std::int32_t size, Attribute offs, GLenum type) const -> void
     {
         bind();
         glEnableVertexAttribArray(index);
-        glVertexAttribPointer(
-                index,      // Attribute index
-                size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
-                type,       // type of data of the attribute
-                GL_FALSE,   // normalized?
-                stride * static_cast<decltype(stride)>(sizeof(float)),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                reinterpret_cast<const void*>(pointer * sizeof(float))  // pointer to the attribute within the buffer
-        );
+
+        switch (offs) {
+            case Attribute::POSITION:
+                glVertexAttribPointer(
+                        index,      // Attribute index
+                        size,       // Count of elements per attribute
+                        type,       // type of data of the attribute
+                        GL_FALSE,   // normalized?
+                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Pos))  // pointer to the attribute within the buffer
+                );
+                break;
+            case Attribute::NORMAL:
+                glVertexAttribPointer(
+                        index,      // Attribute index
+                        size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
+                        type,       // type of data of the attribute
+                        GL_FALSE,   // normalized?
+                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Norm))  // pointer to the attribute within the buffer
+                );
+                break;
+            case Attribute::TEXTURE:
+                glVertexAttribPointer(
+                        index,      // Attribute index
+                        size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
+                        type,       // type of data of the attribute
+                        GL_FALSE,   // normalized?
+                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Texture))  // pointer to the attribute within the buffer
+                );
+                break;
+            case Attribute::NONE:
+                std::cerr << "Invalid attribute...\n";
+                break;
+        }
+
         unbind();
     }
 

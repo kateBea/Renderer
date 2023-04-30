@@ -19,7 +19,7 @@
 #include <GLFW/glfw3.h>
 
 // Project Libraries
-#include "utils.hh"
+#include "Utils.hh"
 
 namespace Kate {
     class InputManager {

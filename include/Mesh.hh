@@ -18,11 +18,12 @@
 #include <GLFW/glfw3.h>
 
 // Project Libraries
-#include "utils.hh"
+#include "Utils.hh"
 #include "Texture.hh"
 #include "Vao.hh"
 #include "Vbo.hh"
 #include "Vib.hh"
+#include "Shader.hh"
 
 #ifndef MESH_HH
 #define MESH_HH
@@ -41,6 +42,11 @@ namespace Kate {
          * it is passed as a reference.
          * */
         explicit Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures);
+
+        /**
+         *
+         * */
+        auto draw(const Shader& shader) -> void;
 
         ~Mesh() = default;
         

@@ -42,7 +42,7 @@
 #include "BasicLighting.hh"
 #include "Vao.hh"
 #include "Vbo.hh"
-#include "utils.hh"
+#include "Utils.hh"
 
 #include "Model.hh"
 
@@ -57,28 +57,19 @@ namespace Kate {
          * */
         explicit Renderer(std::string_view name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720);
 
-        auto run() -> void;
         auto startUp() -> void;
         auto shutDown() -> void;
 
-        // shouldn't be in the window class
         static auto enableWireframeMode() -> void;
         static auto disableWireframeMode() -> void;
 
         ~Renderer() = default;
 
     private:
-        auto initImGui() -> void;
         static auto setOpenGLHints() -> void;
         Kate::Window    m_Window{};
         Kate::Shader    m_DefaultShaders{};
         Kate::Shader    m_LightShader{};
-        Kate::BasicLighting m_Light{};
-        Kate::Vao       m_Vao{};
-        Kate::Vbo       m_Vbo{};
-        Kate::Vib       m_Vib{};
-        Kate::Camera    m_Camera{};
-        Kate::Texture   m_Texture{};
         std::vector<Mesh> m_Meshes{};
     };
 

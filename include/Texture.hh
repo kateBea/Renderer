@@ -20,6 +20,7 @@
 #include <stdexcept>
 #include <vector>
 #include <utility>
+#include <string_view>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -27,7 +28,7 @@
 #include <stb_image.h>
 
 // Project Libraries
-#include "utils.hh"
+#include "Utils.hh"
 
 namespace Kate {
     class Texture {
@@ -108,7 +109,7 @@ namespace Kate {
          * This function ensures to mark this Texture as current one, so a previous
          * call to <b>Texture::bind()</b> is unnecessary
          * */
-        auto bindUnit(std::int32_t unit) const -> void ;
+        static auto bindUnit(std::int32_t unit) -> void ;
 
         /**
          * Returns the identifier of this Texture
@@ -139,6 +140,19 @@ namespace Kate {
          * @throws std::runtime_error if the file does not exist
          * */
         auto load(const std::filesystem::path& path) -> void;
+
+        /**
+         * Returns a C-String representing the type of
+         * texture specified
+         * */
+        static constexpr auto getStrType(Texture::TextureType type) -> std::string_view {
+            switch (type) {
+                case TextureType::SPECULAR: return "specular";
+                case TextureType::DIFFUSE: return "diffuse";
+                case TextureType::NORMAL: return "normal";
+                default: return "invalid";
+            }
+        }
         
         /**
          * Releases resources from this Vertex buffer

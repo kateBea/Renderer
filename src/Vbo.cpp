@@ -1,7 +1,7 @@
 #include "../include/Vbo.hh"
 
 namespace Kate {
-    Vbo::Vbo(const std::vector<float>& vertices, GLenum usage) noexcept
+    Vbo::Vbo(const std::vector<Kate::Vertex>& vertices, GLenum usage) noexcept
         :   m_id{}, m_size{}
     {
         load(vertices, usage);
@@ -52,10 +52,10 @@ namespace Kate {
         glGenBuffers(1, &this->m_id);
     }
 
-    auto Vbo::load(const std::vector<float>& vertices, GLenum usage) -> void {
+    auto Vbo::load(const std::vector<Kate::Vertex>& vertices, GLenum usage) -> void {
         if (!vertices.empty()) {
             bind();
-            m_size = vertices.size() * sizeof(float);
+            m_size = vertices.size() * sizeof(Kate::Vertex);
             glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(m_size), vertices.data(), usage);
         }
     }
