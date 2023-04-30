@@ -67,7 +67,7 @@ namespace Kate {
          * @param index specifies the index of the attribute
          * @param size specifies the number of components for the attribute
          * @param pointer specifies the position of the attribute within the buffer for a specific vertex
-         * @param stride specifies the amount of total components per vertex
+         * @param stride specifies the total count of components per vertex
          * @param type this parameter is optional and specifies the type of data for the attribute, the default type used is GL_FLOAT
          * */
         auto layout(std::uint32_t index, std::int32_t size, std::uint32_t pointer, std::int32_t stride, GLenum type = GL_FLOAT) const -> void;

@@ -23,6 +23,7 @@
 
 // Project Libraries
 #include "InputManager.hh"
+#include "utils.hh"
 
 namespace Kate {
     class Window {
@@ -72,10 +73,6 @@ namespace Kate {
         [[nodiscard]]
         auto getHeight() const -> std::int32_t;
 
-        // shouldn't be in the window class
-        static auto enableWireframeMode() -> void;
-        static auto disableWireframeMode() -> void;
-
         [[nodiscard]] auto getWindowPointer() const -> GLFWwindow*;
 
         [[nodiscard]] auto getCursorPosition() const -> std::pair<double, double>;
@@ -86,9 +83,6 @@ namespace Kate {
 
         ~Window();
     private:
-        static constexpr std::int32_t glMajor{ 4 };
-        static constexpr std::int32_t glMinor{ 1 };
-
         auto startUp() -> void;
         auto shutdown() -> void;
 
@@ -97,7 +91,6 @@ namespace Kate {
          * */
         auto updateDeltaTime() -> void;
 
-        static auto enableDepthTesting() -> void;
         static auto setupGlfwHints() -> void;
         auto setupGlfw() -> void;
         auto setupGlew() -> void;

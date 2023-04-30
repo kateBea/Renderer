@@ -10,13 +10,16 @@ namespace Kate {
     auto Window::startUp() -> void {
         setupGlfw();
         setupGlew();
-        enableDepthTesting();
         m_Input.startUp(m_window);
 
-        // Set necessary callbacks ----------------
+        // ------------------------------- Set necessary callbacks ------------------------------------
 
+        // This callback is set to automatically adjust the window width and height when we resize the
+        // window and adjust the viewport to the current frame buffer dimensions
         glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)-> void {
-            // math viewport to the current window size
+            auto ptr{ static_cast<Window*>(glfwGetWindowUserPointer(window)) };
+            ptr->m_width = width;
+            ptr->m_height = height;
             glViewport(0, 0, width, height);
         });
     }
@@ -27,9 +30,13 @@ namespace Kate {
     }
 
     auto Window::draw() -> void {
+        // Process queued events
         glfwPollEvents();
+
+        // Update delta time
         updateDeltaTime();
-        glfwGetFramebufferSize(m_window, &m_width, &m_width);
+
+        // Swap back and front buffers
         glfwSwapBuffers(this->m_window);
     }
 
@@ -43,12 +50,7 @@ namespace Kate {
 
     auto Window::showCursorPos() -> void {
         auto temp{ m_Input.getMousePos() };
-
-        double x_pos{ temp.first };
-        double y_pos{ temp.second };
-
-        // glfwGetCursorPos(this->m_Window, &x_pos, &y_pos);
-        std::printf("mouse cursor at position: [%f, %f]\n", x_pos, y_pos);
+        std::printf("mouse cursor at position: [%f, %f]\n", temp.first, temp.second);
     }
 
     auto Window::isKeyPressed(std::int32_t key) const -> bool {
@@ -71,10 +73,6 @@ namespace Kate {
 
     auto Window::getHeight() const -> std::int32_t {
         return m_height;
-    }
-
-    auto Window::enableDepthTesting() -> void {
-        glEnable(GL_DEPTH_TEST);
     }
 
     auto Window::setupGlfw() -> void {
@@ -100,18 +98,10 @@ namespace Kate {
     }
 
     auto Window::setupGlfwHints() -> void {
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glMajor);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glMinor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Kate::GLMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Kate::GLMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-    }
-
-    auto Window::enableWireframeMode() -> void {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    }
-
-    auto Window::disableWireframeMode() -> void {
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
 
     auto Window::getWindowPointer() const -> GLFWwindow * {

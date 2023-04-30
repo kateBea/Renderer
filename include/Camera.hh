@@ -30,14 +30,14 @@ namespace Kate {
     class Camera {
     public:
         /**
-         *
+         * Default constructs this camera
          * */
         explicit Camera() = default;
 
         /**
          * Creates a new instance of a camera within the given window.
          * */
-        explicit Camera(const Kate::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, -1.0f,  7.0f)) noexcept;
+        explicit Camera(const Kate::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f,  7.0f)) noexcept;
 
         /**
          * Copy constructor disabled
@@ -74,7 +74,7 @@ namespace Kate {
         auto getFieldOfView() const -> double;
 
         /**
-         *
+         * Ajust the field of view according to the parameter
          * */
         auto setFieldOfView(double offset) -> void;
 
@@ -106,6 +106,11 @@ namespace Kate {
         [[nodiscard]]
         auto getView() const -> const glm::mat4 &;
 
+        /**
+         *
+         * */
+        auto getPosition() const -> const glm::vec3&;
+
     private:
         /**
          *
@@ -114,7 +119,7 @@ namespace Kate {
         /**
          *
          * */
-        static constexpr float farPlane{ 100.f };
+        static constexpr float farPlane{ 1000.0f };
 
         /**
          *

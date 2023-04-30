@@ -26,6 +26,14 @@
 #define UTILS_HH
 
 namespace Kate {
+    // CONSTANTS
+    // Define the OpenGL version as x.y where x is
+    // g_GLMajor and y is g_GLMinor, e.g.: for g_GLMajor = 4
+    // and g_GLMinor = 1 we have OpenGL 4.1 this can be used to initialize
+    // the GLFW library setting the OpenGL minor and major hints
+    constexpr std::int32_t GLMajor{ 4 };
+    constexpr std::int32_t GLMinor{ 1 };
+
     // CLASS UTILITIES
     struct Vertex {
         glm::vec3 m_Pos{};

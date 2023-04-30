@@ -2,26 +2,27 @@
 
 namespace  Kate {
     // IMPLEMENTATION
-    Texture::Texture() noexcept
-            :   m_Height{}, m_Width{}
+    Texture::Texture(TextureType type) noexcept
+            :   m_Height{}, m_Width{}, m_Type{ type }
     {
         glGenTextures(1, &this->m_Id);
     }
 
-    Texture::Texture(const std::filesystem::path& path) noexcept
-            :   m_Height{}, m_Width{}
+    Texture::Texture(const std::filesystem::path& path, TextureType type) noexcept
+            :   m_Height{}, m_Width{}, m_Type{ type }
     {
         glGenTextures(1, &this->m_Id);
         load(path);
     }
 
     auto Texture::load(const std::filesystem::path& path) -> void {
-        char fileDir[4096]{};
+        std::array<char, 4096> fileDir{};
 #ifdef WINDOWS
-        wcstombs_s(nullptr, fileDir, sizeof(fileDir), path.c_str(), 4096);
+        // fileDir.size() will return the amount of elements of fileDir, since it contains char which are byte sized
+        wcstombs_s(nullptr, fileDir.data(), fileDir.size(), path.c_str(), 4096);
 #else
-        // reinterpret cast 'cause IDE issues
-        std::memcpy(fileDir, path.c_str(), std::strlen(reinterpret_cast<const char*>(path.c_str())));
+
+        std::copy(path.native().begin(), path.native().end(), fileDir.begin());
 #endif
         // configure and enable blending
         enableBlending();
@@ -29,7 +30,7 @@ namespace  Kate {
 
         stbi_set_flip_vertically_on_load(true);
         // cast to const char because on windows path.c_str() returns a const wchar_t
-        std::uint8_t* imageData{ stbi_load(fileDir, &m_Width, &m_Height, &m_Channels, 4) };
+        std::uint8_t* imageData{ stbi_load(fileDir.data(), &m_Width, &m_Height, &m_Channels, 4) };
 
         if (imageData) {
             bind();
@@ -64,17 +65,17 @@ namespace  Kate {
     Texture::Texture(Texture &&other) noexcept { *this = std::move(other); }
 
     Texture &Texture::operator=(Texture &&other) noexcept {
-        m_Id = other.getId();
-        m_Width = other.getDimensions().first;
-        m_Height = other.getDimensions().second;
-        m_Channels = other.getChannels();
-        m_Type = other.getType();
+        m_Id        = other.getId();
+        m_Width     = other.getDimensions().first;
+        m_Height    = other.getDimensions().second;
+        m_Channels  = other.getChannels();
+        m_Type      = other.getType();
 
-        other.m_Id = 0;
-        other.m_Width = 0;
-        other.m_Height = 0;
-        other.m_Channels = 0;
-        m_Type = TextureType::INVALID;
+        other.m_Id          = 0;
+        other.m_Width       = 0;
+        other.m_Height      = 0;
+        other.m_Channels    = 0;
+        m_Type              = TextureType::INVALID;
 
         return *this;
     }

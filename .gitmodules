@@ -11,3 +11,6 @@
 [submodule "library/stb"]
 	path = library/stb
 	url = https://github.com/nothings/stb.git
+[submodule "library/fmt"]
+	path = library/fmt
+	url = https://github.com/fmtlib/fmt.git

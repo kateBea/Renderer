@@ -128,6 +128,20 @@ namespace Kate {
         auto setUniformMat4(std::string_view name, const glm::mat4& mat) const -> void;
 
         /**
+         * Sets the given 3D vector to the uniform specified by the name
+         * @param name name of the uniform
+         * @param vec value for the uniform
+         * */
+        auto setUniformVec3(std::string_view name, const glm::vec3& vec) const -> void;
+
+        /**
+         * Sets the given 4D vector to the uniform specified by the name
+         * @param name name of the uniform
+         * @param vec value for the uniform
+         * */
+        auto setUniformVec4(std::string_view name, const glm::vec4& vec) const -> void;
+
+        /**
          * Perform cleanup
          * */
         ~Shader();

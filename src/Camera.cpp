@@ -120,4 +120,8 @@ namespace Kate {
         if (m_Fov < minFov) m_Fov = 1.0f;
         if (m_Fov > maxFov) m_Fov = 45.0f;
     }
+
+    auto Camera::getPosition() const -> const glm::vec3 & {
+        return m_CameraPos;
+    }
 }

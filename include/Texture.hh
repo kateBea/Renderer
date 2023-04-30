@@ -11,14 +11,15 @@
 #define TEXTURE_HH
 
 // C++ Standard Library
-#include <vector>
-#include <filesystem>
-#include <stdexcept>
-#include <cstddef>
-#include <iostream>
-#include <utility>
-#include <cstdlib>
+#include <array>
 #include <cstring>
+#include <cstdint>
+#include <cstdlib>
+#include <filesystem>
+#include <iostream>
+#include <stdexcept>
+#include <vector>
+#include <utility>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -50,7 +51,7 @@ namespace Kate {
          * Initializes this Texture creating a new
          * Texture object
          * */
-        explicit Texture() noexcept;
+        explicit Texture(TextureType type = TextureType::DIFFUSE) noexcept;
 
         /**
          * Creates a new Texture object and fills it with the data
@@ -58,7 +59,7 @@ namespace Kate {
          * a valid Texture object with a valid id
          * @param path the path to the Texture file
          * */
-        explicit Texture(const std::filesystem::path& path) noexcept;
+        explicit Texture(const std::filesystem::path& path, TextureType type = TextureType::DIFFUSE) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid Texture aliasing

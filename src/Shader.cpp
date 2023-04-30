@@ -92,7 +92,7 @@ namespace Kate {
         auto ret{ glGetUniformLocation(getProgram(), name.data()) };
 
         if (ret == -1)
-            std::cerr << "Not a valid uniform name for this program shader\n";
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else
             glUniform1i(ret, static_cast<std::int32_t>(value));
     }
@@ -102,7 +102,7 @@ namespace Kate {
         auto ret{ glGetUniformLocation(getProgram(), name.data()) };
 
         if (ret == -1)
-            std::cerr << "Not a valid uniform name for this program shader\n";
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else
             glUniform1i(ret, value);
     }
@@ -112,7 +112,7 @@ namespace Kate {
         auto ret{ glGetUniformLocation(getProgram(), name.data()) };
 
         if (ret == -1)
-            std::cerr << "Not a valid uniform name for this program shader\n";
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else
             glUniform1f(ret, value);
     }
@@ -148,7 +148,7 @@ namespace Kate {
         auto ret{ glGetUniformLocation(getProgram(), name.data()) };
 
         if (ret == -1)
-            std::cerr << "Not a valid uniform name for this program shader\n";
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else
             /*
              * If transpose is GL_FALSE, each matrix is assumed to be supplied in column major order.
@@ -163,5 +163,31 @@ namespace Kate {
              * elements of the second row, and so on.
              * */
             glUniformMatrix4fv(ret, 1, GL_FALSE, glm::value_ptr(mat));
+    }
+
+    auto Shader::setUniformVec3(std::string_view name, const glm::vec3 &vec) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
+        else {
+            // we pass we 1 because the uniform is not expected to
+            // an array
+            glUniform3fv(ret, 1, glm::value_ptr(vec));
+        }
+    }
+
+    auto Shader::setUniformVec4(std::string_view name, const glm::vec4& vec) const -> void {
+        use();
+        auto ret{ glGetUniformLocation(getProgram(), name.data()) };
+
+        if (ret == -1)
+            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
+        else {
+            // we pass we 1 because the uniform is not expected to
+            // an array
+            glUniform4fv(ret, 1, glm::value_ptr(vec));
+        }
     }
 }

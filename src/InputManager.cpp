@@ -22,26 +22,26 @@ namespace Kate {
         if (window != nullptr) {
             // Keys callback
             glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-                auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
                 input->m_Keys[key] = action == GLFW_PRESS;
             });
 
             // Cursor movement callback
             glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
-                auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
                 input->m_MousePos.first = x;
                 input->m_MousePos.second = y;
             });
 
             // Mouse buttons callback
             glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
-                auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
                 input->m_MouseKeys[button] = action == GLFW_PRESS;
             });
 
             // Mouse scroll callback
             glfwSetScrollCallback(window, [](GLFWwindow* window, double xScroll, double yScroll) {
-                auto input = static_cast<InputManager*>(glfwGetWindowUserPointer(window));
+                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
                 input->m_MouseScroll.first = xScroll;
                 input->m_MouseScroll.second = yScroll;
             });

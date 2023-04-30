@@ -10,5 +10,7 @@ int main() {
     app->startUp();
     app->run();
 
+    app->shutDown();
+
     return 0;
 }

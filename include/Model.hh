@@ -14,9 +14,18 @@
 namespace Kate {
     class Model {
     public:
+        enum class Axis {
+            X_AXIS,
+            Y_AXIS,
+            Z_AXIS,
+            LIMIT_AXIS,
+        };
 
+        explicit Model() = default;
+
+        auto rotate(double degrees, Axis axis) -> void;
     private:
-
+        std::vector<Kate::Mesh> components{};
 
     };
 

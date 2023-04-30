@@ -32,11 +32,14 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include <fmt/core.h>
+
 // Project Libraries
 #include "Mesh.hh"
 #include "Camera.hh"
 #include "Shader.hh"
 #include "Window.hh"
+#include "BasicLighting.hh"
 #include "Vao.hh"
 #include "Vbo.hh"
 #include "utils.hh"
@@ -52,27 +55,33 @@ namespace Kate {
          * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
          * @param appName Title for the Renderer Window
          * */
-        explicit Renderer(std::string_view name = "Renderer", std::int32_t width = 1280, std::int32_t height = 1000);
+        explicit Renderer(std::string_view name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720);
 
         auto run() -> void;
         auto startUp() -> void;
         auto shutDown() -> void;
 
-        ~Renderer();
+        // shouldn't be in the window class
+        static auto enableWireframeMode() -> void;
+        static auto disableWireframeMode() -> void;
+
+        ~Renderer() = default;
 
     private:
         auto initImGui() -> void;
+        static auto setOpenGLHints() -> void;
         Kate::Window    m_Window{};
         Kate::Shader    m_DefaultShaders{};
+        Kate::Shader    m_LightShader{};
+        Kate::BasicLighting m_Light{};
         Kate::Vao       m_Vao{};
         Kate::Vbo       m_Vbo{};
         Kate::Vib       m_Vib{};
         Kate::Camera    m_Camera{};
-        std::vector<Kate::Texture> m_Texture{};
+        Kate::Texture   m_Texture{};
         std::vector<Mesh> m_Meshes{};
     };
 
 }
-
 
 #endif // RENDERER_HH

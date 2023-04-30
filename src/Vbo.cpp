@@ -54,9 +54,9 @@ namespace Kate {
 
     auto Vbo::load(const std::vector<float>& vertices, GLenum usage) -> void {
         if (!vertices.empty()) {
+            bind();
             m_size = vertices.size() * sizeof(float);
-            glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
-            glBufferData(GL_ARRAY_BUFFER, m_size, vertices.data(), usage);
+            glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(m_size), vertices.data(), usage);
         }
     }
 

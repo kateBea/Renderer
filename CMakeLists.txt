@@ -4,7 +4,7 @@ project(Renderer)
 # Declarations
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(LIBRARIES glfw glew_s)
+set(LIBRARIES glfw glew_s fmt)
 
 # Source files
 SET(SOURCES
@@ -26,7 +26,7 @@ SET(SOURCES
         library/imgui/imgui_widgets.cpp
         library/imgui/imgui_draw.cpp
         library/imgui/imgui_tables.cpp
-        library/imgui/backends/imgui_impl_opengl3.cpp)
+        library/imgui/backends/imgui_impl_opengl3.cpp src/BasicLighting.cpp include/BasicLighting.hh)
 
 # Header files directories
 include_directories(
@@ -35,6 +35,7 @@ include_directories(
     library/glm
     library/stb
     library/imgui
+    library/fmt/include
     include/
 )
 
@@ -54,6 +55,7 @@ find_package(OpenGL REQUIRED)
 # Add libraries from submodules
 add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
+add_subdirectory(library/fmt)
 
 # Renderer main app build
 add_executable(renderer ${SOURCES})
