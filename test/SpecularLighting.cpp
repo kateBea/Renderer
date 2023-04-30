@@ -80,12 +80,12 @@ auto run() -> void {
             ImGui::SliderFloat("Background Alpha", &alphaValue, 0.0f, 1.0f);
             ImGui::ColorEdit3("clear color", reinterpret_cast<float*>(&bgColor));
             ImGui::Text("Container Block Settings");
-            ImGui::DragFloat3("B_Rotation", glm::value_ptr(rotationAngles), 0.1f, 0.0f, 360.0f);
-            ImGui::DragFloat3("B_Coordinates", glm::value_ptr(modelPosition), 0.01f, -100.0f, 100.0f);
-            ImGui::DragFloat3("B_Size", glm::value_ptr(modelSize), 0.01f, 0.0f, 20.0f);
+            ImGui::DragFloat3("Rotation", glm::value_ptr(rotationAngles), 0.1f, 0.0f, 360.0f);
+            ImGui::DragFloat3("Coordinates", glm::value_ptr(modelPosition), 0.01f, -100.0f, 100.0f);
+            ImGui::DragFloat3("Size", glm::value_ptr(modelSize), 0.01f, 0.0f, 20.0f);
             ImGui::Text("Light block Settings");
-            ImGui::DragFloat3("L_Position", glm::value_ptr(lightPosition), 0.01f, -100.0f, 100.0f);
-            ImGui::DragFloat3("L_Color", glm::value_ptr(lightColor), 1.0f, 0.0f, 255.0f);
+            ImGui::DragFloat3("Position", glm::value_ptr(lightPosition), 0.01f, -100.0f, 100.0f);
+            ImGui::DragFloat3("Color", glm::value_ptr(lightColor), 1.0f, 0.0f, 255.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::End();
         }
