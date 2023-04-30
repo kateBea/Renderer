@@ -3,6 +3,7 @@
 namespace Kate {
     // IMPLEMENTATION
     Renderer::Renderer(std::string_view name, std::int32_t width, std::int32_t height)
+            // TODO: restructure renderer
             :   m_Window{name, width, height }
             ,   m_DefaultShaders{}
             ,   m_Light{}
