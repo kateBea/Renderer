@@ -7,7 +7,7 @@ modern OpneGL. I've included the complete source code.
 
 This is still a work in progress.
 
-![Image sample](image/image1.png)
+![Image sample](image/specular.png)
 
 
 # Build and execution
