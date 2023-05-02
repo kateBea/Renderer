@@ -6,7 +6,7 @@ namespace Kate {
 
     }
 
-    auto Model::draw() -> void {
+    auto Model::draw(const Shader &shader) -> void {
 
     }
 }

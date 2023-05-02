@@ -32,8 +32,6 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-#include <fmt/core.h>
-
 // Project Libraries
 #include "Mesh.hh"
 #include "Camera.hh"

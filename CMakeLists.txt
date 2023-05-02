@@ -4,7 +4,7 @@ project(Renderer)
 # Declarations
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(LIBRARIES glfw glew_s fmt)
+set(LIBRARIES glfw glew_s)
 
 # Source files
 SET(SOURCES
@@ -20,6 +20,7 @@ SET(SOURCES
         src/Window.cpp
         src/std_image.cpp
         src/Model.cpp
+        src/Logger.cpp
         src/BasicLighting.cpp
         library/imgui/imgui.cpp
         library/imgui/backends/imgui_impl_glfw.cpp
@@ -36,6 +37,7 @@ include_directories(
     library/stb
     library/imgui
     library/fmt/include
+    library/spdlog/include
     include/
 )
 
@@ -56,7 +58,6 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
 add_subdirectory(library/fmt)
-add_subdirectory(library/assimp)
 
 
 # Test builds

@@ -20,6 +20,9 @@
 
 #include <glm/glm.hpp>
 
+// Project Libraries
+#include "Logger.hh"
+
 #ifndef UTILS_HH
 #define UTILS_HH
 

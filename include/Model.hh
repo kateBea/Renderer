@@ -11,6 +11,7 @@
 
 // Project Libraries
 #include "Mesh.hh"
+#include "Shader.hh"
 
 namespace Kate {
     class Model {
@@ -23,7 +24,7 @@ namespace Kate {
         /**
          *
          * */
-        auto draw() -> void;
+        auto draw(const Shader& shader) -> void;
 
     private:
         std::vector<Kate::Mesh> components{};

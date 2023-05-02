@@ -12,8 +12,6 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-#include <fmt/core.h>
-
 // Project Libraries
 #include "Mesh.hh"
 #include "Camera.hh"
@@ -23,6 +21,7 @@
 #include "Vao.hh"
 #include "Vbo.hh"
 #include "Utils.hh"
+#include "Logger.hh"
 
 
 // GLOBALS
@@ -48,8 +47,14 @@ auto setOpenGLHints() -> void;
 
 
 int main(int, char**) {
+    Kate::Logger::init();
 
-    std::cout << "offsetof(normal) * sizeof(float): " << offsetof(Kate::Vertex, m_Norm) << std::endl;
+    KATE_LOGGER_ERROR("Error message");
+    KATE_LOGGER_WARN("Warn message");
+    KATE_LOGGER_CRITICAL("Critical message");
+    KATE_LOGGER_TRACE("Trace message");
+    KATE_LOGGER_INFO("Info message");
+    KATE_LOGGER_DEBUG("Debug message");
     startUp();
     run();
     return 0;
