@@ -20,18 +20,20 @@ int main(int, char**) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // view/projection transformations
-        shader.setUniformMat4("projection", camera.getProjection());
-        shader.setUniformMat4("view", camera.getView());
+        camera.updateProjection(window.getWidth(), window.getHeight());
 
         if (window.isMouseButtonDown(GLFW_MOUSE_BUTTON_2))
             camera.move(window.getCursorPosition());
 
         camera.lookAround(window, glm::vec3(0.0f, 0.0f, 0.0f));
-        // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+        glm::mat4 model{ glm::mat4(1.0f) };
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
         shader.setUniformMat4("model", model);
+        shader.setUniformMat4("projection", camera.getProjection());
+        shader.setUniformMat4("view", camera.getView());
+
         objModel.draw(shader);
 
 

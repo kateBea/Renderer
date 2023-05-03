@@ -8,7 +8,7 @@ namespace Kate {
     Vib::Vib(const std::vector<std::uint32_t> &indices, GLenum usage)
             : m_id{}, m_count{}
     {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getId());
+        glGenBuffers(1, &this->m_id);
         load(indices, usage);
     }
 
@@ -32,7 +32,7 @@ namespace Kate {
         return this->m_count;
     }
 
-    auto Vib::load(const std::vector<std::uint32_t> &indices, GLenum usage) -> void {
+    auto Vib::load(const std::vector<std::uint32_t>& indices, GLenum usage) -> void {
         if (!indices.empty()) {
             bind();
             m_count = indices.size() * sizeof(std::uint32_t);

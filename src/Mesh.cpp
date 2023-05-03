@@ -6,7 +6,7 @@
 
 namespace Kate {
     Mesh::Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures)
-            :   m_Vertices{}, m_Indices{}, m_Textures{}, m_Vbo{}, m_Vao{}, m_Vib{}
+        :   m_Vertices{}, m_Indices{}, m_Textures{}, m_Vbo{}, m_Vao{}, m_Vib{}
     {
         m_Vertices = std::move(vertices);
         m_Indices = std::move(indices);
@@ -21,11 +21,14 @@ namespace Kate {
         m_Vib.load(m_Indices);
 
         m_Vbo.bind();
-
         // Vertex position attribute
         m_Vao.layout(0, 3, Kate::Vao::Attribute::POSITION);
+
+        m_Vbo.bind();
         // Vertex Normals attribute
         m_Vao.layout(1, 3, Kate::Vao::Attribute::NORMAL);
+
+        m_Vbo.bind();
         // Vertex Texture attribute
         m_Vao.layout(2, 2, Kate::Vao::Attribute::TEXTURE);
     }
@@ -49,6 +52,7 @@ namespace Kate {
         glActiveTexture(GL_TEXTURE0);
 
         // draw mesh
+        m_Vbo.bind();
         m_Vao.bind();
         m_Vib.bind();
         glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()), GL_UNSIGNED_INT, nullptr);

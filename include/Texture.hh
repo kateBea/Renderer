@@ -142,6 +142,13 @@ namespace Kate {
          * */
         auto load(const std::filesystem::path& path) -> void;
 
+        /**
+         * Similar behaviour to Kate::Texture::load() but we instead provide the path and type
+         * to create a new Texture
+         * @param path path to the texture file
+         * @param type type of texture
+         * @return newly created Texture
+         * */
         static auto fromFile(const std::filesystem::path& path, Kate::Texture::TextureType type) -> Kate::Texture;
 
         /**
@@ -158,7 +165,7 @@ namespace Kate {
         }
         
         /**
-         * Releases resources from this Vertex buffer
+         * Releases resources of this Texture
          * */
         ~Texture();
 
