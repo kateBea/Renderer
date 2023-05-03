@@ -4,7 +4,7 @@
 
 namespace Kate {
     Vao::Vao(Vao&& other) noexcept
-            :   m_id{other.getId() }
+            :   m_id{ other.getId() }
     {
         other.m_id = 0;
     }

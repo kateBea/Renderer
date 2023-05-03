@@ -48,7 +48,7 @@ if (MSVC)
     add_compile_options(/DWINDOWS)
 else()
     # Compile commands for Linux
-    add_compile_options(-Wall -Wpedantic -Wextra -fsanitize=address)
+    add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)
 endif()
 

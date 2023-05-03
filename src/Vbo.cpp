@@ -4,6 +4,7 @@ namespace Kate {
     Vbo::Vbo(const std::vector<Kate::Vertex>& vertices, GLenum usage) noexcept
         :   m_id{}, m_size{}
     {
+        glGenBuffers(1, &this->m_id);
         load(vertices, usage);
     }
 
