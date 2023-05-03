@@ -10,7 +10,7 @@
 #define INPUT_HH
 
 // C++ Standard Library
-#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <cstdio>
 

@@ -97,7 +97,7 @@ namespace Kate {
         /**
          * Set the Vertex textures to the given data
         */
-        auto setTextures(const glm::vec3& data) -> void { m_Texture = data; }
+        auto setTextures(const glm::vec2& data) -> void { m_Texture = data; }
     };
 
     // FUNCTION UTILITIES

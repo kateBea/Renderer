@@ -29,6 +29,7 @@
 
 // Project Libraries
 #include "Utils.hh"
+#include "Logger.hh"
 
 namespace Kate {
     class Texture {
@@ -141,15 +142,17 @@ namespace Kate {
          * */
         auto load(const std::filesystem::path& path) -> void;
 
+        static auto fromFile(const std::filesystem::path& path, Kate::Texture::TextureType type) -> Kate::Texture;
+
         /**
          * Returns a C-String representing the type of
          * texture specified
          * */
         static constexpr auto getStrType(Texture::TextureType type) -> std::string_view {
             switch (type) {
-                case TextureType::SPECULAR: return "specular";
-                case TextureType::DIFFUSE: return "diffuse";
-                case TextureType::NORMAL: return "normal";
+                case TextureType::SPECULAR: return "texture_specular";
+                case TextureType::DIFFUSE: return "texture_diffuse";
+                case TextureType::NORMAL: return "texture_normal";
                 default: return "invalid";
             }
         }
@@ -164,6 +167,12 @@ namespace Kate {
          * Enables blending
          * */
         static auto enableBlending() -> void;
+
+
+        /**
+         * Setup this bound texture
+         * */
+        auto setupTexture(std::uint8_t* data) -> void;
 
         /**
          * Defines blending properties, can be used to customize

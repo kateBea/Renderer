@@ -4,7 +4,7 @@ project(Renderer)
 # Declarations
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(LIBRARIES glfw glew_s)
+set(LIBRARIES glfw glew_s assimp)
 
 # Source files
 SET(SOURCES
@@ -38,6 +38,7 @@ include_directories(
     library/imgui
     library/fmt/include
     library/spdlog/include
+    library/assimp/include
     include/
 )
 
@@ -58,6 +59,8 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(library/glfw)
 add_subdirectory(library/glew/build/cmake)
 add_subdirectory(library/fmt)
+add_subdirectory(library/assimp)
+
 
 
 # Test builds
@@ -71,3 +74,8 @@ target_compile_definitions(specularLight PUBLIC GLEW_STATIC)
 add_executable(modelLoading test/ModelLoading.cpp ${SOURCES})
 target_link_libraries(modelLoading ${LIBRARIES})
 target_compile_definitions(modelLoading PUBLIC GLEW_STATIC)
+
+# Test with Importer
+add_executable(importer test/TestImporter.cpp ${SOURCES})
+target_link_libraries(importer ${LIBRARIES})
+target_compile_definitions(importer PUBLIC GLEW_STATIC)

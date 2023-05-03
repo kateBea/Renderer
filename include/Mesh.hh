@@ -8,7 +8,7 @@
 
 // C++ Standard Library
 #include <vector>
-#include <cstddef>
+#include <cstdint>
 #include <span>
 #include <algorithm>
 #include <utility>
@@ -46,7 +46,12 @@ namespace Kate {
         /**
          *
          * */
-        auto draw(const Shader& shader) -> void;
+        Mesh(Mesh&& other) noexcept;
+
+        /**
+         *
+         * */
+        auto draw(const Shader& shader) const -> void;
 
         ~Mesh() = default;
         

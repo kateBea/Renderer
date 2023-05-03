@@ -12,7 +12,7 @@
 
 // C++ Standard Library
 #include <vector>
-#include <cstddef>
+#include <cstdint>
 
 // Third-Party Libraries
 #include <GL/glew.h>

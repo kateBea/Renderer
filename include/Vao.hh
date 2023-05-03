@@ -10,7 +10,7 @@
 #define VAO_HH
 
 #include <iostream>
-#include <cstddef>
+#include <cstdint>
 #include <array>
 
 // Third-Party Libraries

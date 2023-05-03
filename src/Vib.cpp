@@ -39,4 +39,11 @@ namespace Kate {
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), usage);
         }
     }
+
+    Vib::Vib(Vib &&other) noexcept
+        :   m_id{ other.getId() }, m_count{ other.getCount() }
+    {
+        other.m_id = 0;
+        other.m_count = 0;
+    }
 }

@@ -33,19 +33,12 @@ namespace  Kate {
         std::uint8_t* imageData{ stbi_load(fileDir.data(), &m_Width, &m_Height, &m_Channels, 4) };
 
         if (imageData) {
+            KATE_LOGGER_INFO("Texture data loaded successfully");
+
             bind();
-            std::cout << "Texture data loaded successfully..." << std::endl;
-            // setup wrapping and filtering options
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-            glGenerateMipmap(GL_TEXTURE_2D);
-
+            setupTexture(imageData);
             unbind();
+
             stbi_image_free(imageData);
         }
         else {
@@ -102,5 +95,25 @@ namespace  Kate {
 
     auto Texture::setupBlendingProperties() -> void {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    auto Texture::fromFile(const std::filesystem::path& path, Kate::Texture::TextureType type) -> Kate::Texture  {
+        Kate::Texture texture{ type };
+        texture.load(path);
+        return texture;
+    }
+
+    auto Texture::setupTexture(std::uint8_t* data) -> void {
+        bind();
+        // setup wrapping and filtering options
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        unbind();
     }
 }

@@ -32,7 +32,7 @@ namespace Kate {
     }
 
     Vbo::Vbo(Vbo&& other) noexcept
-            : m_id{other.getId() }, m_size{other.getSize() }
+            : m_id{ other.getId() }, m_size{ other.getSize() }
     {
         other.m_id = 0;
         other.m_size = 0;

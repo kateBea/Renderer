@@ -2,6 +2,7 @@
 
 namespace Kate {
     Shader::Shader(const std::filesystem::path &vertexSourceDir, const std::filesystem::path &fragmentSourceDir) {
+        m_id = glCreateProgram();
         load(vertexSourceDir, fragmentSourceDir);
     }
 
@@ -77,10 +78,12 @@ namespace Kate {
         glAttachShader(getProgram(), vertexShaderID);
         glAttachShader(getProgram(), pixelShaderID);
         glLinkProgram(getProgram());
+
         showProgramStatus(getProgram(), "Error on program linking: ", GL_LINK_STATUS);
 
         glDetachShader(getProgram(), vertexShaderID);
         glDetachShader(getProgram(), pixelShaderID);
+
 
         // cleanup
         glDeleteShader(vertexShaderID);

@@ -11,7 +11,7 @@
 
 // C++ Standard Library
 #include <vector>
-#include <cstddef>
+#include <cstdint>
 
 // Third-Party Libraries
 #include <GL/glew.h>
@@ -31,6 +31,11 @@ namespace Kate {
          * Mark this Vertex index buffer as current
          * */
         auto bind() const -> void;
+
+        /**
+         * Move constructor
+         * */
+        Vib(Vib&& other) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid Vib aliasing

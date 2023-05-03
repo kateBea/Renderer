@@ -11,7 +11,7 @@
 
 // C++ Standard Library
 #include <cstdio>
-#include <cstddef>
+#include <cstdint>
 #include <cmath>
 
 // Third-Party Libraries

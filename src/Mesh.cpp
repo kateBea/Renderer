@@ -29,11 +29,10 @@ namespace Kate {
         m_Vao.layout(2, 2, Kate::Vao::Attribute::TEXTURE);
     }
 
-    auto Mesh::draw(const Shader& shader) -> void {
+    auto Mesh::draw(const Shader& shader) const -> void {
         std::uint32_t diffuseNr = 1;
         std::uint32_t specularNr = 1;
-        for(std::uint32_t i = 0; i < m_Textures.size(); i++)
-        {
+        for(std::uint32_t i = 0; i < m_Textures.size(); i++) {
             Texture::bindUnit(i); // activate proper texture unit before binding
             // retrieve texture number (the N in diffuse_textureN)
             std::string number;
@@ -50,7 +49,17 @@ namespace Kate {
 
         // draw mesh
         m_Vao.bind();
+        m_Vib.bind();
         glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, nullptr);
         Kate::Vao::unbind();
     }
+
+    Mesh::Mesh(Mesh &&other) noexcept
+        :   m_Vertices{ std::move(other.m_Vertices) }
+        ,   m_Indices{ std::move(other.m_Indices) }
+        ,   m_Textures{ std::move(other.m_Textures) }
+        ,   m_Vbo{ std::move(other.m_Vbo) }
+        ,   m_Vao{ std::move(other.m_Vao) }
+        ,   m_Vib{ std::move(other.m_Vib) }
+    {}
 }

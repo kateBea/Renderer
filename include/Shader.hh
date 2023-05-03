@@ -16,7 +16,7 @@
 #include <sstream>
 #include <iostream>
 #include <string_view>
-#include <cstddef>
+#include <cstdint>
 #include <filesystem>
 
 // Third-Party Libraries
