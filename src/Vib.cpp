@@ -35,8 +35,8 @@ namespace Kate {
     auto Vib::load(const std::vector<std::uint32_t> &indices, GLenum usage) -> void {
         if (!indices.empty()) {
             bind();
-            m_count = indices.size();
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count * sizeof(std::uint32_t), indices.data(), usage);
+            m_count = indices.size() * sizeof(std::uint32_t);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_count, indices.data(), usage);
         }
     }
 

@@ -16,6 +16,7 @@ namespace Kate {
     }
 
     auto Mesh::setup() -> void {
+        m_Vao.bind();
         m_Vbo.load(m_Vertices);
         m_Vib.load(m_Indices);
 
@@ -50,7 +51,7 @@ namespace Kate {
         // draw mesh
         m_Vao.bind();
         m_Vib.bind();
-        glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
         Kate::Vao::unbind();
     }
 
@@ -62,4 +63,8 @@ namespace Kate {
         ,   m_Vao{ std::move(other.m_Vao) }
         ,   m_Vib{ std::move(other.m_Vib) }
     {}
+
+    auto Mesh::getVertexCount() -> std::size_t {
+        return m_Vertices.size();
+    }
 }

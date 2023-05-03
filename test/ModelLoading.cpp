@@ -11,7 +11,7 @@ int main(int, char**) {
     Kate::Shader shader{ "../assets/shaders/basicVertex.glsl",
                          "../assets/shaders/basicFragment.glsl" };
 
-    Kate::Model objModel{ "../assets/models/backpack/source/backpack.fbx" };
+    Kate::Model objModel{ "../assets/models/lowPolyG19/source/G19.blend" };
 
     glEnable(GL_DEPTH_TEST);
 

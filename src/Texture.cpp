@@ -33,8 +33,6 @@ namespace  Kate {
         std::uint8_t* imageData{ stbi_load(fileDir.data(), &m_Width, &m_Height, &m_Channels, 4) };
 
         if (imageData) {
-            KATE_LOGGER_INFO("Texture data loaded successfully");
-
             bind();
             setupTexture(imageData);
             unbind();

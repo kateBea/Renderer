@@ -53,6 +53,8 @@ namespace Kate {
          * */
         auto draw(const Shader& shader) const -> void;
 
+        auto getVertexCount() -> std::size_t;
+
         ~Mesh() = default;
         
     private:

@@ -4,7 +4,7 @@
 
 namespace Kate {
     Model::Model(const std::filesystem::path& path)
-        :   m_ModelPath{ path }
+        :   m_ModelPath{ path.string().substr(0,  path.string().find_last_of('/')) }
     {
         load(path);
     }
@@ -34,7 +34,7 @@ namespace Kate {
 #endif
 
         Assimp::Importer importer{};
-        const aiScene *scene = importer.ReadFile(fileDir.data(), aiProcess_Triangulate | aiProcess_FlipUVs);
+        const aiScene *scene = importer.ReadFile(fileDir.data(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 
         if((scene == nullptr) || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || scene->mRootNode == nullptr)
             throw std::runtime_error(importer.GetErrorString());
@@ -63,10 +63,12 @@ namespace Kate {
             Kate::Vertex vertex{};
 
             vertex.setPositions(getPosition(mesh->mVertices[i]));
-            vertex.setNormals(getNormals(mesh->mVertices[i]));
+
+            if (mesh->HasNormals())
+                vertex.setNormals(getNormals(mesh->mNormals[i]));
 
             // does the mesh contain texture coordinates?
-            if(mesh->mTextureCoords[0]) {
+            if (mesh->mTextureCoords[0]) {
                 glm::vec2 vec;
                 vec.x = mesh->mTextureCoords[0][i].x;
                 vec.y = mesh->mTextureCoords[0][i].y;
@@ -79,8 +81,7 @@ namespace Kate {
         }
 
         // process indices
-        for(unsigned int i = 0; i < mesh->mNumFaces; i++)
-        {
+        for(std::size_t i{}; i < mesh->mNumFaces; i++) {
             aiFace face = mesh->mFaces[i];
             for(unsigned int j = 0; j < face.mNumIndices; j++)
                 indices.push_back(face.mIndices[j]);
@@ -117,7 +118,7 @@ namespace Kate {
         for(std::size_t i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str{};
             mat->GetTexture(type, i, &str);
-            textures.push_back(Kate::Texture::fromFile(str.C_Str(), tType));
+            textures.push_back(Kate::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
         }
 
         return textures;

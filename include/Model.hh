@@ -53,9 +53,9 @@ namespace Kate {
         /**
          *
          * */
-        static auto processMesh(aiMesh* node, const aiScene* scene) -> Mesh;
+        auto processMesh(aiMesh* node, const aiScene* scene) -> Mesh;
 
-        static auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType) -> std::vector<Kate::Texture>;
+        auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType) -> std::vector<Kate::Texture>;
 
         static auto getPosition(aiVector3D elem) -> glm::vec3;
         static auto getNormals(aiVector3D elem) -> glm::vec3;
