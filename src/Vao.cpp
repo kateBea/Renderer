@@ -1,5 +1,5 @@
 #include "../include/Vao.hh"
-#include "Utils.hh"
+#include "Common.hh"
 #include <cstddef>
 
 namespace Kate {

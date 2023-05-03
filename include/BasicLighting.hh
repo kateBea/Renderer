@@ -14,7 +14,7 @@
 
 #include "Vao.hh"
 #include "Vbo.hh"
-#include "Utils.hh"
+#include "Common.hh"
 
 namespace Kate {
     class BasicLighting {

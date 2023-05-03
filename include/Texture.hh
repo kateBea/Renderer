@@ -28,7 +28,7 @@
 #include <stb_image.h>
 
 // Project Libraries
-#include "Utils.hh"
+#include "Common.hh"
 #include "Logger.hh"
 
 namespace Kate {

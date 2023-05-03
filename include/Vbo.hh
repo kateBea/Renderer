@@ -18,7 +18,7 @@
 #include <GL/glew.h>
 
 // Project Libraries
-#include "Utils.hh"
+#include "Common.hh"
 
 namespace Kate {
     class Vbo {

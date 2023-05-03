@@ -18,7 +18,7 @@
 #include <GLFW/glfw3.h>
 
 // Project Libraries
-#include "Utils.hh"
+#include "Common.hh"
 #include "Texture.hh"
 #include "Vao.hh"
 #include "Vbo.hh"

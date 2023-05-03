@@ -44,7 +44,6 @@ namespace Kate {
     }
 
     auto Model::processNode(aiNode* node, const aiScene* scene) -> void {
-
         // process all the node's meshes (if any)
         for(std::size_t i{}; i < node->mNumMeshes; i++)
             m_Meshes.push_back(std::move(processMesh(scene->mMeshes[node->mMeshes[i]], scene)));
@@ -55,9 +54,9 @@ namespace Kate {
     }
 
     auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> Mesh {
-        std::vector<Kate::Vertex> vertices;
-        std::vector<std::uint32_t> indices;
-        std::vector<Kate::Texture> textures;
+        std::vector<Kate::Vertex> vertices{};
+        std::vector<std::uint32_t> indices{};
+        std::vector<Kate::Texture> textures{};
 
         for(std::size_t i = 0; i < mesh->mNumVertices; i++) {
             Kate::Vertex vertex{};
@@ -105,11 +104,11 @@ namespace Kate {
     }
 
     auto Model::getPosition(aiVector3D elem) -> glm::vec3 {
-        return { elem.x, elem.y, elem.y };
+        return { elem.x, elem.y, elem.z };
     }
 
     auto Model::getNormals(aiVector3D elem) -> glm::vec3 {
-        return { elem.x, elem.y, elem.y };
+        return { elem.x, elem.y, elem.z };
     }
 
     auto Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Kate::Texture::TextureType tType) -> std::vector<Kate::Texture> {

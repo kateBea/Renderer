@@ -40,7 +40,7 @@
 #include "BasicLighting.hh"
 #include "Vao.hh"
 #include "Vbo.hh"
-#include "Utils.hh"
+#include "Common.hh"
 
 #include "Model.hh"
 

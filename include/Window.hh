@@ -23,7 +23,7 @@
 
 // Project Libraries
 #include "InputManager.hh"
-#include "Utils.hh"
+#include "Common.hh"
 
 namespace Kate {
     class Window {
