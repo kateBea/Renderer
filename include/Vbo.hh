@@ -92,8 +92,8 @@ namespace Kate {
         ~Vbo();
 
     private:
-        std::uint32_t m_id{};   // Identifier of this Vertex buffer object
-        std::size_t m_size{};   // size in BYTES of the total count of vertices
+        std::uint32_t m_Id{};   // Identifier of this Vertex buffer object
+        std::size_t m_Size{};   // size in BYTES of the total count of vertices
     };
 }
 

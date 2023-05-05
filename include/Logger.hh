@@ -9,9 +9,9 @@
 namespace Kate {
     class Logger {
     public:
-        static auto init() -> void;
+        static auto Init() -> void;
 
-        static auto getLogger() -> const std::shared_ptr<spdlog::logger>&;
+        static auto GetLogger() -> const std::shared_ptr<spdlog::logger>&;
 
 
     private:

@@ -30,38 +30,82 @@ namespace Kate {
     class Model {
     public:
         /**
-         *
+         * Loads an object model from the given path. If the path is not valid
+         * @param path path to the model to be loaded
+         * @throws std::runtime_error if the file does not exist or the path is invalid
          * */
         explicit Model(const std::filesystem::path& path);
 
         /**
-         *
+         * Renders Model mesh using the provided shader
+         * @param shader shader used to render this Model
          * */
         auto draw(const Shader& shader) -> void;
 
+        /**
+         * Copy constructor disabled. Use the default constructor
+         * to load a new Model
+         * */
+        Model(const Model& other)           = delete;
+
+        /**
+         * Copy assigment disabled. Use the default constructor
+         * to load a new Model
+         * */
+        auto operator=(const Model& other)  = delete;
+
+        /**
+         * Moves other model to the implicit parameter
+         * @param other moved from Model
+         * */
+        Model(Model&& other) noexcept;
+
+        /**
+         * Moves other model to the implicit parameter
+         * @param other moved from Model
+         * @return *this
+         * */
+        auto operator=(Model&& other) noexcept -> Model&;
+
     private:
         /**
-         *
+         * Helper function to load model resources from given path
+         * @param path path to the model to be loaded
+         * @throws std::runtime_error if the file does not exist or the path is invalid
          * */
         auto load(const std::filesystem::path& path) -> void;
 
+
+        // ASSIMP INTERFACE HELPER FUNCTIONS
+
         /**
-         *
+         * Retrieves each one of the meshes contained within the scene
+         * into this Model. This process starts from the given node
+         * traversing all of its children nodes
          * */
         auto processNode(aiNode* node, const aiScene* scene) -> void;
 
         /**
-         *
+         * Helper functions to construct a Kate::Mesh from the data
+         * contained within the node
          * */
         auto processMesh(aiMesh* node, const aiScene* scene) -> Mesh;
 
-        auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType) -> std::vector<Kate::Texture>;
+        /**
+         * Retrieves texture materials from the given aiMaterial
+         * */
+        auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType,
+                                  const aiScene* scene) -> std::vector<Kate::Texture>;
 
-        static auto getPosition(aiVector3D elem) -> glm::vec3;
-        static auto getNormals(aiVector3D elem) -> glm::vec3;
 
-        std::vector<Mesh> m_Meshes{};
-        std::filesystem::path m_ModelPath{};
+        /**
+         * Helper functions to construct a 3D vector from a aiVector3D object
+         * */
+        static auto constructVec3(aiVector3D elem) -> glm::vec3;
+
+
+        std::vector<Mesh>       m_Meshes{};
+        std::filesystem::path   m_ModelPath{};
 
     };
 

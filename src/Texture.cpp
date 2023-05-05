@@ -53,9 +53,9 @@ namespace  Kate {
 
     Texture::~Texture() { glDeleteTextures(1, &this->m_Id); }
 
-    Texture::Texture(Texture &&other) noexcept { *this = std::move(other); }
+    Texture::Texture(Texture&& other) noexcept { *this = std::move(other); }
 
-    Texture &Texture::operator=(Texture &&other) noexcept {
+    Texture& Texture::operator=(Texture &&other) noexcept {
         m_Id        = other.getId();
         m_Width     = other.getDimensions().first;
         m_Height    = other.getDimensions().second;
@@ -66,12 +66,12 @@ namespace  Kate {
         other.m_Width       = 0;
         other.m_Height      = 0;
         other.m_Channels    = 0;
-        m_Type              = TextureType::INVALID;
 
         return *this;
     }
 
-    auto Texture::bindUnit(std::int32_t unit) -> void {
+    auto Texture::bindUnit(std::int32_t unit) const -> void {
+        bind();
         glActiveTexture(GL_TEXTURE0 + unit);
     }
 
@@ -101,7 +101,7 @@ namespace  Kate {
         return texture;
     }
 
-    auto Texture::setupTexture(std::uint8_t* data) -> void {
+    auto Texture::setupTexture(std::uint8_t* data) const -> void {
         bind();
         // setup wrapping and filtering options
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);

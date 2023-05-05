@@ -41,7 +41,6 @@ namespace Kate {
             DIFFUSE,
             SPECULAR,
             NORMAL,
-            INVALID,
         };
 
         /**
@@ -110,7 +109,7 @@ namespace Kate {
          * This function ensures to mark this Texture as current one, so a previous
          * call to <b>Texture::bind()</b> is unnecessary
          * */
-        static auto bindUnit(std::int32_t unit) -> void ;
+        auto bindUnit(std::int32_t unit = 0) const -> void ;
 
         /**
          * Returns the identifier of this Texture
@@ -179,7 +178,7 @@ namespace Kate {
         /**
          * Setup this bound texture
          * */
-        auto setupTexture(std::uint8_t* data) -> void;
+        auto setupTexture(std::uint8_t* data) const -> void;
 
         /**
          * Defines blending properties, can be used to customize

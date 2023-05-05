@@ -76,8 +76,8 @@ namespace Kate {
         ~Vib();
 
     private:
-        std::uint32_t m_id{};
-        std::size_t m_count{};
+        std::uint32_t m_Id{};
+        std::size_t m_Count{};
     };
 }
 

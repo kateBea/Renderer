@@ -1,11 +1,19 @@
-#include "../include/Model.hh"
-
+// C++ Standard Library
 #include <array>
+#include <utility>
+
+// Project Libraries
+#include "../include/Model.hh"
+#include "../include/Logger.hh"
 
 namespace Kate {
     Model::Model(const std::filesystem::path& path)
         :   m_ModelPath{ path.string().substr(0,  path.string().find_last_of('/')) }
     {
+        if (!path.has_filename()) {
+            throw std::runtime_error("Not valid path for model object");
+        }
+
         load(path);
     }
 
@@ -15,14 +23,8 @@ namespace Kate {
     }
 
     auto Model::load(const std::filesystem::path& path) -> void {
-        // 1. aiProcess_Triangulate we tell Assimp that if the model does not
-        // (entirely) consist of triangles, it should transform all the
-        // model's primitive shapes to triangles first
-        //
-        // 2. The aiProcess_FlipUVs flips the texture coordinates on the y-axis
-        // where necessary during processing
-        //
-        // See more postprocessing options: https://assimp.sourceforge.net/lib_html/postprocess_8h.html
+        if (!path.has_filename())
+            throw std::runtime_error("Not valid path for model object");
 
         std::array<char, 4096> fileDir{};
 #ifdef WINDOWS
@@ -34,17 +36,28 @@ namespace Kate {
 #endif
 
         Assimp::Importer importer{};
-        const aiScene *scene = importer.ReadFile(fileDir.data(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
+
+        // 1. aiProcess_Triangulate we tell Assimp that if the model does not
+        // (entirely) consist of triangles, it should transform all the
+        // model's primitive shapes to triangles first
+        //
+        // 2. The aiProcess_FlipUVs flips the texture coordinates on the y-axis
+        // where necessary during processing
+        //
+        // See more postprocessing options: https://assimp.sourceforge.net/lib_html/postprocess_8h.html
+        const aiScene* scene = importer.ReadFile(fileDir.data(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 
         if((scene == nullptr) || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || scene->mRootNode == nullptr)
             throw std::runtime_error(importer.GetErrorString());
 
+        m_Meshes.reserve(scene->mRootNode->mNumMeshes);
 
         processNode(scene->mRootNode, scene);
+
     }
 
     auto Model::processNode(aiNode* node, const aiScene* scene) -> void {
-        // process all the node's meshes (if any)
+        // Process all the meshes from this node
         for(std::size_t i{}; i < node->mNumMeshes; i++)
             m_Meshes.push_back(std::move(processMesh(scene->mMeshes[node->mMeshes[i]], scene)));
 
@@ -53,45 +66,35 @@ namespace Kate {
                 processNode(node->mChildren[i], scene);
     }
 
-    auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> Mesh {
+    auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> Kate::Mesh {
         std::vector<Kate::Vertex> vertices{};
         std::vector<std::uint32_t> indices{};
         std::vector<Kate::Texture> textures{};
 
         for(std::size_t i = 0; i < mesh->mNumVertices; i++) {
-            Kate::Vertex vertex{};
-
-            vertex.setPositions(getPosition(mesh->mVertices[i]));
-
-            if (mesh->HasNormals())
-                vertex.setNormals(getNormals(mesh->mNormals[i]));
-
-            // does the mesh contain texture coordinates?
-            if (mesh->mTextureCoords[0]) {
-                glm::vec2 vec;
-                vec.x = mesh->mTextureCoords[0][i].x;
-                vec.y = mesh->mTextureCoords[0][i].y;
-                vertex.setTextures(vec);
-            }
-            else
-                vertex.setTextures(glm::vec2(0.0f, 0.0f));
-
-            vertices.push_back(vertex);
+            vertices.emplace_back(
+                constructVec3(mesh->mVertices[i]),
+                mesh->HasNormals() ? constructVec3(mesh->mNormals[i]) : glm::vec3(0.0f),
+                mesh->mTextureCoords[0] != nullptr ? glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : glm::vec2(0.0f)
+            );
         }
 
-        // process indices
+        // Retrieve mesh indices
         for(std::size_t i{}; i < mesh->mNumFaces; i++) {
             aiFace face = mesh->mFaces[i];
-            for(unsigned int j = 0; j < face.mNumIndices; j++)
-                indices.push_back(face.mIndices[j]);
+
+            for(std::size_t index{}; index < face.mNumIndices; index++)
+                indices.push_back(face.mIndices[index]);
         }
 
         // process material
         if(mesh->mMaterialIndex >= 0) {
-            aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
+            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-            auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, Kate::Texture::TextureType::DIFFUSE);
-            auto specularMaps = loadMaterialTextures(material,aiTextureType_SPECULAR, Kate::Texture::TextureType::SPECULAR);
+            auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE,
+                                                    Kate::Texture::TextureType::DIFFUSE, scene);
+            auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR,
+                                                     Kate::Texture::TextureType::SPECULAR, scene);
 
             for (auto& item : diffuseMaps)
                 textures.push_back(std::move(item));
@@ -103,23 +106,32 @@ namespace Kate {
         return Mesh{ vertices, indices, textures };
     }
 
-    auto Model::getPosition(aiVector3D elem) -> glm::vec3 {
+    auto Model::constructVec3(aiVector3D elem) -> glm::vec3 {
         return { elem.x, elem.y, elem.z };
     }
-
-    auto Model::getNormals(aiVector3D elem) -> glm::vec3 {
-        return { elem.x, elem.y, elem.z };
-    }
-
-    auto Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Kate::Texture::TextureType tType) -> std::vector<Kate::Texture> {
+    auto Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType,
+                                     const aiScene* scene) -> std::vector<Kate::Texture> {
         std::vector<Kate::Texture> textures;
 
+        // TODO: model POD.obj has textures but GetTextureCount(type) returns 0 for
         for(std::size_t i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str{};
-            mat->GetTexture(type, i, &str);
-            textures.push_back(Kate::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
+            if (mat->GetTexture(type, i, &str) == AI_SUCCESS)
+                // TODO: str might not be the name of a texture and instead hold the texture index. Right we assume textures are in same directory as the model
+                textures.push_back(Kate::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
         }
 
         return textures;
+    }
+
+    Model::Model(Model &&other) noexcept
+        :   m_Meshes{ std::move(other.m_Meshes) }, m_ModelPath{ std::move(other.m_ModelPath) }
+    {}
+
+    auto Model::operator=(Model &&other) noexcept -> Model& {
+        m_Meshes = std::move(other.m_Meshes);
+        m_ModelPath = std::move(other.m_ModelPath);
+
+        return *this;
     }
 }

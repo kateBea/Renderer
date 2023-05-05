@@ -2,14 +2,14 @@
 
 namespace Kate {
     Vbo::Vbo(const std::vector<Kate::Vertex>& vertices, GLenum usage) noexcept
-        :   m_id{}, m_size{}
+        :   m_Id{}, m_Size{}
     {
-        glGenBuffers(1, &this->m_id);
+        glGenBuffers(1, &this->m_Id);
         load(vertices, usage);
     }
 
     auto Vbo::bind() const -> void {
-        glBindBuffer(GL_ARRAY_BUFFER, this->m_id);
+        glBindBuffer(GL_ARRAY_BUFFER, this->m_Id);
     }
 
     auto Vbo::unbind() -> void {
@@ -17,47 +17,48 @@ namespace Kate {
     }
 
     Vbo::~Vbo() {
-        glDeleteBuffers(1, &this->m_id);
+        glDeleteBuffers(1, &this->m_Id);
     }
 
     auto Vbo::getId() const -> std::uint32_t {
-        return this->m_id;
+        return this->m_Id;
     }
 
     auto Vbo::getSize() const -> std::size_t {
-        return this->m_size;
+        return this->m_Size;
     }
 
     auto Vbo::getCount() const -> std::size_t {
-        return this->m_size / sizeof (float);
+        return this->m_Size / sizeof (float);
     }
 
     Vbo::Vbo(Vbo&& other) noexcept
-            : m_id{ other.getId() }, m_size{ other.getSize() }
+            : m_Id{ other.getId() }, m_Size{ other.getSize() }
     {
-        other.m_id = 0;
-        other.m_size = 0;
+        other.m_Id = 0;
+        other.m_Size = 0;
     }
 
     Vbo& Vbo::operator=(Vbo&& other) noexcept {
-        this->m_id = other.getId();
-        this->m_size = other.getSize();
+        this->m_Id = other.getId();
+        this->m_Size = other.getSize();
 
-        other.m_id = 0;
-        other.m_size = 0;
+        other.m_Id = 0;
+        other.m_Size = 0;
 
         return *this;
     }
 
     Vbo::Vbo() {
-        glGenBuffers(1, &this->m_id);
+        glGenBuffers(1, &this->m_Id);
     }
 
     auto Vbo::load(const std::vector<Kate::Vertex>& vertices, GLenum usage) -> void {
         if (!vertices.empty()) {
             bind();
-            m_size = vertices.size() * sizeof(Kate::Vertex);
-            glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(m_size), vertices.data(), usage);
+            m_Size = vertices.size() * sizeof(Kate::Vertex);
+            glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(m_Size), vertices.data(), usage);
+            unbind();
         }
     }
 

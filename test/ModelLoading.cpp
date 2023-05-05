@@ -31,8 +31,8 @@ auto initImGui(Kate::Window& window) -> void {
 int main(int, char**) {
     Kate::Window window{ "ModelLoading", 1280, 720 };
     Kate::Camera camera{ window };
-    Kate::Shader shader{ "../assets/shaders/basicVertex.glsl",
-                         "../assets/shaders/basicFragment.glsl" };
+    Kate::Shader shader{ "../assets/shaders/defaultVertex.glsl",
+                         "../assets/shaders/defaultFragment.glsl" };
 
     Kate::Model objModel{ "../assets/models/Pod42/source/POD/POD.obj" };
 

@@ -171,7 +171,9 @@ namespace Kate {
     }
 
     /**
-     *
+     * Ideally this is better here than in the Window class since
+     * the Window should not be responsible of "shutting down" the GLFW
+     * library. There may be more than one window in my app.
      * */
     inline auto SetupGlfw() -> void {
         // Init GLFW Library

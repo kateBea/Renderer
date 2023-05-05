@@ -38,7 +38,7 @@ namespace Kate {
 
         /**
          * Initializes this Mesh' vertex, index and texture objects with the
-         * data we pass ass parameters. The parameters data is moved, that's why
+         * data we pass ass parameters. The parameters data are moved, that's why
          * it is passed as a reference.
          * */
         explicit Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures);
