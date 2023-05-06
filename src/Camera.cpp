@@ -1,8 +1,8 @@
 #include "../include/Camera.hh"
 
-namespace Kate {
+namespace kT {
     // CAMERA IMPLEMENTATION
-    auto Camera::lookAround(const Kate::Window& window, const glm::vec3& target) -> void {
+    auto Camera::lookAround(const kT::Window& window, const glm::vec3& target) -> void {
         computeMatricesFromInput(window);
 
         // camera direction
@@ -16,7 +16,7 @@ namespace Kate {
         m_View = glm::lookAt(m_CameraPos, m_CameraPos + m_CameraFront, m_CameraUp);
     }
 
-    auto Camera::computeMatricesFromInput(const Kate::Window &window) -> void {
+    auto Camera::computeMatricesFromInput(const kT::Window &window) -> void {
         const float cameraSpeed{ 2.5f * window.getDeltaTime() };
 
         if (window.isKeyPressed(GLFW_KEY_W))
@@ -80,7 +80,7 @@ namespace Kate {
         m_CameraFront = glm::normalize(front);
     }
 
-    Camera::Camera(const Kate::Window& window, const glm::vec3& startPos) noexcept {
+    Camera::Camera(const kT::Window& window, const glm::vec3& startPos) noexcept {
         // yaw is initialized to -90.0 degrees since a yaw of
         // 0.0 results in a direction vector pointing to the right,
         // so we initially rotate a bit to the left.

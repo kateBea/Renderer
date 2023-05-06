@@ -1,6 +1,6 @@
 /**
  * @file Texture.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Texture class
  * @version 1.0
  * @date 2023-04-06
@@ -31,7 +31,7 @@
 #include "Common.hh"
 #include "Logger.hh"
 
-namespace Kate {
+namespace kT {
     class Texture {
     public:
         /**
@@ -142,13 +142,13 @@ namespace Kate {
         auto load(const std::filesystem::path& path) -> void;
 
         /**
-         * Similar behaviour to Kate::Texture::load() but we instead provide the path and type
+         * Similar behaviour to kT::Texture::load() but we instead provide the path and type
          * to create a new Texture
          * @param path path to the texture file
          * @param type type of texture
          * @return newly created Texture
          * */
-        static auto fromFile(const std::filesystem::path& path, Kate::Texture::TextureType type) -> Kate::Texture;
+        static auto fromFile(const std::filesystem::path& path, kT::Texture::TextureType type) -> kT::Texture;
 
         /**
          * Returns a C-String representing the type of

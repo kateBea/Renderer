@@ -1,6 +1,6 @@
 /**
  * @file Vbo.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Vertex buffer object class
  * @version 1.0
  * @date 2023-03-21
@@ -20,7 +20,7 @@
 // Project Libraries
 #include "Common.hh"
 
-namespace Kate {
+namespace kT {
     class Vbo {
     public:
         explicit Vbo();
@@ -30,7 +30,7 @@ namespace Kate {
          * buffer object with a valid id
          * @param vertices buffer containing all the vertices
          * */
-        explicit Vbo(const std::vector<Kate::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
+        explicit Vbo(const std::vector<kT::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) noexcept;
 
         /**
          * Copy constructor. Marked as delete to avoid Vbo aliasing
@@ -85,7 +85,7 @@ namespace Kate {
          * */
         static auto unbind() -> void;
 
-        auto load(const std::vector<Kate::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) -> void;
+        auto load(const std::vector<kT::Vertex>& vertices, GLenum usage = GL_STATIC_DRAW) -> void;
         /**
          * Releases resources from this Vertex buffer
          * */

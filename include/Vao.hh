@@ -1,6 +1,6 @@
 /**
  * @file Vao.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Vertex array object class
  * @version 1.0
  * @date 2023-03-21
@@ -16,7 +16,7 @@
 // Third-Party Libraries
 #include <GL/glew.h>
 
-namespace Kate {
+namespace kT {
     class Vao {
     public:
         enum class Attribute {

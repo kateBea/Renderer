@@ -1,6 +1,6 @@
 /**
  * @file Camera.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Camera class
  * @version 1.0
  * @date 2023-03-16
@@ -26,7 +26,7 @@
 #include "InputManager.hh"
 #include "Window.hh"
 
-namespace Kate {
+namespace kT {
     class Camera {
     public:
         /**
@@ -37,7 +37,7 @@ namespace Kate {
         /**
          * Creates a new instance of a camera within the given window.
          * */
-        explicit Camera(const Kate::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f,  7.0f)) noexcept;
+        explicit Camera(const kT::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f, 7.0f)) noexcept;
 
         /**
          * Copy constructor disabled
@@ -62,7 +62,7 @@ namespace Kate {
         /**
          *
          * */
-        auto lookAround(const Kate::Window& window, const glm::vec3& target) -> void;
+        auto lookAround(const kT::Window& window, const glm::vec3& target) -> void;
 
         /**
          * Returns the current field of view of this camera.
@@ -134,7 +134,7 @@ namespace Kate {
         /**
          *
          * */
-        auto computeMatricesFromInput(const Kate::Window &window) -> void;
+        auto computeMatricesFromInput(const kT::Window &window) -> void;
 
         glm::mat4 m_View{};
         glm::mat4 m_Projection{};

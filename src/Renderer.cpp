@@ -1,16 +1,13 @@
 #include "../include/Renderer.hh"
 
-namespace Kate {
+namespace kT {
     // IMPLEMENTATION
-    Renderer::Renderer(std::string_view name, std::int32_t width, std::int32_t height)
-            :   m_Window{ name, width, height }
-            ,   m_DefaultShaders{}
-            ,   m_Meshes{}
-    {
-
-    }
+    Renderer::Renderer(const std::filesystem::path& path)
+        :   m_DefaultShaders{}, m_LightShader{}, m_Meshes{}, m_ShadersPath{ path }
+    {}
 
     auto Renderer::startUp() -> void {
+        m_DefaultShaders.load("defaultVertex.glsl", "defaultFragment.glsl");
         // Setup OpenGL Rendering
         setOpenGLHints();
     }

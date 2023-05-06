@@ -1,9 +1,11 @@
 #include "Logger.hh"
 
-namespace Kate {
+namespace kT {
     // Initialize logger
     std::shared_ptr<spdlog::logger> Logger::logger{};
 
+    // Don't forget to call this function before using the logger
+    // or you will get null pointer read exceptions
     auto Logger::Init() -> void {
         logger = spdlog::stdout_color_mt("KATE_CORE_LOGGER");
 

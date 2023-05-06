@@ -1,6 +1,6 @@
 /**
  * @file Vib.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Vertex index buffer class
  * @version 1.0
  * @date 2023-03-21
@@ -16,7 +16,7 @@
 // Third-Party Libraries
 #include <GL/glew.h>
 
-namespace Kate {
+namespace kT {
     class Vib {
     public:
         explicit Vib();

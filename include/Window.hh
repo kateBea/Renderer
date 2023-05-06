@@ -1,6 +1,6 @@
 /**
  * @file parser.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Window manager
  * @version 1.0
  * @date 2023-03-22
@@ -25,7 +25,7 @@
 #include "InputManager.hh"
 #include "Common.hh"
 
-namespace Kate {
+namespace kT {
     class Window {
     public:
         explicit Window(std::string_view window_name = "Renderer", std::int32_t width = 640, std::int32_t height = 480);
@@ -102,7 +102,7 @@ namespace Kate {
         std::string         m_name{};
         std::int32_t        m_width{};
         std::int32_t        m_height{};
-        Kate::InputManager  m_Input{};
+        kT::InputManager  m_Input{};
     };
 }
 #endif // END WINDOW_HH

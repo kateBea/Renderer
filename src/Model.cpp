@@ -6,7 +6,7 @@
 #include "../include/Model.hh"
 #include "../include/Logger.hh"
 
-namespace Kate {
+namespace kT {
     Model::Model(const std::filesystem::path& path)
         :   m_ModelPath{ path.string().substr(0,  path.string().find_last_of('/')) }
     {
@@ -28,7 +28,6 @@ namespace Kate {
 
         std::array<char, 4096> fileDir{};
 #ifdef WINDOWS
-        // fileDir.size() will return the amount of elements of fileDir, since it contains char which are byte sized
         wcstombs_s(nullptr, fileDir.data(), fileDir.size(), path.c_str(), 4096);
 #else
 
@@ -66,10 +65,10 @@ namespace Kate {
                 processNode(node->mChildren[i], scene);
     }
 
-    auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> Kate::Mesh {
-        std::vector<Kate::Vertex> vertices{};
+    auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> kT::Mesh {
+        std::vector<kT::Vertex> vertices{};
         std::vector<std::uint32_t> indices{};
-        std::vector<Kate::Texture> textures{};
+        std::vector<kT::Texture> textures{};
 
         for(std::size_t i = 0; i < mesh->mNumVertices; i++) {
             vertices.emplace_back(
@@ -92,9 +91,9 @@ namespace Kate {
             aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
             auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE,
-                                                    Kate::Texture::TextureType::DIFFUSE, scene);
+                                                    kT::Texture::TextureType::DIFFUSE, scene);
             auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR,
-                                                     Kate::Texture::TextureType::SPECULAR, scene);
+                                                     kT::Texture::TextureType::SPECULAR, scene);
 
             for (auto& item : diffuseMaps)
                 textures.push_back(std::move(item));
@@ -109,16 +108,16 @@ namespace Kate {
     auto Model::constructVec3(aiVector3D elem) -> glm::vec3 {
         return { elem.x, elem.y, elem.z };
     }
-    auto Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType,
-                                     const aiScene* scene) -> std::vector<Kate::Texture> {
-        std::vector<Kate::Texture> textures;
+    auto Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, kT::Texture::TextureType tType,
+                                     const aiScene* scene) -> std::vector<kT::Texture> {
+        std::vector<kT::Texture> textures;
 
         // TODO: model POD.obj has textures but GetTextureCount(type) returns 0 for
         for(std::size_t i = 0; i < mat->GetTextureCount(type); i++) {
             aiString str{};
             if (mat->GetTexture(type, i, &str) == AI_SUCCESS)
                 // TODO: str might not be the name of a texture and instead hold the texture index. Right we assume textures are in same directory as the model
-                textures.push_back(Kate::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
+                textures.push_back(kT::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
         }
 
         return textures;

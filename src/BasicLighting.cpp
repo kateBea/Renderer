@@ -1,6 +1,6 @@
 #include "../include/BasicLighting.hh"
 
-namespace Kate {
+namespace kT {
 
     BasicLighting::BasicLighting() noexcept
         :   m_Id{}, m_LightingColor{ glm::vec3(1.0f, 1.0f, 1.0f) }, m_Vao{}, m_Vbo{}

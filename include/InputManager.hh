@@ -1,6 +1,6 @@
 /**
  * @file InputManager.hh
- * @author Kate
+ * @author kT
  * @brief Defines the InputManager interface
  * @version 1.0
  * @date 2023-03-23
@@ -21,7 +21,7 @@
 // Project Libraries
 #include "Common.hh"
 
-namespace Kate {
+namespace kT {
     class InputManager {
     public:
         explicit InputManager() = default;

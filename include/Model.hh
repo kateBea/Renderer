@@ -1,6 +1,6 @@
 /**
  * @file Model.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Model class
  * @version 1.0
  * @date 2023-04-30
@@ -26,7 +26,7 @@
 #include "Mesh.hh"
 #include "Shader.hh"
 
-namespace Kate {
+namespace kT {
     class Model {
     public:
         /**
@@ -86,7 +86,7 @@ namespace Kate {
         auto processNode(aiNode* node, const aiScene* scene) -> void;
 
         /**
-         * Helper functions to construct a Kate::Mesh from the data
+         * Helper functions to construct a kT::Mesh from the data
          * contained within the node
          * */
         auto processMesh(aiMesh* node, const aiScene* scene) -> Mesh;
@@ -94,8 +94,8 @@ namespace Kate {
         /**
          * Retrieves texture materials from the given aiMaterial
          * */
-        auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, Kate::Texture::TextureType tType,
-                                  const aiScene* scene) -> std::vector<Kate::Texture>;
+        auto loadMaterialTextures(aiMaterial *mat, aiTextureType type, kT::Texture::TextureType tType,
+                                  const aiScene* scene) -> std::vector<kT::Texture>;
 
 
         /**

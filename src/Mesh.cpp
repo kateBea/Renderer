@@ -6,8 +6,8 @@
 // Project Libraries
 #include "../include/Mesh.hh"
 
-namespace Kate {
-    Mesh::Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures)
+namespace kT {
+    Mesh::Mesh(std::vector<kT::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<kT::Texture>& textures)
         :   m_Vertices{ std::move(vertices) }, m_Indices{ std::move(indices)}, m_Textures{ std::move(textures) }, m_Vbo{}, m_Vao{}, m_Vib{}
     {
         setup();
@@ -20,11 +20,11 @@ namespace Kate {
         m_Vbo.bind();
 
         // Vertex position attribute
-        m_Vao.layout(0, 3, Kate::Vao::Attribute::POSITION);
+        m_Vao.layout(0, 3, kT::Vao::Attribute::POSITION);
         // Vertex Normals attribute
-        m_Vao.layout(1, 3, Kate::Vao::Attribute::NORMAL);
+        m_Vao.layout(1, 3, kT::Vao::Attribute::NORMAL);
         // Vertex Texture attribute
-        m_Vao.layout(2, 2, Kate::Vao::Attribute::TEXTURE);
+        m_Vao.layout(2, 2, kT::Vao::Attribute::TEXTURE);
     }
 
     auto Mesh::draw(const Shader& shader) const -> void {
@@ -62,9 +62,9 @@ namespace Kate {
         glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()),
                        GL_UNSIGNED_INT, nullptr);
 
-        Kate::Vao::unbind();
-        Kate::Vbo::unbind();
-        Kate::Vib::unbind();
+        kT::Vao::unbind();
+        kT::Vbo::unbind();
+        kT::Vib::unbind();
     }
 
     Mesh::Mesh(Mesh &&other) noexcept

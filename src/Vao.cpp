@@ -2,7 +2,7 @@
 #include "Common.hh"
 #include <cstddef>
 
-namespace Kate {
+namespace kT {
     Vao::Vao(Vao&& other) noexcept
             :   m_id{ other.getId() }
     {
@@ -40,8 +40,8 @@ namespace Kate {
                         size,       // Count of elements per attribute
                         type,       // type of data of the attribute
                         GL_FALSE,   // normalized?
-                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Pos))  // pointer to the attribute within the buffer
+                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Pos))  // pointer to the attribute within the buffer
                 );
                 break;
             case Attribute::NORMAL:
@@ -50,8 +50,8 @@ namespace Kate {
                         size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
                         type,       // type of data of the attribute
                         GL_FALSE,   // normalized?
-                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Norm))  // pointer to the attribute within the buffer
+                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Norm))  // pointer to the attribute within the buffer
                 );
                 break;
             case Attribute::TEXTURE:
@@ -60,8 +60,8 @@ namespace Kate {
                         size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
                         type,       // type of data of the attribute
                         GL_FALSE,   // normalized?
-                        sizeof(Kate::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(Kate::Vertex, m_Texture))  // pointer to the attribute within the buffer
+                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Texture))  // pointer to the attribute within the buffer
                 );
                 break;
             case Attribute::NONE:

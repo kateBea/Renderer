@@ -1,6 +1,6 @@
 #include "../include/Vib.hh"
 
-namespace Kate {
+namespace kT {
     Vib::Vib() {
         glGenBuffers(1, &this->m_Id);
     }

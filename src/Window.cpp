@@ -1,6 +1,6 @@
 #include "../include/Window.hh"
 
-namespace Kate {
+namespace kT {
     Window::Window(std::string_view window_name, std::int32_t width, std::int32_t height)
             :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_Input{}, m_DeltaTime{}, m_LastFrame{}
     {
@@ -98,8 +98,8 @@ namespace Kate {
     }
 
     auto Window::setupGlfwHints() -> void {
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Kate::GLMajor);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Kate::GLMinor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kT::GLMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kT::GLMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     }

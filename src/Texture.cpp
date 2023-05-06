@@ -1,6 +1,6 @@
 #include "../include/Texture.hh"
 
-namespace  Kate {
+namespace  kT {
     // IMPLEMENTATION
     Texture::Texture(TextureType type) noexcept
             :   m_Height{}, m_Width{}, m_Type{ type }
@@ -95,8 +95,8 @@ namespace  Kate {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    auto Texture::fromFile(const std::filesystem::path& path, Kate::Texture::TextureType type) -> Kate::Texture  {
-        Kate::Texture texture{ type };
+    auto Texture::fromFile(const std::filesystem::path& path, kT::Texture::TextureType type) -> kT::Texture  {
+        kT::Texture texture{type };
         texture.load(path);
         return texture;
     }

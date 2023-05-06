@@ -16,7 +16,7 @@
 #include "Vbo.hh"
 #include "Common.hh"
 
-namespace Kate {
+namespace kT {
     class BasicLighting {
     public:
         explicit BasicLighting() noexcept;
@@ -41,8 +41,8 @@ namespace Kate {
         std::uint32_t m_Id{};
         glm::vec3 m_LightingColor{};
 
-        Kate::Vao m_Vao{};
-        Kate::Vbo m_Vbo{};
+        kT::Vao m_Vao{};
+        kT::Vbo m_Vbo{};
 
     };
 }

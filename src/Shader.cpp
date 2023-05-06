@@ -1,27 +1,27 @@
 #include "../include/Shader.hh"
 
-namespace Kate {
+namespace kT {
     Shader::Shader(const std::filesystem::path &vertexSourceDir, const std::filesystem::path &fragmentSourceDir) {
-        m_id = glCreateProgram();
+        m_Id = glCreateProgram();
         load(vertexSourceDir, fragmentSourceDir);
     }
 
-    void Shader::use() const {
-        glUseProgram(this->m_id);
+    auto Shader::use() const -> void {
+        glUseProgram(this->m_Id);
     }
 
-    std::uint32_t Shader::getProgram() const {
-        return this->m_id;
+    auto Shader::getProgram() const -> std::uint32_t {
+        return this->m_Id;
     }
 
     Shader::~Shader() {
-        glDeleteProgram(this->m_id);
+        glDeleteProgram(this->m_Id);
     }
 
     Shader::Shader() {
-        m_id = glCreateProgram();
+        m_Id = glCreateProgram();
 
-        if (!m_id)
+        if (m_Id == 0)
             std::cerr << "Error when creating shader program\n";
     }
 
@@ -59,31 +59,28 @@ namespace Kate {
         build(vShaderContents, fShaderContents);
     }
 
-    auto Shader::build(const char* vShader, const char* fShader) const -> void {
-        // Load and compile Vertex Shader
-        std::uint32_t vertexShaderID{};
-        vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShaderID, 1, &vShader, nullptr);
-        glCompileShader(vertexShaderID);
-        showShaderStatus(vertexShaderID, "Error on Vertex Shader compilation: ", GL_COMPILE_STATUS);
+    auto Shader::compile(const char* content, GLenum shaderType) -> std::uint32_t {
+        std::uint32_t shaderId{};
+        shaderId = glCreateShader(shaderType);
+        glShaderSource(shaderId, 1, &content, nullptr);
+        glCompileShader(shaderId);
+        showShaderStatus(shaderId, getShaderErrorStr(shaderType), GL_COMPILE_STATUS);
 
-        // Load and compile the fragment Shader
-        std::uint32_t pixelShaderID{};
-        pixelShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(pixelShaderID, 1, &fShader, nullptr);
-        glCompileShader(pixelShaderID);
-        showShaderStatus(pixelShaderID, "Error on fragment Shader compilation: ", GL_COMPILE_STATUS);
+        return shaderId;
+    }
+
+    auto Shader::build(const char* vShader, const char* fShader) const -> void {
+        std::uint32_t vertexShaderID{ compile(vShader, GL_VERTEX_SHADER) };
+        std::uint32_t pixelShaderID{ compile(fShader, GL_FRAGMENT_SHADER) };
 
         // Create and link program against compiled Shader binaries
         glAttachShader(getProgram(), vertexShaderID);
         glAttachShader(getProgram(), pixelShaderID);
         glLinkProgram(getProgram());
-
-        showProgramStatus(getProgram(), "Error on program linking: ", GL_LINK_STATUS);
+        showProgramStatus(getProgram(), GL_LINK_STATUS);
 
         glDetachShader(getProgram(), vertexShaderID);
         glDetachShader(getProgram(), pixelShaderID);
-
 
         // cleanup
         glDeleteShader(vertexShaderID);
@@ -120,29 +117,33 @@ namespace Kate {
             glUniform1f(ret, value);
     }
 
-    auto Shader::showShaderStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void {
+    auto Shader::showShaderStatus(std::uint32_t objectId, std::string_view str, GLenum status) -> void {
         std::array<char, 512> outStr{};
         std::int32_t success{};
-        std::int32_t length{};
 
-        glGetShaderiv(objectId, name, &success);
-        glGetShaderiv(objectId, GL_INFO_LOG_LENGTH, &length);
-        if (length > 0) {
-            glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-            std::printf("%s: %s\n", str.data(), outStr.data());
+        glGetShaderiv(objectId, status, &success);
+        switch (status) {
+            case GL_COMPILE_STATUS:
+                if (success != GL_TRUE) {
+                    glGetShaderInfoLog(objectId, outStr.size(), nullptr, outStr.data());
+                    std::printf("%s:\n %s\n", str.data(), outStr.data());
+                }
+                break;
         }
     }
 
-    auto Shader::showProgramStatus(std::uint32_t objectId, std::string_view str, GLenum name) -> void {
+    auto Shader::showProgramStatus(std::uint32_t objectId, GLenum status) -> void {
         std::array<char, 1024> outStr{};
         std::int32_t success{};
-        std::int32_t length{};
 
-        glGetProgramiv(objectId, name, &success);
-        glGetProgramiv(objectId, GL_INFO_LOG_LENGTH, &length);
-        if (length > 0) {
-            glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
-            std::printf("%s: %s\n", str.data(), outStr.data());
+        glGetProgramiv(objectId, status, &success);
+        switch (status) {
+            case GL_LINK_STATUS:
+                if (success != GL_TRUE) {
+                    glGetProgramInfoLog(objectId, outStr.size(), nullptr, outStr.data());
+                    std::printf("Error on shader program:\n %s\n", outStr.data());
+                }
+                break;
         }
     }
 
@@ -175,8 +176,7 @@ namespace Kate {
         if (ret == -1)
             std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else {
-            // we pass we 1 because the uniform is not expected to
-            // an array
+            // we pass we 1 because the shader uniform is not expected to be an array
             glUniform3fv(ret, 1, glm::value_ptr(vec));
         }
     }
@@ -188,9 +188,31 @@ namespace Kate {
         if (ret == -1)
             std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
         else {
-            // we pass we 1 because the uniform is not expected to
-            // an array
+            // we pass we 1 because the shader uniform is not expected to be an array
             glUniform4fv(ret, 1, glm::value_ptr(vec));
+        }
+    }
+
+    Shader::Shader(Shader &&other) noexcept
+        :   m_Id{ other.getProgram() }
+    {
+        // assign 0 so that it can be safely passed to glDeleteProgram()
+        // when the destructor is called. We avoid deleting a valid program this way
+        other.m_Id = 0;
+    }
+
+    Shader& Shader::operator=(Shader &&other) noexcept {
+        m_Id = other.getProgram();
+        other.m_Id = 0;
+
+        return *this;
+    }
+
+    constexpr auto Shader::getShaderErrorStr(GLenum type) -> std::string_view {
+        switch (type) {
+            case GL_VERTEX_SHADER: return "Error on vertex Shader compilation";
+            case GL_FRAGMENT_SHADER:  return "Error on fragment Shader compilation";
+            default: return "Unknown type of shader";
         }
     }
 }

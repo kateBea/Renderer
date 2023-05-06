@@ -27,17 +27,17 @@
 // GLOBALS
 // Warning: C++ does not guarantee globals to be
 // initialized in the order they are declared
-static Kate::Window        g_Window{ "SpecularLighting", 1280, 720 };
-static Kate::Camera        g_Camera{ g_Window };;
+static kT::Window        g_Window{"SpecularLighting", 1280, 720 };
+static kT::Camera        g_Camera{g_Window };;
 
-static Kate::Vao           g_Vao{};
-static Kate::Vbo           g_Vbo{};
+static kT::Vao           g_Vao{};
+static kT::Vbo           g_Vbo{};
 
-static Kate::BasicLighting g_Light{};
-static Kate::Texture       g_Texture{};
-static Kate::Texture       g_TextureSpec{};
-static Kate::Shader        g_LightShader{};
-static Kate::Shader        g_DefaultShaders{};
+static kT::BasicLighting g_Light{};
+static kT::Texture       g_Texture{};
+static kT::Texture       g_TextureSpec{};
+static kT::Shader        g_LightShader{};
+static kT::Shader        g_DefaultShaders{};
 
 auto run() -> void;
 auto startUp() -> void;
@@ -47,7 +47,7 @@ auto setOpenGLHints() -> void;
 
 
 int main(int, char**) {
-    Kate::Logger::init();
+    kT::Logger::init();
 
     KATE_LOGGER_ERROR("Error message");
     KATE_LOGGER_WARN("Warn message");
@@ -140,10 +140,10 @@ auto run() -> void {
             g_DefaultShaders.setUniformInt("material.specular", 1);
 
             g_Texture.bind();
-            Kate::Texture::bindUnit(0);
+            kT::Texture::bindUnit(0);
 
             g_TextureSpec.bind();
-            Kate::Texture::bindUnit(1);
+            kT::Texture::bindUnit(1);
 
             // render objects (this should be done by the model class)
             g_DefaultShaders.use();
@@ -188,11 +188,11 @@ auto startUp() -> void {
     initImGui();
 
     // setup vertices
-    auto v_pos{ Kate::parseVerticesFile("../assets/vertices") };
+    auto v_pos{kT::parseVerticesFile("../assets/vertices") };
 
     // this part is not necessary as we can use the same vertex positions from the model
     // and simply specify a different layout for the cube light
-    auto lightPos{ Kate::parseVerticesFile("../assets/vertices") };
+    auto lightPos{kT::parseVerticesFile("../assets/vertices") };
 
     g_Light.load(lightPos);
     g_Vbo.load(v_pos);
@@ -208,15 +208,15 @@ auto startUp() -> void {
 auto setupLayout() -> void {
     // Vertex position attribute
     g_Vbo.bind();
-    g_Vao.layout(0, 3, Kate::Vao::Attribute::POSITION);
+    g_Vao.layout(0, 3, kT::Vao::Attribute::POSITION);
 
     // Vertex Normals attribute
     g_Vbo.bind();
-    g_Vao.layout(1, 3, Kate::Vao::Attribute::NORMAL);
+    g_Vao.layout(1, 3, kT::Vao::Attribute::NORMAL);
 
     // Vertex Texture attribute
     g_Vbo.bind();
-    g_Vao.layout(2, 2, Kate::Vao::Attribute::TEXTURE);
+    g_Vao.layout(2, 2, kT::Vao::Attribute::TEXTURE);
 }
 
 auto initImGui() -> void {
@@ -227,7 +227,7 @@ auto initImGui() -> void {
 
     // NOTE: this has to be the same as glMajor and glMinor variables in Window class
     // needs rework to be done automatically
-    ImGui_ImplOpenGL3_Init(fmt::format("#version {}{}0", Kate::GLMajor, Kate::GLMinor).c_str());
+    ImGui_ImplOpenGL3_Init(fmt::format("#version {}{}0", kT::GLMajor, kT::GLMinor).c_str());
     ImGui::StyleColorsClassic();
 
     // Window softness (rounding)

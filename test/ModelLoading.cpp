@@ -6,8 +6,9 @@
 #include "Camera.hh"
 #include "Model.hh"
 #include "Shader.hh"
+#include "../include/Logger.hh"
 
-auto initImGui(Kate::Window& window) -> void {
+auto initImGui(kT::Window& window) -> void {
     // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -26,19 +27,22 @@ auto initImGui(Kate::Window& window) -> void {
     // can C-Style void cast "io" to, i.e. (void)io in case of compiler warning about unused variable
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    KATE_LOGGER_INFO("ImGuiInit successful");
 }
 
 int main(int, char**) {
-    Kate::Window window{ "ModelLoading", 1280, 720 };
-    Kate::Camera camera{ window };
-    Kate::Shader shader{ "../assets/shaders/defaultVertex.glsl",
-                         "../assets/shaders/defaultFragment.glsl" };
+    kT::Logger::Init();
 
-    Kate::Model objModel{ "../assets/models/Pod42/source/POD/POD.obj" };
+    kT::Window window{"ModelLoading", 1280, 720 };
+    kT::Camera camera{ window };
+    kT::Shader shader{ "../assets/shaders/defaultVertex.glsl",
+                      "../assets/shaders/defaultFragment.glsl" };
+    kT::Model objModel{ "../assets/models/Pod42/source/POD/POD.obj" };
 
     initImGui(window);
 
     glEnable(GL_DEPTH_TEST);
+    KATE_LOGGER_WARN("Depth testing enabled");
 
     ImVec4 bgColor = ImVec4(0.254f, 0.083f, 0.144f, 1.00f);
     glm::vec3 rotationAngles{};
@@ -69,10 +73,8 @@ int main(int, char**) {
             ImGui::End();
         }
 
-        if (lines)
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        else
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        if (lines) glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        else glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         glClearColor(bgColor.x, bgColor.y, bgColor.z, alphaValue);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -90,8 +92,10 @@ int main(int, char**) {
         // view/projection transformations
         camera.updateProjection(window.getWidth(), window.getHeight());
 
-        if (window.isMouseButtonDown(GLFW_MOUSE_BUTTON_2))
+        if (window.isMouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
             camera.move(window.getCursorPosition());
+            KATE_LOGGER_DEBUG("Moving camera position to [{} {} {}]", camera.getPosition()[0], camera.getPosition()[1], camera.getPosition()[2])
+        }
 
         camera.lookAround(window, glm::vec3(0.0f, 0.0f, 0.0f));
 

@@ -1,6 +1,6 @@
 /**
  * @file utils.hh
- * @author Kate
+ * @author kT
  * @brief Defines a list of utils
  * @version 1.0
  * @date 2023-04-11
@@ -26,7 +26,7 @@
 #ifndef UTILS_HH
 #define UTILS_HH
 
-namespace Kate {
+namespace kT {
     // CONSTANTS
     // Define the OpenGL version as x.y where x is
     // g_GLMajor and y is g_GLMinor, e.g.: for g_GLMajor = 4
@@ -181,8 +181,8 @@ namespace Kate {
             throw std::runtime_error("Failed to initialize the GLFW library");
 
         // OPENGL
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Kate::GLMajor);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Kate::GLMinor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kT::GLMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kT::GLMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     }

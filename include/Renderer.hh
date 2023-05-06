@@ -1,6 +1,6 @@
 /**
  * @file Renderer.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Renderer interface
  * @version 1.0
  * @date 2023-03-16
@@ -44,16 +44,17 @@
 
 #include "Model.hh"
 
-namespace Kate {
+namespace kT {
     class Renderer {
     public:
 
         /**
-         * Initializes both the GLEW and the GLFW library and provides with a valid
-         * OpenGL context. On success it sets the Init bit to true, otherwise it sets it to false
-         * @param appName Title for the Renderer Window
+         * Initializes this renderer. The shaders for this renderer are specified in the path
+         * parameter. The default fragment shader and vertex shader are expected to be named
+         * "defaultVertex.glsl" and "defaultFragment.glsl" respectively
+         * @param path directory containing the shader files
          * */
-        explicit Renderer(std::string_view name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720);
+        explicit Renderer(const std::filesystem::path& path);
 
         auto startUp() -> void;
         auto shutDown() -> void;
@@ -65,10 +66,11 @@ namespace Kate {
 
     private:
         static auto setOpenGLHints() -> void;
-        Kate::Window    m_Window{};
-        Kate::Shader    m_DefaultShaders{};
-        Kate::Shader    m_LightShader{};
+        kT::Shader    m_DefaultShaders{};
+        kT::Shader    m_LightShader{};
         std::vector<Mesh> m_Meshes{};
+
+        std::filesystem::path m_ShadersPath{};
     };
 
 }

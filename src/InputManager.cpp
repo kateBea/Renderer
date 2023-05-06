@@ -1,6 +1,6 @@
 #include "../include/InputManager.hh"
 
-namespace Kate {
+namespace kT {
     InputManager::InputManager(GLFWwindow* window) {
         startUp(window);
 

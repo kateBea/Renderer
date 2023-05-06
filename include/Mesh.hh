@@ -1,6 +1,6 @@
 /**
  * @file Mesh.hh
- * @author Kate
+ * @author kT
  * @brief Defines the Mesh class
  * @version 1.0
  * @date 2023-04-11
@@ -28,7 +28,7 @@
 #ifndef MESH_HH
 #define MESH_HH
 
-namespace Kate {
+namespace kT {
     class Mesh {
     public:
         /**
@@ -41,7 +41,7 @@ namespace Kate {
          * data we pass ass parameters. The parameters data are moved, that's why
          * it is passed as a reference.
          * */
-        explicit Mesh(std::vector<Kate::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<Kate::Texture>& textures);
+        explicit Mesh(std::vector<kT::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<kT::Texture>& textures);
 
         /**
          *
@@ -61,14 +61,14 @@ namespace Kate {
         auto setup() -> void;
 
         // Mesh data
-        std::vector<Kate::Vertex> m_Vertices{};
+        std::vector<kT::Vertex> m_Vertices{};
         std::vector<std::uint32_t> m_Indices{};
-        std::vector<Kate::Texture> m_Textures{};
+        std::vector<kT::Texture> m_Textures{};
 
         // Render data
-        Kate::Vbo m_Vbo{};
-        Kate::Vao m_Vao{};
-        Kate::Vib m_Vib{};
+        kT::Vbo m_Vbo{};
+        kT::Vao m_Vao{};
+        kT::Vib m_Vib{};
 
     };
 }
