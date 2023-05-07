@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/assimp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/fmt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/glfw" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/glm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/imgui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/spdlog" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/library/stb" vcs="Git" />
+  </component>
+</project>
