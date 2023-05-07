@@ -4,7 +4,6 @@
 
 // Project Libraries
 #include "../include/Model.hh"
-#include "../include/Logger.hh"
 
 namespace kT {
     Model::Model(const std::filesystem::path& path)
@@ -36,23 +35,14 @@ namespace kT {
 
         Assimp::Importer importer{};
 
-        // 1. aiProcess_Triangulate we tell Assimp that if the model does not
-        // (entirely) consist of triangles, it should transform all the
-        // model's primitive shapes to triangles first
-        //
-        // 2. The aiProcess_FlipUVs flips the texture coordinates on the y-axis
-        // where necessary during processing
-        //
         // See more postprocessing options: https://assimp.sourceforge.net/lib_html/postprocess_8h.html
         const aiScene* scene = importer.ReadFile(fileDir.data(), aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices);
 
-        if((scene == nullptr) || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || scene->mRootNode == nullptr)
+        if((scene == nullptr) || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || (scene->mRootNode == nullptr))
             throw std::runtime_error(importer.GetErrorString());
 
         m_Meshes.reserve(scene->mRootNode->mNumMeshes);
-
         processNode(scene->mRootNode, scene);
-
     }
 
     auto Model::processNode(aiNode* node, const aiScene* scene) -> void {
@@ -90,10 +80,8 @@ namespace kT {
         if(mesh->mMaterialIndex >= 0) {
             aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-            auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE,
-                                                    kT::Texture::TextureType::DIFFUSE, scene);
-            auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR,
-                                                     kT::Texture::TextureType::SPECULAR, scene);
+            auto diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, kT::Texture::TextureType::DIFFUSE, scene);
+            auto specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, kT::Texture::TextureType::SPECULAR, scene);
 
             for (auto& item : diffuseMaps)
                 textures.push_back(std::move(item));
@@ -108,6 +96,7 @@ namespace kT {
     auto Model::constructVec3(aiVector3D elem) -> glm::vec3 {
         return { elem.x, elem.y, elem.z };
     }
+
     auto Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, kT::Texture::TextureType tType,
                                      const aiScene* scene) -> std::vector<kT::Texture> {
         std::vector<kT::Texture> textures;

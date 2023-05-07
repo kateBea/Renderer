@@ -1,27 +1,28 @@
-#include "../include/Vao.hh"
-#include "Common.hh"
 #include <cstddef>
+
+#include "../include/Vao.hh"
+#include "../include/Common.hh"
 
 namespace kT {
     Vao::Vao(Vao&& other) noexcept
-            :   m_id{ other.getId() }
+        :   m_Id{ other.getId() }
     {
-        other.m_id = 0;
+        other.m_Id = 0;
     }
 
     Vao& Vao::operator=(Vao&& other) noexcept {
-        this->m_id = other.getId();
-        other.m_id = 0;
+        m_Id = other.getId();
+        other.m_Id = 0;
 
         return *this;
     }
 
     auto Vao::getId() const -> std::uint32_t {
-        return this->m_id;
+        return this->m_Id;
     }
 
     auto Vao::bind() const -> void {
-        glBindVertexArray(this->m_id);
+        glBindVertexArray(this->m_Id);
     }
 
     auto Vao::unbind() -> void {
@@ -32,52 +33,32 @@ namespace kT {
     {
         bind();
         glEnableVertexAttribArray(index);
-
-        switch (offs) {
-            case Attribute::POSITION:
-                glVertexAttribPointer(
-                        index,      // Attribute index
-                        size,       // Count of elements per attribute
-                        type,       // type of data of the attribute
-                        GL_FALSE,   // normalized?
-                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Pos))  // pointer to the attribute within the buffer
-                );
-                break;
-            case Attribute::NORMAL:
-                glVertexAttribPointer(
-                        index,      // Attribute index
-                        size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
-                        type,       // type of data of the attribute
-                        GL_FALSE,   // normalized?
-                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Norm))  // pointer to the attribute within the buffer
-                );
-                break;
-            case Attribute::TEXTURE:
-                glVertexAttribPointer(
-                        index,      // Attribute index
-                        size,       // Count of elements per attribute (e.g 3 floats per Vertex positions)
-                        type,       // type of data of the attribute
-                        GL_FALSE,   // normalized?
-                        sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                        reinterpret_cast<const void*>(offsetof(kT::Vertex, m_Texture))  // pointer to the attribute within the buffer
-                );
-                break;
-            case Attribute::NONE:
-                std::cerr << "Invalid attribute...\n";
-                break;
-        }
-
+        glVertexAttribPointer(
+                index,      // Attribute index
+                size,       // Count of elements per attribute
+                type,       // type of data of the attribute
+                GL_FALSE,   // normalized?
+                sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
+                reinterpret_cast<const void*>(getAttributeOffset(offs))  // pointer to the attribute within the buffer
+        );
         unbind();
     }
 
     Vao::~Vao() {
-        glDeleteVertexArrays(1, &m_id);
+        glDeleteVertexArrays(1, &m_Id);
     }
 
     Vao::Vao() {
-        glGenVertexArrays(1, &m_id);
+        glGenVertexArrays(1, &m_Id);
+    }
+
+    auto Vao::getAttributeOffset(Vao::Attribute attribute) -> std::int32_t {
+        switch (attribute) {
+            case Attribute::POSITION: return offsetof(kT::Vertex, m_Pos);
+            case Attribute::NORMAL: return offsetof(kT::Vertex, m_Norm);
+            case Attribute::TEXTURE: return offsetof(kT::Vertex, m_Texture);
+            case Attribute::NONE: return -1;
+        }
     }
 
 }

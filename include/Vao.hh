@@ -9,12 +9,15 @@
 #ifndef VAO_HH
 #define VAO_HH
 
-#include <iostream>
+// C++ Standard Library
 #include <cstdint>
 #include <array>
 
 // Third-Party Libraries
 #include <GL/glew.h>
+
+// Project Libraries
+#include "Common.hh"
 
 namespace kT {
     class Vao {
@@ -23,7 +26,7 @@ namespace kT {
             POSITION,
             NORMAL,
             TEXTURE,
-            NONE
+            NONE,
         };
 
         explicit Vao();
@@ -42,11 +45,14 @@ namespace kT {
 
         /**
          * Move constructor
+         * @param other other Vao from which we move data
          * */
         Vao(Vao&& other) noexcept;
 
         /**
          * Move constructor assignment
+         * @param other other Vao from which we move data
+         * @retunr *this
          * */
         Vao& operator=(Vao&& other) noexcept;
 
@@ -82,7 +88,13 @@ namespace kT {
         ~Vao();
 
     private:
-        std::uint32_t m_id{};
+        /**
+         * Returns the offset of the given attribute type in the kT::Vertex structure
+         * @param attribute vertex attribute
+         * @return byte offset from this attribute within the kT::Vertex structure
+         * */
+        static auto getAttributeOffset(Attribute attribute) -> std::int32_t;
+        std::uint32_t m_Id{};
     };
 }
 

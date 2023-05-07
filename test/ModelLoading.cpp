@@ -37,7 +37,7 @@ int main(int, char**) {
     kT::Camera camera{ window };
     kT::Shader shader{ "../assets/shaders/defaultVertex.glsl",
                       "../assets/shaders/defaultFragment.glsl" };
-    kT::Model objModel{ "../assets/models/Pod42/source/POD/POD.obj" };
+    kT::Model objModel{ "../assets/models/backpack/backpack.obj" };
 
     initImGui(window);
 

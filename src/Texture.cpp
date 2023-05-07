@@ -70,8 +70,7 @@ namespace  kT {
         return *this;
     }
 
-    auto Texture::bindUnit(std::int32_t unit) const -> void {
-        bind();
+    auto Texture::bindUnit(std::int32_t unit) -> void {
         glActiveTexture(GL_TEXTURE0 + unit);
     }
 

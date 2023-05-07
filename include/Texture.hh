@@ -106,10 +106,9 @@ namespace kT {
         /**
          * Activates a unit where goes from 0 to amount
          * of supported Texture N units. GL_TEXTURE0, GL_TEXTURE1 ... GL_TEXTUREN.
-         * This function ensures to mark this Texture as current one, so a previous
-         * call to <b>Texture::bind()</b> is unnecessary
+         * This function does not mark this Texture as current one, i.e. calls <b>Texture::bind()</b>
          * */
-        auto bindUnit(std::int32_t unit = 0) const -> void ;
+        static auto bindUnit(std::int32_t unit = 0) -> void ;
 
         /**
          * Returns the identifier of this Texture
@@ -156,9 +155,9 @@ namespace kT {
          * */
         static constexpr auto getStrType(Texture::TextureType type) -> std::string_view {
             switch (type) {
-                case TextureType::SPECULAR: return "texture_specular";
-                case TextureType::DIFFUSE: return "texture_diffuse";
-                case TextureType::NORMAL: return "texture_normal";
+                case TextureType::SPECULAR: return "specular";
+                case TextureType::DIFFUSE: return "diffuse";
+                case TextureType::NORMAL: return "normal";
                 default: return "invalid";
             }
         }

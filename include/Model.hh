@@ -46,13 +46,13 @@ namespace kT {
          * Copy constructor disabled. Use the default constructor
          * to load a new Model
          * */
-        Model(const Model& other)           = delete;
+        Model(const Model& other) = delete;
 
         /**
          * Copy assigment disabled. Use the default constructor
          * to load a new Model
          * */
-        auto operator=(const Model& other)  = delete;
+        auto operator=(const Model& other) -> Model& = delete;
 
         /**
          * Moves other model to the implicit parameter
@@ -106,7 +106,6 @@ namespace kT {
 
         std::vector<Mesh>       m_Meshes{};
         std::filesystem::path   m_ModelPath{};
-
     };
 
 }

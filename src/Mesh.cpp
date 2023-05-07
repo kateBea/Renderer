@@ -8,7 +8,7 @@
 
 namespace kT {
     Mesh::Mesh(std::vector<kT::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<kT::Texture>& textures)
-        :   m_Vertices{ std::move(vertices) }, m_Indices{ std::move(indices)}, m_Textures{ std::move(textures) }, m_Vbo{}, m_Vao{}, m_Vib{}
+        :   m_Vertices{ std::move(vertices) }, m_Textures{ std::move(textures) }, m_Indices{ std::move(indices)}, m_Vbo{}, m_Vao{}, m_Vib{}
     {
         setup();
     }
@@ -18,7 +18,6 @@ namespace kT {
         m_Vib.load(m_Indices);
 
         m_Vbo.bind();
-
         // Vertex position attribute
         m_Vao.layout(0, 3, kT::Vao::Attribute::POSITION);
         // Vertex Normals attribute
@@ -35,7 +34,7 @@ namespace kT {
         for(std::int32_t i = 0; i < m_Textures.size(); i++) {
             std::string number{};
 
-            m_Textures[i].bindUnit(i);
+            Texture::bindUnit(i);
 
             switch(m_Textures[i].getType()) {
 
@@ -50,17 +49,15 @@ namespace kT {
                     break;
             }
 
-            shader.setUniformInt("material." +
-                std::string(Texture::getStrType(m_Textures[i].getType())) + number, i);
+            shader.setUniformInt("material." + std::string(Texture::getStrType(m_Textures[i].getType())), i);
+            m_Textures[i].bind();
         }
 
-        // draw mesh
         m_Vbo.bind();
         m_Vao.bind();
         m_Vib.bind();
 
-        glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()),
-                       GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
 
         kT::Vao::unbind();
         kT::Vbo::unbind();
@@ -75,8 +72,4 @@ namespace kT {
         ,   m_Vao{ std::move(other.m_Vao) }
         ,   m_Vib{ std::move(other.m_Vib) }
     {}
-
-    auto Mesh::getVertexCount() -> std::size_t {
-        return m_Vertices.size();
-    }
 }
