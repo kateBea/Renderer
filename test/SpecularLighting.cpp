@@ -28,7 +28,7 @@
 // Warning: C++ does not guarantee globals to be
 // initialized in the order they are declared
 static kT::Window        g_Window{"SpecularLighting", 1280, 720 };
-static kT::Camera        g_Camera{g_Window };;
+static kT::Camera        g_Camera{g_Window };
 
 static kT::Vao           g_Vao{};
 static kT::Vbo           g_Vbo{};
@@ -47,7 +47,7 @@ auto setOpenGLHints() -> void;
 
 
 int main(int, char**) {
-    kT::Logger::init();
+    kT::Logger::Init();
 
     KATE_LOGGER_ERROR("Error message");
     KATE_LOGGER_WARN("Warn message");
@@ -55,6 +55,7 @@ int main(int, char**) {
     KATE_LOGGER_TRACE("Trace message");
     KATE_LOGGER_INFO("Info message");
     KATE_LOGGER_DEBUG("Debug message");
+
     startUp();
     run();
     return 0;
