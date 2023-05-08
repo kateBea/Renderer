@@ -24,12 +24,12 @@ namespace kT {
 }
 
 // Log macros
-#define KATE_LOGGER_ERROR(...) kT::Logger::GetLogger()->error(__VA_ARGS__);
-#define KATE_LOGGER_WARN(...) kT::Logger::GetLogger()->warn(__VA_ARGS__);
-#define KATE_LOGGER_CRITICAL(...) kT::Logger::GetLogger()->critical(__VA_ARGS__);
-#define KATE_LOGGER_TRACE(...) kT::Logger::GetLogger()->trace(__VA_ARGS__);
-#define KATE_LOGGER_INFO(...) kT::Logger::GetLogger()->info(__VA_ARGS__);
-#define KATE_LOGGER_DEBUG(...) kT::Logger::GetLogger()->debug(__VA_ARGS__);
+#define KATE_LOGGER_ERROR(...) kT::Logger::GetLogger()->error(__VA_ARGS__)
+#define KATE_LOGGER_WARN(...) kT::Logger::GetLogger()->warn(__VA_ARGS__)
+#define KATE_LOGGER_CRITICAL(...) kT::Logger::GetLogger()->critical(__VA_ARGS__)
+#define KATE_LOGGER_TRACE(...) kT::Logger::GetLogger()->trace(__VA_ARGS__)
+#define KATE_LOGGER_INFO(...) kT::Logger::GetLogger()->info(__VA_ARGS__)
+#define KATE_LOGGER_DEBUG(...) kT::Logger::GetLogger()->debug(__VA_ARGS__)
 
 
 #endif // LOGGER_H

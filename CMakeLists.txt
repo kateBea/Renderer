@@ -52,8 +52,6 @@ else()
     add_link_options(-fsanitize=address)
 endif()
 
-# find OpenGL package in system
-find_package(OpenGL REQUIRED)
 
 # Add libraries from submodules
 add_subdirectory(library/glfw)

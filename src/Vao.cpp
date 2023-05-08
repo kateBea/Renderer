@@ -57,7 +57,7 @@ namespace kT {
             case Attribute::POSITION: return offsetof(kT::Vertex, m_Pos);
             case Attribute::NORMAL: return offsetof(kT::Vertex, m_Norm);
             case Attribute::TEXTURE: return offsetof(kT::Vertex, m_Texture);
-            case Attribute::NONE: return -1;
+            default: return -1;
         }
     }
 
