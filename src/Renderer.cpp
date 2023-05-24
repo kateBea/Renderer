@@ -27,4 +27,12 @@ namespace kT {
     auto Renderer::setOpenGLHints() -> void {
         glEnable(GL_DEPTH_TEST);
     }
+
+    auto Renderer::enableBlending() -> void {
+        glEnable(GL_BLEND);
+    }
+
+    auto Renderer::setupBlendingProperties() -> void {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
 }

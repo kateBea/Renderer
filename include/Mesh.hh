@@ -1,10 +1,13 @@
 /**
  * @file Mesh.hh
- * @author kT
+ * @author kate
  * @brief Defines the Mesh class
  * @version 1.0
  * @date 2023-04-11
  */
+
+#ifndef MESH_HH
+#define MESH_HH
 
 // C++ Standard Library
 #include <vector>
@@ -20,19 +23,16 @@
 // Project Libraries
 #include "Common.hh"
 #include "Texture.hh"
+#include "Shader.hh"
 #include "Vao.hh"
 #include "Vbo.hh"
 #include "Vib.hh"
-#include "Shader.hh"
-
-#ifndef MESH_HH
-#define MESH_HH
 
 namespace kT {
     class Mesh {
     public:
         /**
-         *
+         * Default constructs this Mesh
          * */
         explicit Mesh() = default;
 
@@ -43,13 +43,22 @@ namespace kT {
          * @param indices contains the indices for indexed drawing
          * @param textures contains the texture data for this mesh, see kT::Texture for more
          * */
-        explicit Mesh(std::vector<kT::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<kT::Texture>& textures);
+        explicit Mesh(std::vector<kT::Vertex>&& vertices, std::vector<std::uint32_t>&& indices, std::vector<kT::Texture>&& textures);
 
         /**
          * Constructs and initializes this mesh with the contents of the other
          * mesh using move semantics, the other mesh is invalid after this operation
+         * @param other moved from Mesh
          * */
         Mesh(Mesh&& other) noexcept;
+
+        /**
+         * Assigns to this mesh with the contents of the other
+         * mesh using move semantics, the other mesh is invalid after this operation
+         * @param other moved from Mesh
+         * @returns *this
+         * */
+        auto operator=(Mesh&& other) noexcept -> Mesh&;
 
         /**
          * Renders this mesh

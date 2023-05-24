@@ -22,6 +22,9 @@
 namespace kT {
     class Vao {
     public:
+        /**
+         * Indicates a vertex buffer attribute
+         * */
         enum class Attribute {
             POSITION,
             NORMAL,

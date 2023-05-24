@@ -34,8 +34,8 @@ static kT::Vao           g_Vao{};
 static kT::Vbo           g_Vbo{};
 
 static kT::BasicLighting g_Light{};
-static kT::Texture       g_Texture{};
-static kT::Texture       g_TextureSpec{};
+static kT::Texture g_Texture{Texture::TextureType::SPECULAR, 0, 0};
+static kT::Texture g_TextureSpec{Texture::TextureType::SPECULAR, 0, 0};
 static kT::Shader        g_LightShader{};
 static kT::Shader        g_DefaultShaders{};
 
@@ -189,11 +189,11 @@ auto startUp() -> void {
     initImGui();
 
     // setup vertices
-    auto v_pos{kT::parseVerticesFile("../assets/vertices") };
+    auto v_pos{ kT::parseVerticesFile("../assets/vertices") };
 
     // this part is not necessary as we can use the same vertex positions from the model
     // and simply specify a different layout for the cube light
-    auto lightPos{kT::parseVerticesFile("../assets/vertices") };
+    auto lightPos{ kT::parseVerticesFile("../assets/vertices") };
 
     g_Light.load(lightPos);
     g_Vbo.load(v_pos);

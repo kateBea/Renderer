@@ -45,7 +45,7 @@ include_directories(
 # Compiler flags
 if (MSVC)
     # Compile commands for Windows
-    add_compile_options(/DWINDOWS)
+
 else()
     # Compile commands for Linux
     add_compile_options(-fsanitize=address)

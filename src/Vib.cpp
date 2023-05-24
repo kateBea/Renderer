@@ -47,4 +47,13 @@ namespace kT {
         other.m_Id = 0;
         other.m_Count = 0;
     }
+
+    auto Vib::operator=(Vib&& other) noexcept -> Vib& {
+        m_Id = other.getId();
+        m_Count = other.getCount();
+
+        other.m_Id = 0;
+        other.m_Count = 0;
+        return *this;
+    }
 }

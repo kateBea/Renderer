@@ -2,7 +2,7 @@
 
 namespace  kT {
     // IMPLEMENTATION
-    Texture::Texture(TextureType type) noexcept
+    Texture::Texture(TextureType type, std::int32_t width, std::int32_t height) noexcept
             :   m_Height{}, m_Width{}, m_Type{ type }
     {
         glGenTextures(1, &this->m_Id);
@@ -24,9 +24,6 @@ namespace  kT {
 
         std::copy(path.native().begin(), path.native().end(), fileDir.begin());
 #endif
-        // configure and enable blending
-        enableBlending();
-        setupBlendingProperties();
 
         stbi_set_flip_vertically_on_load(true);
         // cast to const char because on windows path.c_str() returns a const wchar_t
@@ -86,31 +83,49 @@ namespace  kT {
         return m_Type;
     }
 
-    auto Texture::enableBlending() -> void {
-        glEnable(GL_BLEND);
-    }
-
-    auto Texture::setupBlendingProperties() -> void {
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
-
     auto Texture::fromFile(const std::filesystem::path& path, kT::Texture::TextureType type) -> kT::Texture  {
-        kT::Texture texture{type };
+        kT::Texture texture{ type };
         texture.load(path);
         return texture;
     }
 
-    auto Texture::setupTexture(std::uint8_t* data) const -> void {
-        bind();
+    auto Texture::setupTexture(const void* data) const -> void {
         // setup wrapping and filtering options
+        GLenum format{};
+
+        switch (m_Channels) {
+            case 1: format = GL_RED; break;
+            case 3: format = GL_RGB; break;
+            case 4: format = GL_RGBA; break;
+        }
+
+        bind();
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
         unbind();
+    }
+
+    auto Texture::fromData(const void *data, kT::Texture::TextureType type, std::int32_t width,
+                           std::int32_t height) -> kT::Texture {
+        Texture texture{ type, width, height };
+        stbi_set_flip_vertically_on_load(true);
+
+        if (data != nullptr) {
+            texture.bind();
+            texture.setupTexture(data);
+            Texture::unbind();
+        }
+        else {
+            throw std::runtime_error("Could not load Texture data. data == nullptr");
+        }
+
+        return texture;
     }
 }

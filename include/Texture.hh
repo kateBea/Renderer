@@ -52,7 +52,7 @@ namespace kT {
          * Initializes this Texture creating a new
          * Texture object
          * */
-        explicit Texture(TextureType type = TextureType::DIFFUSE) noexcept;
+        explicit Texture(TextureType type, std::int32_t width = 0, std::int32_t height = 0) noexcept;
 
         /**
          * Creates a new Texture object and fills it with the data
@@ -149,6 +149,9 @@ namespace kT {
          * */
         static auto fromFile(const std::filesystem::path& path, kT::Texture::TextureType type) -> kT::Texture;
 
+        static auto fromData(const void *data, kT::Texture::TextureType type, std::int32_t width,
+                             std::int32_t height) -> kT::Texture;
+
         /**
          * Returns a C-String representing the type of
          * texture specified
@@ -169,21 +172,9 @@ namespace kT {
 
     private:
         /**
-         * Enables blending
-         * */
-        static auto enableBlending() -> void;
-
-
-        /**
          * Setup this bound texture
          * */
-        auto setupTexture(std::uint8_t* data) const -> void;
-
-        /**
-         * Defines blending properties, can be used to customize
-         * how blending is performed
-         * */
-        static auto setupBlendingProperties() -> void;
+        auto setupTexture(const void* data) const -> void;
 
         std::uint32_t   m_Id{};         // Identifier of this Vertex buffer object
         std::int32_t    m_Height{};     // Texture height

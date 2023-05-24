@@ -4,6 +4,7 @@ out vec4 fragmentColor;
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
+
     float shininess;
 };
 
@@ -20,6 +21,7 @@ in vec3 normals;
 in vec2 textureCoordinates;
 
 uniform vec3 viewPos;
+
 uniform Material material;
 uniform Light light;
 

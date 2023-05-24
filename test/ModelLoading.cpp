@@ -9,7 +9,7 @@
 #include "../include/Logger.hh"
 #include "../include/Application.hh"
 
-class ModelLoader : public Kate::Application {
+class ModelLoader : public kT::Application {
 public:
     auto startUp()  -> void override {
         kT::Logger::Init();
@@ -17,7 +17,11 @@ public:
         KATE_LOGGER_INFO("Initializing application");
 
         glEnable(GL_DEPTH_TEST);
-        KATE_LOGGER_WARN("Depth testing enabled");
+        glEnable(GL_BLEND);
+        KATE_LOGGER_WARN("Depth testing and blending enabled");
+
+        // blending function
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         initImGui(window);
         KATE_LOGGER_INFO("ImGui init successful");
@@ -29,9 +33,15 @@ public:
         glm::vec3 rotationAngles{};
         glm::vec3 modelPosition{};
         glm::vec3 modelSize{ 1.0, 1.0, 1.0 };
+        glm::vec3 lightPosition{ 3.0f, 0.0f, -5.0f };
 
         float alphaValue = 1.0f;
         bool lines{ false };
+
+        shader.setUniformVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+        shader.setUniformVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+        shader.setUniformVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+        shader.setUniformFloat("material.shininess", 64.0f);
 
         while (!window.shouldClose()) {
             // ImGui Frame Setup
@@ -48,7 +58,9 @@ public:
                 ImGui::DragFloat3("Rotation", glm::value_ptr(rotationAngles), 0.1f, 0.0f, 360.0f);
                 ImGui::DragFloat3("Coordinates", glm::value_ptr(modelPosition), 0.01f, -100.0f, 100.0f);
                 ImGui::DragFloat3("Size", glm::value_ptr(modelSize), 0.01f, 0.0f, 20.0f);
-                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+                ImGui::Text("Light block Settings");
+                ImGui::DragFloat3("Position", glm::value_ptr(lightPosition), 0.1f, -100.0f, 100.0f);
+                ImGui::Text("Framerate: %.1f FPS)", ImGui::GetIO().Framerate);
                 ImGui::Checkbox("Enable wireframe", &lines);
                 ImGui::End();
             }
@@ -74,11 +86,11 @@ public:
 
             if (window.isMouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
                 camera.move(window.getCursorPosition());
-                KATE_LOGGER_DEBUG("Moving camera position to [{} {} {}]", camera.getPosition()[0], camera.getPosition()[1], camera.getPosition()[2]);
             }
-
             camera.lookAround(window, glm::vec3(0.0f, 0.0f, 0.0f));
 
+            shader.setUniformVec3("light.position", glm::vec3(lightPosition[0], lightPosition[1], lightPosition[2]));
+            shader.setUniformVec3("viewPos", camera.getPosition());
             shader.setUniformMat4("model", model);
             shader.setUniformMat4("projection", camera.getProjection());
             shader.setUniformMat4("view", camera.getView());
@@ -118,11 +130,10 @@ private:
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     }
 
-    kT::Window window{"ModelLoading", 1280, 720 };
+    kT::Window window{ "ModelLoading", 1280, 720 };
     kT::Camera camera{ window };
-    kT::Shader shader{ "../assets/shaders/defaultVertex.glsl",
-                       "../assets/shaders/defaultFragment.glsl" };
-    kT::Model objModel{ "../assets/models/Pod42/source/POD/POD.obj" };
+    kT::Shader shader{ "../assets/shaders/defaultVertex.glsl", "../assets/shaders/defaultFragment.glsl" };
+    kT::Model objModel{ "../assets/models/backpack/backpack.obj" };
 
 };
 

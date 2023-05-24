@@ -38,6 +38,11 @@ namespace kT {
         Vib(Vib&& other) noexcept;
 
         /**
+         * Move assigment
+         * */
+        auto operator=(Vib&& other) noexcept -> Vib&;
+
+        /**
          * Copy constructor. Marked as delete to avoid Vib aliasing
          * Ensure one Vib id is held by one Vib object
          * */

@@ -1,14 +1,14 @@
 // C++ Standard Library
 #include <string>
 #include <string_view>
-#include <cstdint>
 
 // Project Libraries
 #include "../include/Mesh.hh"
 
 namespace kT {
-    Mesh::Mesh(std::vector<kT::Vertex>& vertices, std::vector<std::uint32_t>& indices, std::vector<kT::Texture>& textures)
-        :   m_Vertices{ std::move(vertices) }, m_Textures{ std::move(textures) }, m_Indices{ std::move(indices)}, m_Vbo{}, m_Vao{}, m_Vib{}
+    Mesh::Mesh(std::vector<kT::Vertex>&& vertices, std::vector<std::uint32_t>&& indices, std::vector<kT::Texture>&& textures)
+        :   m_Vertices{ std::move(vertices) }, m_Indices{ std::move(indices) }, m_Textures{ std::move(textures) }
+        ,   m_Vbo{}, m_Vao{}, m_Vib{}
     {
         setup();
     }
@@ -57,14 +57,14 @@ namespace kT {
         m_Vao.bind();
         m_Vib.bind();
 
-        glDrawElements(GL_TRIANGLES, static_cast<std::int32_t >(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<std::int32_t>(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
 
         kT::Vao::unbind();
         kT::Vbo::unbind();
         kT::Vib::unbind();
     }
 
-    Mesh::Mesh(Mesh &&other) noexcept
+    Mesh::Mesh(Mesh&& other) noexcept
         :   m_Vertices{ std::move(other.m_Vertices) }
         ,   m_Indices{ std::move(other.m_Indices) }
         ,   m_Textures{ std::move(other.m_Textures) }
@@ -72,4 +72,15 @@ namespace kT {
         ,   m_Vao{ std::move(other.m_Vao) }
         ,   m_Vib{ std::move(other.m_Vib) }
     {}
+
+    auto Mesh::operator=(Mesh&& other) noexcept -> Mesh& {
+        m_Vertices = std::move(other.m_Vertices);
+        m_Indices = std::move(other.m_Indices);
+        m_Textures = std::move(other.m_Textures);
+        m_Vbo = std::move(other.m_Vbo);
+        m_Vao = std::move(other.m_Vao);
+        m_Vib = std::move(other.m_Vib);
+
+        return *this;
+    }
 }

@@ -188,10 +188,10 @@ namespace kT {
     }
 
     /**
-     *
+     * Initializes the GLEW library. Requires a valid context. Context can be
+     * made with <code>glfwMakeContextCurrent()</code>
      * */
-    inline auto SetupGlew(GLFWwindow* window) -> void {
-        glfwMakeContextCurrent(window);
+    inline auto SetupGlew() -> void {
         glewExperimental = GL_TRUE;
         if (glewInit() != GLEW_OK)
             throw std::runtime_error("Failed to initialize GLEW");

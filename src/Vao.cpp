@@ -33,14 +33,11 @@ namespace kT {
     {
         bind();
         glEnableVertexAttribArray(index);
-        glVertexAttribPointer(
-                index,      // Attribute index
-                size,       // Count of elements per attribute
-                type,       // type of data of the attribute
-                GL_FALSE,   // normalized?
-                sizeof(kT::Vertex),          // byte offset between consecutive vertices (the value taken by sizeof should be parametrized, its float right now for simplicity since the default type is GL_FLOAT)
-                reinterpret_cast<const void*>(getAttributeOffset(offs))  // pointer to the attribute within the buffer
-        );
+
+        // sizeof(kT::Vertex) is the offset in bytes between consecutive vertices
+        // the type could vary, its float right now for simplicity since the default type parameter value is GL_FLOAT
+        glVertexAttribPointer(index, size, type, GL_FALSE, sizeof(kT::Vertex),
+                              reinterpret_cast<const void*>(getAttributeOffset(offs)));
         unbind();
     }
 

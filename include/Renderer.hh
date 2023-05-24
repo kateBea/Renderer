@@ -62,6 +62,10 @@ namespace kT {
         static auto enableWireframeMode() -> void;
         static auto disableWireframeMode() -> void;
 
+        auto enableBlending() -> void;
+
+        auto setupBlendingProperties() -> void;
+
         ~Renderer() = default;
 
     private:

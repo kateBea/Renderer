@@ -102,7 +102,7 @@ namespace kT {
         auto ret{ glGetUniformLocation(getProgram(), name.data()) };
 
         if (ret == -1)
-            std::cerr << "Error:" "[ "<< name << " ] is not a valid uniform name for this program shader\n";
+            throw std::runtime_error((std::string("Error:" "[ ") + name.data() + " ] is not a valid uniform name for this program shader").c_str());
         else
             glUniform1i(ret, value);
     }
