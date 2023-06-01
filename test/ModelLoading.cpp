@@ -167,9 +167,9 @@ private:
 
         ImGui::Begin("Inspection");
         ImGui::Text("Model: 1"); // Just one model loaded at a time currently
-        ImGui::Text("Vertices: %u", m_Model.getVertexCount());
-        ImGui::Text("Indices: %u", m_Model.getIndexCount());
-        ImGui::Text("Textures: %u", m_Model.getTextureCount());
+        ImGui::Text("Vertices: %lx", m_Model.getVertexCount());
+        ImGui::Text("Indices: %lx", m_Model.getIndexCount());
+        ImGui::Text("Textures: %lx", m_Model.getTextureCount());
         ImGui::Text("Frame Rate: %.1f FPS)", ImGui::GetIO().Framerate);
 
         auto sTime = static_cast<int>(glfwGetTime());
@@ -180,14 +180,14 @@ private:
     }
 
 
-    auto loadIniFile(const std::filesystem::path &path) -> void {
+    static auto loadIniFile(const std::filesystem::path &path) -> void {
         // Assumes there is already a valid ImGui context
         ImGuiIO &io = ImGui::GetIO();
         io.IniFilename = nullptr;
         ImGui::LoadIniSettingsFromDisk(path.native().c_str());
     }
 
-    auto setCustomStyle() -> void {
+    static auto setCustomStyle() -> void {
         // Setup Dear ImGui style.
         // This is supposed to be a simple variant
         // on top of the default ImGui Dark style
