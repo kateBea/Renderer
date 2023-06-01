@@ -3,7 +3,7 @@
 #include <string_view>
 
 // Project Libraries
-#include "../include/Mesh.hh"
+#include "OpenGL/Mesh.hh"
 
 namespace kT {
     Mesh::Mesh(std::vector<kT::Vertex>&& vertices, std::vector<std::uint32_t>&& indices, std::vector<kT::Texture>&& textures)
@@ -82,5 +82,17 @@ namespace kT {
         m_Vib = std::move(other.m_Vib);
 
         return *this;
+    }
+
+    auto Mesh::getVertexCount() const -> std::size_t {
+        return m_Vertices.size();
+    }
+
+    auto Mesh::getIndexCount() const -> std::size_t {
+        return m_Indices.size();
+    }
+
+    auto Mesh::getTextureCount() const -> std::size_t {
+        return m_Textures.size();
     }
 }

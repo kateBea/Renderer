@@ -1,7 +1,7 @@
 #include <cstddef>
 
-#include "../include/Vao.hh"
-#include "../include/Common.hh"
+#include "OpenGL/Vao.hh"
+#include "Core/Common.hh"
 
 namespace kT {
     Vao::Vao(Vao&& other) noexcept

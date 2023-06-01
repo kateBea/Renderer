@@ -1,4 +1,4 @@
-#include "../include/Vib.hh"
+#include "OpenGL/Vib.hh"
 
 namespace kT {
     Vib::Vib() {

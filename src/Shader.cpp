@@ -1,4 +1,4 @@
-#include "../include/Shader.hh"
+#include "OpenGL/Shader.hh"
 
 namespace kT {
     Shader::Shader(const std::filesystem::path &vertexSourceDir, const std::filesystem::path &fragmentSourceDir) {

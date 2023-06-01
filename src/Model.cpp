@@ -1,9 +1,10 @@
 // C++ Standard Library
 #include <array>
 #include <utility>
+#include <cstddef>
 
 // Project Libraries
-#include "../include/Model.hh"
+#include "OpenGL/Model.hh"
 
 namespace kT {
     Model::Model(const std::filesystem::path& path)
@@ -77,11 +78,15 @@ namespace kT {
 
             auto diffuseMaps { loadMaterialTextures(material, aiTextureType_DIFFUSE, kT::Texture::TextureType::DIFFUSE, scene) };
             auto specularMaps { loadMaterialTextures(material, aiTextureType_SPECULAR, kT::Texture::TextureType::SPECULAR, scene) };
+            auto normalMaps { loadMaterialTextures(material, aiTextureType_NORMALS, kT::Texture::TextureType::NORMAL, scene) };
 
             for (auto& item : diffuseMaps)
                 textures.push_back(std::move(item));
 
             for (auto& item : specularMaps)
+                textures.push_back(std::move(item));
+
+            for (auto& item : normalMaps)
                 textures.push_back(std::move(item));
         }
 
@@ -96,10 +101,6 @@ namespace kT {
         std::vector<kT::Texture> textures{};
         for(std::uint32_t i{}; i < mat->GetTextureCount(type); i++) {
             aiString str{};
-            for (int index{}; index < scene->mNumTextures; ++index) {
-                std::cerr << "index " << scene->mTextures[index]->mFilename.data << std::endl;
-            }
-
             if (mat->GetTexture(type, i, &str) == AI_SUCCESS)
                 // TODO: str might not be the name of a texture and instead hold the texture index. Right we assume textures are in same directory as the model
                 textures.push_back(kT::Texture::fromFile(m_ModelPath.string() + '/' + str.C_Str(), tType));
@@ -117,5 +118,27 @@ namespace kT {
         m_ModelPath = std::move(other.m_ModelPath);
 
         return *this;
+    }
+
+    auto Model::getVertexCount() const -> std::size_t {
+        std::size_t total{ 0 };
+
+        for (const auto& it : m_Meshes)
+            total += it.getVertexCount();
+        return total;
+    }
+
+    auto Model::getIndexCount() const -> std::size_t {
+        std::size_t total{ 0 };
+        for (const auto& it : m_Meshes)
+            total += it.getIndexCount();
+        return total;
+    }
+
+    auto Model::getTextureCount() const -> std::size_t {
+        std::size_t total{ 0 };
+        for (const auto& it : m_Meshes)
+            total += it.getTextureCount();
+        return total;
     }
 }

@@ -1,4 +1,4 @@
-#include "../include/BasicLighting.hh"
+#include "OpenGL/BasicLighting.hh"
 
 namespace kT {
 

@@ -1,4 +1,4 @@
-#include "../include/Renderer.hh"
+#include "OpenGL/Renderer.hh"
 
 namespace kT {
     // IMPLEMENTATION

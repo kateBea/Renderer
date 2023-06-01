@@ -1,58 +1,56 @@
-#include "../include/InputManager.hh"
+#include <Core/InputManager.hh>
 
 namespace kT {
     InputManager::InputManager(GLFWwindow* window) {
+        s_Instance = this;
         startUp(window);
-
     }
 
-    auto InputManager::getMousePos() const -> std::pair<double, double> {
-        return m_MousePos;
+    auto InputManager::_getMousePos() const -> Pair_T {
+        return m_Data.mousePos;
     }
 
-    auto InputManager::isMouseButtonDown(std::int32_t button) const -> bool {
-        return m_MouseKeys[button];
+    auto InputManager::_isMouseButtonDown(std::int32_t button) const -> bool {
+        return m_Data.mouseKeys[button];
     }
 
-    auto InputManager::isKeyDown(std::int32_t key) const -> bool {
-        return m_Keys[key];
+    auto InputManager::_isKeyDown(std::int32_t key) const -> bool {
+        return m_Data.keys[key];
     }
 
     auto InputManager::startUp(GLFWwindow *window) -> void {
+        glfwSetWindowUserPointer(window, &m_Data);
+
         if (window != nullptr) {
             // Keys callback
             glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
-                input->m_Keys[key] = action == GLFW_PRESS;
+                auto input{ static_cast<InputData*>(glfwGetWindowUserPointer(window)) };
+                input->keys[key] = action == GLFW_PRESS;
             });
 
             // Cursor movement callback
             glfwSetCursorPosCallback(window, [](GLFWwindow* window, double x, double y) {
-                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
-                input->m_MousePos.first = x;
-                input->m_MousePos.second = y;
+                auto input{ static_cast<InputData*>(glfwGetWindowUserPointer(window)) };
+                input->mousePos.first = x;
+                input->mousePos.second = y;
             });
 
             // Mouse buttons callback
             glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
-                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
-                input->m_MouseKeys[button] = action == GLFW_PRESS;
+                auto input{ static_cast<InputData*>(glfwGetWindowUserPointer(window)) };
+                input->mouseKeys[button] = action == GLFW_PRESS;
             });
 
             // Mouse scroll callback
             glfwSetScrollCallback(window, [](GLFWwindow* window, double xScroll, double yScroll) {
-                auto input{ static_cast<InputManager*>(glfwGetWindowUserPointer(window)) };
-                input->m_MouseScroll.first = xScroll;
-                input->m_MouseScroll.second = yScroll;
+                auto input{ static_cast<InputData*>(glfwGetWindowUserPointer(window)) };
+                input->mouseScroll.first = xScroll;
+                input->mouseScroll.second = yScroll;
             });
-
-            glfwSetWindowUserPointer(window, this);
         }
-        else
-            std::printf("Could initialize InputManager. window == nullptr ...\n");
     }
 
-    auto InputManager::getScrollOffset() const -> const std::pair<double, double>& {
-        return m_MouseScroll;
+    auto InputManager::_getScrollOffset() const -> Pair_T {
+        return m_Data.mouseScroll;
     }
 }

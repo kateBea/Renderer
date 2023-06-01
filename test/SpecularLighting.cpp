@@ -13,15 +13,15 @@
 #include <backends/imgui_impl_opengl3.h>
 
 // Project Libraries
-#include "Mesh.hh"
-#include "Camera.hh"
-#include "Shader.hh"
-#include "Window.hh"
-#include "BasicLighting.hh"
-#include "Vao.hh"
-#include "Vbo.hh"
-#include "Common.hh"
-#include "Logger.hh"
+#include "OpenGL/Mesh.hh"
+#include "OpenGL/Camera.hh"
+#include "OpenGL/Shader.hh"
+#include "Core/Window.hh"
+#include "OpenGL/BasicLighting.hh"
+#include "OpenGL/Vao.hh"
+#include "OpenGL/Vbo.hh"
+#include "Core/Common.hh"
+#include "Core/Logger.hh"
 
 
 // GLOBALS

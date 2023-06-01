@@ -60,7 +60,6 @@ add_subdirectory(library/fmt)
 add_subdirectory(library/assimp)
 
 
-
 # Test builds
 
 # Test with specular Lighting

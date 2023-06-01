@@ -1,8 +1,8 @@
-#include "../include/Window.hh"
+#include <Core/Window.hh>
 
 namespace kT {
     Window::Window(std::string_view window_name, std::int32_t width, std::int32_t height)
-            :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_Input{}, m_DeltaTime{}, m_LastFrame{}
+            :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_DeltaTime{}, m_LastFrame{}
     {
         startUp();
     }
@@ -10,9 +10,6 @@ namespace kT {
     auto Window::startUp() -> void {
         setupGlfw();
         setupGlew();
-        m_Input.startUp(m_window);
-
-        // ------------------------------- Set necessary callbacks ------------------------------------
 
         // This callback is set to automatically adjust the window width and height when we resize the
         // window and adjust the viewport to the current frame buffer dimensions
@@ -46,15 +43,6 @@ namespace kT {
 
     auto Window::shouldClose() -> bool {
         return glfwWindowShouldClose(this->m_window);
-    }
-
-    auto Window::showCursorPos() -> void {
-        auto temp{ m_Input.getMousePos() };
-        std::printf("mouse cursor at position: [%f, %f]\n", temp.first, temp.second);
-    }
-
-    auto Window::isKeyPressed(std::int32_t key) const -> bool {
-        return m_Input.isKeyDown(key);
     }
 
     auto Window::getDeltaTime() const -> float {
@@ -104,20 +92,7 @@ namespace kT {
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
     }
 
-    auto Window::getWindowPointer() const -> GLFWwindow * {
+    auto Window::getWindowPointer() const -> GLFWwindow* {
         return m_window;
     }
-
-    auto Window::isMouseButtonDown(std::int32_t button) -> bool {
-        return m_Input.isMouseButtonDown(button);
-    }
-
-    auto Window::getCursorPosition() const -> std::pair<double, double> {
-        return m_Input.getMousePos();
-    }
-
-    auto Window::getMouseScrollOffset() const -> const std::pair<double, double> & {
-        return m_Input.getScrollOffset();
-    }
-
 }

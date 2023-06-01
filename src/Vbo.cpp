@@ -1,4 +1,4 @@
-#include "../include/Vbo.hh"
+#include "OpenGL/Vbo.hh"
 
 namespace kT {
     Vbo::Vbo(const std::vector<kT::Vertex>& vertices, GLenum usage) noexcept

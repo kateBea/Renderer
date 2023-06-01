@@ -1,4 +1,4 @@
-#include "../include/Texture.hh"
+#include "OpenGL/Texture.hh"
 
 namespace  kT {
     // IMPLEMENTATION

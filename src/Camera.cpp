@@ -1,4 +1,5 @@
-#include "../include/Camera.hh"
+#include <OpenGL/Camera.hh>
+#include <Core/InputManager.hh>
 
 namespace kT {
     // CAMERA IMPLEMENTATION
@@ -19,16 +20,16 @@ namespace kT {
     auto Camera::computeMatricesFromInput(const kT::Window &window) -> void {
         const float cameraSpeed{ 2.5f * window.getDeltaTime() };
 
-        if (window.isKeyPressed(GLFW_KEY_W))
+        if (InputManager::isKeyDown(GLFW_KEY_W))
             m_CameraPos += cameraSpeed * m_CameraFront;
 
-        if (window.isKeyPressed(GLFW_KEY_S))
+        if (InputManager::isKeyDown(GLFW_KEY_S))
             m_CameraPos -= cameraSpeed * m_CameraFront;
 
-        if (window.isKeyPressed(GLFW_KEY_A))
+        if (InputManager::isKeyDown(GLFW_KEY_A))
             m_CameraPos -= glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
 
-        if (window.isKeyPressed(GLFW_KEY_D))
+        if (InputManager::isKeyDown(GLFW_KEY_D))
             m_CameraPos += glm::normalize(glm::cross(m_CameraFront, m_CameraUp)) * cameraSpeed;
     }
 
@@ -42,19 +43,19 @@ namespace kT {
 
     auto Camera::move(const std::pair<double, double>& newCursorPosition) -> void {
         auto twoDimenLenght{
-                [](std::pair<double, double> first, std::pair<double, double> second) -> double {
-                    return std::sqrt(
-                            std::pow((first.first - second.first), 2) +
-                            std::pow((first.second - second.second), 2)
-                    );
-                }
+            [](std::pair<double, double> first, std::pair<double, double> second) -> double {
+                return std::sqrt(
+                        std::pow((first.first - second.first), 2) +
+                        std::pow((first.second - second.second), 2)
+                );
+            }
         };
 
         // reversed since y-coordinates go from bottom to top
         auto offset{ std::make_pair(newCursorPosition.first - m_LastCursorPosition.first,
                                     m_LastCursorPosition.second - newCursorPosition.second) };
 
-        // this  fixes the camera jump by simply ignoring the offset in case the angle we have to rotate is too big
+        // this fixes the camera jump by simply ignoring the offset in case the angle we have to rotate is too big
         // the threshold is determined by this magical number the result of twoDimenLenght() is compared to
         if (twoDimenLenght(newCursorPosition, m_LastCursorPosition) > 20.0f) {
             m_LastCursorPosition = newCursorPosition;
@@ -69,7 +70,7 @@ namespace kT {
         m_Yaw += offset.first;
         m_Pitch += offset.second;
 
-        // make sure that when pitch is out of bounds, screen doesn't get flipped
+        // make sure that when the pitch is out of bounds, the screen doesn't get flipped
         if (m_Pitch > 89.0f) m_Pitch = 89.0f;
         if (m_Pitch < -89.0f) m_Pitch = -89.0f;
 

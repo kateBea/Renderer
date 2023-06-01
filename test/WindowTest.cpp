@@ -3,7 +3,7 @@
 #include <memory>
 
 // Renderer library
-#include "../include/Window.hh"
+#include "Core/Window.hh"
 
 int main(int, char**) {
     std::printf("test_window entry point...\n");
