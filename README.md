@@ -1,4 +1,4 @@
-# Renderer
+# OpenGL Renderer
 Welcome to my C++ OpenGL renderer! This repository contains the source code for a 
 basic renderer engine that I've worked on for the past couple of weeks while learning OpenGL.
 

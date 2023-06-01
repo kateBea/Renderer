@@ -145,6 +145,7 @@ private:
         // Setup Platform/Renderer backends
         ImGui_ImplGlfw_InitForOpenGL(m_Window.getWindowPointer(), true);
         ImGui_ImplOpenGL3_Init("#version 410");
+        loadIniFile("../assets/imgui.ini");
     }
 
     auto displayModelData() -> void {
@@ -176,6 +177,14 @@ private:
                                      (sTime % HOURS_TO_SECS) % MIN_TO_SECS).c_str());
 
         ImGui::End();
+    }
+
+
+    auto loadIniFile(const std::filesystem::path &path) -> void {
+        // Assumes there is already a valid ImGui context
+        ImGuiIO &io = ImGui::GetIO();
+        io.IniFilename = nullptr;
+        ImGui::LoadIniSettingsFromDisk(path.native().c_str());
     }
 
     auto setCustomStyle() -> void {
@@ -245,7 +254,7 @@ private:
     kT::Window      m_Window{ "ModelLoading", 1280, 720 };
     kT::Camera      m_Camera{ m_Window };
     kT::Shader      m_DefaultShader{ "../assets/shaders/defaultVertex.glsl", "../assets/shaders/defaultFragment.glsl" };
-    kT::Model       m_Model{ "../assets/models/backpack/backpack.obj" };
+    kT::Model       m_Model{ "../assets/models/Pod42/source/POD/POD.obj" };
 
     // Singleton InputManager. Check definition
     kT::InputManager s_Input{ m_Window.getWindowPointer() };
