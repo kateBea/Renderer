@@ -27,7 +27,11 @@ SET(SOURCES
         library/imgui/imgui_widgets.cpp
         library/imgui/imgui_draw.cpp
         library/imgui/imgui_tables.cpp
-        library/imgui/backends/imgui_impl_opengl3.cpp src/ModelLoadLayer.cpp src/ImGuiLayer.cpp src/Application.cpp include/Core/LayerStack.cpp)
+        library/imgui/backends/imgui_impl_opengl3.cpp
+        src/ModelLoadLayer.cpp
+        src/ImGuiLayer.cpp
+        src/Application.cpp
+        src/LayerStack.cpp)
 
 # Header files directories
 include_directories(
@@ -45,7 +49,6 @@ include_directories(
 # Compiler flags
 if (MSVC)
     # Compile commands for Windows
-
 else()
     # Compile commands for Linux
     add_compile_options(-fsanitize=address)
@@ -59,12 +62,10 @@ add_subdirectory(library/glew/build/cmake)
 add_subdirectory(library/fmt)
 add_subdirectory(library/assimp)
 
-
-# Test builds
-
 # Test with specular Lighting
 add_executable(specularLight test/SpecularLighting.cpp ${SOURCES})
 target_link_libraries(specularLight ${LIBRARIES})
+target_compile_definitions(specularLight PUBLIC GLFW_INCLUDE_NONE)
 target_compile_definitions(specularLight PUBLIC GLEW_STATIC)
 
 # Test with Model Loading
@@ -76,4 +77,5 @@ target_compile_definitions(modelLoading PUBLIC GLEW_STATIC)
 # Test with Importer
 add_executable(importer test/TestImporter.cpp ${SOURCES})
 target_link_libraries(importer ${LIBRARIES})
+target_compile_definitions(importer PUBLIC GLFW_INCLUDE_NONE)
 target_compile_definitions(importer PUBLIC GLEW_STATIC)
