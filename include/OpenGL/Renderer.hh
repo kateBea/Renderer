@@ -34,47 +34,24 @@
 
 // Project Libraries
 #include "Mesh.hh"
-#include "Camera.hh"
-#include "Shader.hh"
-#include "Core/Window.hh"
-#include "BasicLighting.hh"
-#include "Vao.hh"
-#include "Vbo.hh"
 #include "Core/Common.hh"
-
 #include "Model.hh"
 
 namespace kT {
     class Renderer {
     public:
+        static auto Init() -> void;
+        static auto ShutDown() -> void;
 
-        /**
-         * Initializes this renderer. The shaders for this renderer are specified in the path
-         * parameter. The default fragment shader and vertex shader are expected to be named
-         * "defaultVertex.glsl" and "defaultFragment.glsl" respectively
-         * @param path directory containing the shader files
-         * */
-        explicit Renderer(const std::filesystem::path& path);
+        static auto EnableWireframeMode() -> void;
+        static auto DisableWireframeMode() -> void;
 
-        auto startUp() -> void;
-        auto shutDown() -> void;
+        static auto DrawMesh(Shader& shader, Mesh& mesh) -> void;
+        static auto DrawModel(Shader& shader, Model& model) -> void;
 
-        static auto enableWireframeMode() -> void;
-        static auto disableWireframeMode() -> void;
+        static auto ClearColor(float red, float green, float blue, float alpha) -> void;
+        static auto ClearColor(const glm::vec4& color) -> void;
 
-        auto enableBlending() -> void;
-
-        auto setupBlendingProperties() -> void;
-
-        ~Renderer() = default;
-
-    private:
-        static auto setOpenGLHints() -> void;
-        kT::Shader    m_DefaultShaders{};
-        kT::Shader    m_LightShader{};
-        std::vector<Mesh> m_Meshes{};
-
-        std::filesystem::path m_ShadersPath{};
     };
 
 }

@@ -31,9 +31,9 @@ namespace kT {
     class Shader {
     public:
         /**
-         * Default initialization for Shader. Creates a valid shader program
+         * Default initialization for Shader.
          * */
-        explicit Shader();
+        explicit Shader() = default;
 
         /**
          * Copy constructor. Marked as delete to avoid Shader aliasing
@@ -84,7 +84,7 @@ namespace kT {
          * @param fShaderPath path to pixel/fragment shader path
          * @throws std::runtime_error exception if any of the shader files could not be opened
          * */
-        auto load(const std::filesystem::path& vShaderPath, const std::filesystem::path& fShaderPath) const -> void;
+        auto LoadFromFile(const std::filesystem::path& vShaderPath, const std::filesystem::path& fShaderPath) -> void;
 
         /**
          * Sets the given boolean value to the uniform identified by "name",
@@ -189,6 +189,8 @@ namespace kT {
          * Identifier of this Shader program
          * */
         std::uint32_t m_Id{};
+
+        bool m_ValidId{};
     };
 }
 

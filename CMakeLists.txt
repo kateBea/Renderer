@@ -27,7 +27,7 @@ SET(SOURCES
         library/imgui/imgui_widgets.cpp
         library/imgui/imgui_draw.cpp
         library/imgui/imgui_tables.cpp
-        library/imgui/backends/imgui_impl_opengl3.cpp)
+        library/imgui/backends/imgui_impl_opengl3.cpp src/ModelLoadLayer.cpp src/ImGuiLayer.cpp src/Application.cpp include/Core/LayerStack.cpp)
 
 # Header files directories
 include_directories(
@@ -70,6 +70,7 @@ target_compile_definitions(specularLight PUBLIC GLEW_STATIC)
 # Test with Model Loading
 add_executable(modelLoading test/ModelLoading.cpp ${SOURCES})
 target_link_libraries(modelLoading ${LIBRARIES})
+target_compile_definitions(modelLoading PUBLIC GLFW_INCLUDE_NONE)
 target_compile_definitions(modelLoading PUBLIC GLEW_STATIC)
 
 # Test with Importer

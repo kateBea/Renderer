@@ -3,7 +3,8 @@
 namespace kT {
     Shader::Shader(const std::filesystem::path &vertexSourceDir, const std::filesystem::path &fragmentSourceDir) {
         m_Id = glCreateProgram();
-        load(vertexSourceDir, fragmentSourceDir);
+        m_ValidId = m_Id != 0;
+        LoadFromFile(vertexSourceDir, fragmentSourceDir);
     }
 
     auto Shader::use() const -> void {
@@ -18,14 +19,12 @@ namespace kT {
         glDeleteProgram(this->m_Id);
     }
 
-    Shader::Shader() {
-        m_Id = glCreateProgram();
+    auto Shader::LoadFromFile(const std::filesystem::path& vShaderPath, const std::filesystem::path& fShaderPath) -> void {
+        if (!m_ValidId) {
+            m_Id = glCreateProgram();
+            m_ValidId = m_Id != 0;
+        }
 
-        if (m_Id == 0)
-            std::cerr << "Error when creating shader program\n";
-    }
-
-    auto Shader::load(const std::filesystem::path& vShaderPath, const std::filesystem::path& fShaderPath) const -> void {
         std::string vTemp{};
         std::string fTemp{};
 

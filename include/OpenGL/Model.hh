@@ -29,6 +29,7 @@
 namespace kT {
     class Model {
     public:
+        explicit Model() = default;
         /**
          * Loads an object model from the given path. If the path is not valid
          * this function raises an exception
@@ -48,6 +49,8 @@ namespace kT {
          * to load a new Model
          * */
         Model(const Model& other) = delete;
+
+        auto LoadFromFile(const std::string path) -> void;
 
         /**
          * Copy assigment disabled. Use the default constructor

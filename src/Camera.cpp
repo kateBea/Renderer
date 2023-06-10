@@ -81,7 +81,7 @@ namespace kT {
         m_CameraFront = glm::normalize(front);
     }
 
-    Camera::Camera(const kT::Window& window, const glm::vec3& startPos) noexcept {
+    Camera::Camera(const kT::Window& window, const glm::vec3& startPos) {
         // yaw is initialized to -90.0 degrees since a yaw of
         // 0.0 results in a direction vector pointing to the right,
         // so we initially rotate a bit to the left.
@@ -124,5 +124,26 @@ namespace kT {
 
     auto Camera::getPosition() const -> const glm::vec3 & {
         return m_CameraPos;
+    }
+
+    auto Camera::Init(const Window &window, const glm::vec3 &startPos) -> void {
+        // yaw is initialized to -90.0 degrees since a yaw of
+        // 0.0 results in a direction vector pointing to the right,
+        // so we initially rotate a bit to the left.
+        m_Yaw   = -90.0f;
+
+        m_Pitch =  0.0f;
+        m_LastCursorPosition.first = window.getWidth() / 2.0;
+        m_LastCursorPosition.second = window.getHeight() / 2.0;
+        m_Fov = 45.0f;
+
+        m_Sensitivity = 0.3;
+
+        m_CameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+        m_CameraPos = startPos;
+        m_CameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
+
+        m_Projection = glm::perspective(glm::radians(static_cast<float>(m_Fov)),
+                                        static_cast<float>(window.getWidth()) / static_cast<float>(window.getHeight()),nearPlane, farPlane);
     }
 }

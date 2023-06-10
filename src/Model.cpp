@@ -13,6 +13,11 @@ namespace kT {
         load(path);
     }
 
+    auto Model::LoadFromFile(const std::string path) -> void {
+        m_ModelPath = path.substr(0, path.find_last_of('/'));
+        load(path);
+    }
+
     auto Model::draw(const Shader &shader) -> void {
         for (const auto& mesh : m_Meshes)
             mesh.draw(shader);

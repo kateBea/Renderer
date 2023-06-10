@@ -1,13 +1,11 @@
 #include <Core/Window.hh>
 
 namespace kT {
-    Window::Window(std::string_view window_name, std::int32_t width, std::int32_t height)
-            :   m_window{}, m_name{ window_name }, m_width{ width }, m_height{ height }, m_DeltaTime{}, m_LastFrame{}
-    {
-        startUp();
-    }
+    auto Window::StartUp(std::string_view window_name, std::int32_t width, std::int32_t height) -> void {
+        m_name = window_name;
+        m_width = width;
+        m_height = height;
 
-    auto Window::startUp() -> void {
         setupGlfw();
         setupGlew();
 
@@ -19,6 +17,10 @@ namespace kT {
             ptr->m_height = height;
             glViewport(0, 0, width, height);
         });
+    }
+
+    auto Window::startUp() -> void {
+
     }
 
     auto Window::shutdown() -> void {
@@ -34,7 +36,7 @@ namespace kT {
         updateDeltaTime();
 
         // Swap back and front buffers
-        glfwSwapBuffers(this->m_window);
+        glfwSwapBuffers(m_window);
     }
 
     Window::~Window() {
@@ -89,10 +91,11 @@ namespace kT {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kT::GLMajor);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kT::GLMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     }
 
     auto Window::getWindowPointer() const -> GLFWwindow* {
         return m_window;
     }
+
 }

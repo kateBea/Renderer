@@ -198,8 +198,8 @@ auto startUp() -> void {
     g_Light.load(lightPos);
     g_Vbo.load(v_pos);
 
-    g_DefaultShaders.load("../assets/shaders/defaultVertex.glsl", "../assets/shaders/defaultFragment.glsl");
-    g_LightShader.load("../assets/shaders/lightVertex.glsl", "../assets/shaders/lightFragment.glsl");
+    g_DefaultShaders.LoadFromFile("../assets/shaders/defaultVertex.glsl", "../assets/shaders/defaultFragment.glsl");
+    g_LightShader.LoadFromFile("../assets/shaders/lightVertex.glsl", "../assets/shaders/lightFragment.glsl");
     g_Texture.load("../assets/textures/container2.png");
     g_TextureSpec.load("../assets/textures/container2_specular.png");
 

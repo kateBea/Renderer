@@ -29,7 +29,8 @@ namespace kT {
         template<std::size_t size_>
         using ArrayBool_T = std::array<bool, size_>;
 
-        explicit InputManager(GLFWwindow* window);
+        InputManager() { s_Instance = this; }
+        static auto Init(GLFWwindow* window) -> void;
 
         [[nodiscard]]
         static auto getMousePos() -> Pair_T { return s_Instance->_getMousePos(); }
@@ -55,7 +56,6 @@ namespace kT {
 
         [[nodiscard]]
         auto _getScrollOffset() const -> Pair_T;
-        auto startUp(GLFWwindow* window) -> void;
 
         struct InputData {
             Pair_T mouseScroll{};
@@ -65,8 +65,7 @@ namespace kT {
         };
 
         inline static InputManager* s_Instance{ nullptr };
-
-        InputData m_Data{};
+        inline static InputData s_Data{};
     };
 }
 

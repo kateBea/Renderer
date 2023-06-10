@@ -37,7 +37,9 @@ namespace kT {
         /**
          * Creates a new instance of a camera within the given window.
          * */
-        explicit Camera(const kT::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f, 7.0f)) noexcept;
+        explicit Camera(const kT::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f, 7.0f));
+
+        auto Init(const kT::Window& window, const glm::vec3& startPos = glm::vec3(0.0f, 0.0f, 7.0f)) -> void;
 
         /**
          * Copy constructor disabled

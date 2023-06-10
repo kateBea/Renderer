@@ -28,7 +28,9 @@
 namespace kT {
     class Window {
     public:
-        Window(std::string_view window_name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720);
+        Window() = default;
+
+        auto StartUp(std::string_view window_name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720) -> void;
 
         Window(const Window&)               = delete;
         Window& operator=(const Window&)    = delete;

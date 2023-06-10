@@ -1,25 +1,20 @@
 #include <Core/InputManager.hh>
 
 namespace kT {
-    InputManager::InputManager(GLFWwindow* window) {
-        s_Instance = this;
-        startUp(window);
-    }
-
     auto InputManager::_getMousePos() const -> Pair_T {
-        return m_Data.mousePos;
+        return s_Data.mousePos;
     }
 
     auto InputManager::_isMouseButtonDown(std::int32_t button) const -> bool {
-        return m_Data.mouseKeys[button];
+        return s_Data.mouseKeys[button];
     }
 
     auto InputManager::_isKeyDown(std::int32_t key) const -> bool {
-        return m_Data.keys[key];
+        return s_Data.keys[key];
     }
 
-    auto InputManager::startUp(GLFWwindow *window) -> void {
-        glfwSetWindowUserPointer(window, &m_Data);
+    auto InputManager::Init(GLFWwindow *window) -> void {
+        glfwSetWindowUserPointer(window, &s_Data);
 
         if (window != nullptr) {
             // Keys callback
@@ -51,6 +46,6 @@ namespace kT {
     }
 
     auto InputManager::_getScrollOffset() const -> Pair_T {
-        return m_Data.mouseScroll;
+        return s_Data.mouseScroll;
     }
 }
