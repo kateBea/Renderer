@@ -1,34 +1,37 @@
 #include <Core/Window.hh>
+#include <OpenGL/Renderer.hh>
 
 namespace kT {
-    auto Window::StartUp(std::string_view window_name, std::int32_t width, std::int32_t height) -> void {
-        m_name = window_name;
-        m_width = width;
-        m_height = height;
+    auto Window::StartUp(std::string_view title, std::int32_t width, std::int32_t height) -> void {
+        m_Title = title;
+        m_Width = width;
+        m_Height = height;
 
-        setupGlfw();
-        setupGlew();
+        InitGLFW();
+        InitGLEW();
 
         // This callback is set to automatically adjust the window width and height when we resize the
         // window and adjust the viewport to the current frame buffer dimensions
-        glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height)-> void {
-            auto ptr{ static_cast<Window*>(glfwGetWindowUserPointer(window)) };
-            ptr->m_width = width;
-            ptr->m_height = height;
-            glViewport(0, 0, width, height);
-        });
+        glfwSetFramebufferSizeCallback(m_Window,
+             [](GLFWwindow* window, int width, int height)-> void {
+                 auto ptr{ static_cast<Window*>(glfwGetWindowUserPointer(window)) };
+                 ptr->m_Width = width;
+                 ptr->m_Height = height;
+                 Renderer::ResetViewport(width, height);
+            }
+        );
     }
 
-    auto Window::startUp() -> void {
+    auto Window::Init() -> void {
 
     }
 
-    auto Window::shutdown() -> void {
-        glfwDestroyWindow(this->m_window);
+    auto Window::ShutDown() -> void {
+        glfwDestroyWindow(this->m_Window);
         glfwTerminate();
     }
 
-    auto Window::draw() -> void {
+    auto Window::SwapBuffers() -> void {
         // Process queued events
         glfwPollEvents();
 
@@ -36,19 +39,15 @@ namespace kT {
         updateDeltaTime();
 
         // Swap back and front buffers
-        glfwSwapBuffers(m_window);
+        glfwSwapBuffers(m_Window);
     }
 
     Window::~Window() {
-        shutdown();
+        ShutDown();
     }
 
-    auto Window::shouldClose() -> bool {
-        return glfwWindowShouldClose(this->m_window);
-    }
-
-    auto Window::getDeltaTime() const -> float {
-        return m_DeltaTime;
+    auto Window::ShouldClose() -> bool {
+        return glfwWindowShouldClose(this->m_Window);
     }
 
     auto Window::updateDeltaTime() -> void {
@@ -57,45 +56,27 @@ namespace kT {
         m_LastFrame = currentFrame;
     }
 
-    auto Window::getWidth() const -> std::int32_t {
-        return m_width;
-    }
-
-    auto Window::getHeight() const -> std::int32_t {
-        return m_height;
-    }
-
-    auto Window::setupGlfw() -> void {
-        // Init GLFW Library
+    auto Window::InitGLFW() -> void {
         if (glfwInit() == GL_FALSE)
             throw std::runtime_error("Failed to initialize the GLFW library");
 
-        setupGlfwHints();
-
-        // Create valid context
-        m_window = glfwCreateWindow(m_width, m_height, m_name.data(), nullptr, nullptr);
-
-        if (m_window == nullptr)
-            throw std::runtime_error("There was an error creating the Window");
-    }
-
-    auto Window::setupGlew() -> void {
-        glfwMakeContextCurrent(this->m_window);
-        glewExperimental = GL_TRUE;
-        if (glewInit() != GLEW_OK)
-            throw std::runtime_error("Failed to initialize GLEW");
-
-    }
-
-    auto Window::setupGlfwHints() -> void {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, kT::GLMajor);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, kT::GLMinor);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+
+        m_Window = glfwCreateWindow(m_Width, m_Height, m_Title.data(), nullptr, nullptr);
+
+        if (m_Window == nullptr)
+            throw std::runtime_error("There was an error creating the Window");
     }
 
-    auto Window::getWindowPointer() const -> GLFWwindow* {
-        return m_window;
+    auto Window::InitGLEW() -> void {
+        glfwMakeContextCurrent(this->m_Window);
+        glewExperimental = GL_TRUE;
+        if (glewInit() != GLEW_OK)
+            throw std::runtime_error("Failed to initialize GLEW");
+
     }
 
 }

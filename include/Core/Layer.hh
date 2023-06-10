@@ -1,7 +1,10 @@
 #ifndef LAYER_HH
 #define LAYER_HH
 
+// Third-Party Libraries
 #include <GLFW/glfw3.h>
+
+// Project Headers
 #include <Core/Window.hh>
 
 namespace kT {
@@ -14,7 +17,6 @@ namespace kT {
 
     private:
         std::string m_Name{};
-
     };
 }
 

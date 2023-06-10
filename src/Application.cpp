@@ -18,12 +18,12 @@ namespace kT {
         m_LayerStack = std::make_shared<LayerStack>();
 
         Renderer::Init();
-        InputManager::Init(m_Window->getWindowPointer());
+        InputManager::Init(m_Window->GetWindowPointer());
         ImGuiLayer::ImGuiInit(m_Window);
     }
 
     auto Application::UpdateState() -> void {
-        if (m_Window->shouldClose()) {
+        if (m_Window->ShouldClose()) {
             m_State = State::STOPPED;
             return;
         }
@@ -36,7 +36,7 @@ namespace kT {
             layer->OnImGuiRender();
         ImGuiLayer::ImGuiEndFrame();
 
-        m_Window->draw();
+        m_Window->SwapBuffers();
     }
 
     auto Application::PushLayer(std::shared_ptr<Layer> layer) -> void {

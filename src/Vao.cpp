@@ -1,60 +1,49 @@
 #include <cstddef>
 
-#include "OpenGL/Vao.hh"
+#include "OpenGL/VertexArray.hh"
 #include "Core/Common.hh"
 
 namespace kT {
-    Vao::Vao(Vao&& other) noexcept
-        :   m_Id{ other.getId() }
-    {
-        other.m_Id = 0;
-    }
+    VertexArray::VertexArray(VertexArray&& other) noexcept
+        :   m_Id{ other.getId() } { other.m_Id = 0; }
 
-    Vao& Vao::operator=(Vao&& other) noexcept {
+    auto VertexArray::operator=(VertexArray&& other) noexcept -> VertexArray& {
         m_Id = other.getId();
         other.m_Id = 0;
 
         return *this;
     }
 
-    auto Vao::getId() const -> std::uint32_t {
-        return this->m_Id;
+    auto VertexArray::getId() const -> std::uint32_t {
+        return m_Id;
     }
 
-    auto Vao::bind() const -> void {
-        glBindVertexArray(this->m_Id);
+    auto VertexArray::bind() const -> void {
+        glBindVertexArray(getId());
     }
 
-    auto Vao::unbind() -> void {
+    auto VertexArray::unbind() -> void {
         glBindVertexArray(0);
     }
 
-    auto Vao::layout(std::uint32_t index, std::int32_t size, Attribute offs, GLenum type) const -> void
-    {
-        bind();
-        glEnableVertexAttribArray(index);
-
-        // sizeof(kT::Vertex) is the offset in bytes between consecutive vertices
-        // the type could vary, its float right now for simplicity since the default type parameter value is GL_FLOAT
-        glVertexAttribPointer(index, size, type, GL_FALSE, sizeof(kT::Vertex),
-                              reinterpret_cast<const void*>(getAttributeOffset(offs)));
-        unbind();
-    }
-
-    Vao::~Vao() {
+    VertexArray::~VertexArray() {
         glDeleteVertexArrays(1, &m_Id);
     }
 
-    Vao::Vao() {
+    VertexArray::VertexArray() {
         glGenVertexArrays(1, &m_Id);
     }
 
-    auto Vao::getAttributeOffset(Vao::Attribute attribute) -> std::int32_t {
-        switch (attribute) {
-            case Attribute::POSITION: return offsetof(kT::Vertex, m_Pos);
-            case Attribute::NORMAL: return offsetof(kT::Vertex, m_Norm);
-            case Attribute::TEXTURE: return offsetof(kT::Vertex, m_Texture);
-            default: return -1;
+    auto VertexArray::useVertexBuffer(const VertexBuffer &buffer) -> void {
+        bind();
+        buffer.bind();
+
+        std::uint32_t index{};
+        for (const auto&i: buffer.getBufferLayout()) {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index, i.getAttributeCount(), i.getOpenGLAttributeDataType(),
+                                  !i.isNormalized() ? GL_FALSE : GL_TRUE, buffer.getBufferLayout().getStride(), (const void*)i.getOffset());
+            ++index;
         }
     }
 

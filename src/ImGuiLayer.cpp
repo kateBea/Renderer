@@ -130,7 +130,7 @@ namespace kT {
         setCustomStyle();
 
         // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(handle->getWindowPointer(), true);
+        ImGui_ImplGlfw_InitForOpenGL(handle->GetWindowPointer(), true);
         ImGui_ImplOpenGL3_Init("#version 410");
         loadIniFile("../assets/imgui.ini");
     }

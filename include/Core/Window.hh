@@ -1,11 +1,10 @@
 /**
  * @file parser.hh
- * @author kT
+ * @author kaTe
  * @brief Defines the Window manager
  * @version 1.0
  * @date 2023-03-22
  */
-
 
 #ifndef WINDOW_HH
 #define WINDOW_HH
@@ -30,64 +29,42 @@ namespace kT {
     public:
         Window() = default;
 
-        auto StartUp(std::string_view window_name = "Renderer", std::int32_t width = 1280, std::int32_t height = 720) -> void;
+        auto StartUp(std::string_view title = "Renderer", std::int32_t width = 1280, std::int32_t height = 720) -> void;
 
-        Window(const Window&)               = delete;
-        Window& operator=(const Window&)    = delete;
+        auto getDeltaTime() const -> float { return m_DeltaTime; }
 
-        Window(Window&&)                    = delete;
-        Window& operator=(Window&&)         = delete;
+        auto ShouldClose() -> bool;
+        auto GetWidth() const -> std::int32_t { return m_Width; }
+        auto GetHeight() const -> std::int32_t { return m_Height; }
+        auto GetWindowPointer() const -> GLFWwindow* { return m_Window; }
 
-        /**
-         * Returns true if the user attempts to close this Window,
-         * returns false otherwise
-         * @return true if window should close, false otherwise
-         * */
-        [[nodiscard]]
-        auto shouldClose() -> bool;
-
-        [[nodiscard]]
-        auto getDeltaTime() const -> float;
-
-        /**
-         * Returns the width of this Window
-         * @return Value of width
-         * */
-        [[nodiscard]]
-        auto getWidth() const -> std::int32_t;
-
-        /**
-         * Returns the height of this Window
-         * @return Value of height
-         * */
-        [[nodiscard]]
-        auto getHeight() const -> std::int32_t;
-
-        [[nodiscard]] auto getWindowPointer() const -> GLFWwindow*;
-
-        auto draw() -> void;
+        auto SwapBuffers() -> void;
 
         ~Window();
     private:
-        auto startUp() -> void;
-        auto shutdown() -> void;
+        // Forbidden operations
+        Window(const Window&) = delete;
+        Window(Window&&) = delete;
 
-        /**
-         * Updates the time passed between frames
-         * */
+        auto operator=(const Window&) -> Window& = delete;
+        auto operator=(Window&&) -> Window& = delete;
+    private:
+        auto Init() -> void;
+        auto InitGLFW() -> void;
+        auto InitGLEW() -> void;
+
+        auto ShutDown() -> void;
+    private:
         auto updateDeltaTime() -> void;
-
-        static auto setupGlfwHints() -> void;
-        auto setupGlfw() -> void;
-        auto setupGlew() -> void;
 
         float m_DeltaTime{};	// Time between current frame and last frame
         float m_LastFrame{}; // Time of last frame
 
-        GLFWwindow*         m_window{};
-        std::string         m_name{};
-        std::int32_t        m_width{};
-        std::int32_t        m_height{};
+        GLFWwindow* m_Window{};
+
+        std::string m_Title{};
+        std::int32_t m_Width{};
+        std::int32_t m_Height{};
     };
 }
 #endif // END WINDOW_HH

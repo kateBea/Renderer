@@ -24,9 +24,9 @@
 #include "Core/Common.hh"
 #include "Texture.hh"
 #include "Shader.hh"
-#include "Vao.hh"
-#include "Vbo.hh"
-#include "Vib.hh"
+#include "VertexArray.hh"
+#include "VertexBuffer.hh"
+#include "ElementBuffer.hh"
 
 namespace kT {
     class Mesh {
@@ -43,7 +43,7 @@ namespace kT {
          * @param indices contains the indices for indexed drawing
          * @param textures contains the texture data for this mesh, see kT::Texture for more
          * */
-        explicit Mesh(std::vector<kT::Vertex>&& vertices, std::vector<std::uint32_t>&& indices, std::vector<kT::Texture>&& textures);
+        explicit Mesh(const std::vector<float> &vertices, const std::vector<std::uint32_t> &indices, std::vector<Texture> &&textures);
 
         /**
          * Constructs and initializes this mesh with the contents of the other
@@ -60,15 +60,13 @@ namespace kT {
          * */
         auto operator=(Mesh&& other) noexcept -> Mesh&;
 
-        /**
-         * Renders this mesh
-         * @param shader shader to be used for rendering
-         * */
-        auto draw(const Shader& shader) const -> void;
+        auto getVertexBuffer() const -> const VertexBuffer& { return m_VertexBuffer; }
+        auto getIndexBuffer() const -> const ElementBuffer& { return m_ElementBuffer; }
+        auto getTextures() const -> const std::vector<Texture>& { return m_Textures; }
 
-        auto getVertexCount() const -> std::size_t;
-        auto getIndexCount() const -> std::size_t;
-        auto getTextureCount() const -> std::size_t;
+        auto getVertexCount() const -> std::size_t { return m_VertexBuffer.getCount(); }
+        auto getIndexCount() const -> std::size_t { return m_ElementBuffer.getCount(); }
+        auto getTextureCount() const -> std::size_t { return m_Textures.size(); }
 
         /**
          * Frees resources owned by this mesh
@@ -76,18 +74,16 @@ namespace kT {
         ~Mesh() = default;
         
     private:
-        /**
-         * Sets up this mesh, specifying the vao layout,
-         * amongst other properties
-         * */
-        auto setup() -> void;
+        // standard mesh data Layout
+        inline static BufferLayout s_Layout{
+                {ShaderDataType::FLOAT3_TYPE, "Attribute_Position"},
+                {ShaderDataType::FLOAT3_TYPE, "Attribute_Normal"},
+                {ShaderDataType::FLOAT2_TYPE, "Attribute_Texture_Coordinates"},
+        };
 
-        std::vector<kT::Vertex>     m_Vertices{};
-        std::vector<kT::Texture>    m_Textures{};
-        std::vector<std::uint32_t>  m_Indices{};
-        kT::Vbo                     m_Vbo{};
-        kT::Vao                     m_Vao{};
-        kT::Vib                     m_Vib{};
+        std::vector<Texture> m_Textures{};
+        VertexBuffer m_VertexBuffer{};
+        ElementBuffer  m_ElementBuffer{};
 
     };
 }

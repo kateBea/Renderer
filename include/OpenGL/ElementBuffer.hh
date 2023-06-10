@@ -1,5 +1,5 @@
 /**
- * @file Vib.hh
+ * @file ElementBuffer.hh
  * @author kT
  * @brief Defines the Vertex index buffer class
  * @version 1.0
@@ -17,15 +17,15 @@
 #include "GL/glew.h"
 
 namespace kT {
-    class Vib {
+    class ElementBuffer {
     public:
-        explicit Vib();
+        explicit ElementBuffer();
         /**
          * Creates a new Vertex index buffer and initializes it with the data
          * from indices. If no data is provided simply creates a new index buffer object with a valid id
          * @param indices buffer containing all the indices values
          * */
-        explicit Vib(const std::vector<std::uint32_t> &indices, GLenum usage = GL_STATIC_DRAW);
+        explicit ElementBuffer(const std::vector<std::uint32_t> &indices, GLenum usage = GL_STATIC_DRAW);
 
         /**
          * Mark this Vertex index buffer as current
@@ -35,24 +35,24 @@ namespace kT {
         /**
          * Move constructor
          * */
-        Vib(Vib&& other) noexcept;
+        ElementBuffer(ElementBuffer&& other) noexcept;
 
         /**
          * Move assigment
          * */
-        auto operator=(Vib&& other) noexcept -> Vib&;
+        auto operator=(ElementBuffer&& other) noexcept -> ElementBuffer&;
 
         /**
-         * Copy constructor. Marked as delete to avoid Vib aliasing
-         * Ensure one Vib id is held by one Vib object
+         * Copy constructor. Marked as delete to avoid ElementBuffer aliasing
+         * Ensure one ElementBuffer id is held by one ElementBuffer object
          * */
-        Vib(const Vib& other) = delete;
+        ElementBuffer(const ElementBuffer& other) = delete;
 
         /**
-         * Copy assigment. Marked as delete to avoid Vib aliasing
-         * Ensure one Vib id is held by one Vib object
+         * Copy assigment. Marked as delete to avoid ElementBuffer aliasing
+         * Ensure one ElementBuffer id is held by one ElementBuffer object
          * */
-        Vib& operator=(const Vib& other) = delete;
+        ElementBuffer& operator=(const ElementBuffer& other) = delete;
 
         /**
          * Returns the total count of indices of this Vertex index buffer
@@ -78,7 +78,7 @@ namespace kT {
         /**
          * Releases resources from this Vertex index buffer
          * */
-        ~Vib();
+        ~ElementBuffer();
 
     private:
         std::uint32_t m_Id{};

@@ -18,8 +18,8 @@
 #include "OpenGL/Shader.hh"
 #include "Core/Window.hh"
 #include "OpenGL/BasicLighting.hh"
-#include "OpenGL/Vao.hh"
-#include "OpenGL/Vbo.hh"
+#include "OpenGL/VertexArray.hh"
+#include "OpenGL/VertexBuffer.hh"
 #include "Core/Common.hh"
 #include "Core/Logger.hh"
 
@@ -30,8 +30,8 @@
 static kT::Window        g_Window{"SpecularLighting", 1280, 720 };
 static kT::Camera        g_Camera{g_Window };
 
-static kT::Vao           g_Vao{};
-static kT::Vbo           g_Vbo{};
+static kT::VertexArray           g_Vao{};
+static kT::VertexBuffer           g_Vbo{};
 
 static kT::BasicLighting g_Light{};
 static kT::Texture g_Texture{Texture::TextureType::SPECULAR, 0, 0};
@@ -74,7 +74,7 @@ auto run() -> void {
 
     g_DefaultShaders.setUniformInt("material.diffuse", 0);
 
-    while (!g_Window.shouldClose()) {
+    while (!g_Window.ShouldClose()) {
         // ImGui Frame Setup
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -115,7 +115,7 @@ auto run() -> void {
             model = glm::rotate(model, rotationAngles[2], glm::vec3(1.0f, 0.0f, 0.0f));
 
             // Update view and projection
-            g_Camera.updateProjection(g_Window.getWidth(), g_Window.getHeight());
+            g_Camera.updateProjection(g_Window.GetWidth(), g_Window.GetHeight());
             if (g_Window.isMouseButtonDown(GLFW_MOUSE_BUTTON_2))
                 g_Camera.move(g_Window.getCursorPosition());
             g_Camera.lookAround(g_Window, glm::vec3(0.0f, 0.0f, 0.0f));
@@ -176,7 +176,7 @@ auto run() -> void {
         // window render and gui render
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        g_Window.draw();
+        g_Window.SwapBuffers();
     }
 }
 
@@ -209,22 +209,22 @@ auto startUp() -> void {
 auto setupLayout() -> void {
     // Vertex position attribute
     g_Vbo.bind();
-    g_Vao.layout(0, 3, kT::Vao::Attribute::POSITION);
+    g_Vao.layout(0, 3, kT::VertexArray::Attribute::POSITION);
 
     // Vertex Normals attribute
     g_Vbo.bind();
-    g_Vao.layout(1, 3, kT::Vao::Attribute::NORMAL);
+    g_Vao.layout(1, 3, kT::VertexArray::Attribute::NORMAL);
 
     // Vertex Texture attribute
     g_Vbo.bind();
-    g_Vao.layout(2, 2, kT::Vao::Attribute::TEXTURE);
+    g_Vao.layout(2, 2, kT::VertexArray::Attribute::TEXTURE);
 }
 
 auto initImGui() -> void {
     // Initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGui_ImplGlfw_InitForOpenGL(g_Window.getWindowPointer(), true);
+    ImGui_ImplGlfw_InitForOpenGL(g_Window.GetWindowPointer(), true);
 
     // NOTE: this has to be the same as glMajor and glMinor variables in Window class
     // needs rework to be done automatically

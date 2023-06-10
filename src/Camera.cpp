@@ -88,8 +88,8 @@ namespace kT {
         m_Yaw   = -90.0f;
 
         m_Pitch =  0.0f;
-        m_LastCursorPosition.first = window.getWidth() / 2.0;
-        m_LastCursorPosition.second = window.getHeight() / 2.0;
+        m_LastCursorPosition.first = window.GetWidth() / 2.0;
+        m_LastCursorPosition.second = window.GetHeight() / 2.0;
         m_Fov = 45.0f;
 
         m_Sensitivity = 0.3;
@@ -99,7 +99,7 @@ namespace kT {
         m_CameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
 
         m_Projection = glm::perspective(glm::radians(static_cast<float>(m_Fov)),
-                                        static_cast<float>(window.getWidth()) / static_cast<float>(window.getHeight()),nearPlane, farPlane);
+                                        static_cast<float>(window.GetWidth()) / static_cast<float>(window.GetHeight()), nearPlane, farPlane);
     }
 
     auto Camera::getFieldOfView() const -> double {
@@ -133,8 +133,8 @@ namespace kT {
         m_Yaw   = -90.0f;
 
         m_Pitch =  0.0f;
-        m_LastCursorPosition.first = window.getWidth() / 2.0;
-        m_LastCursorPosition.second = window.getHeight() / 2.0;
+        m_LastCursorPosition.first = window.GetWidth() / 2.0;
+        m_LastCursorPosition.second = window.GetHeight() / 2.0;
         m_Fov = 45.0f;
 
         m_Sensitivity = 0.3;
@@ -144,6 +144,6 @@ namespace kT {
         m_CameraUp = glm::vec3(0.0f, 1.0f,  0.0f);
 
         m_Projection = glm::perspective(glm::radians(static_cast<float>(m_Fov)),
-                                        static_cast<float>(window.getWidth()) / static_cast<float>(window.getHeight()),nearPlane, farPlane);
+                                        static_cast<float>(window.GetWidth()) / static_cast<float>(window.GetHeight()), nearPlane, farPlane);
     }
 }

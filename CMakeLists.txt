@@ -15,13 +15,12 @@ SET(SOURCES
         src/Renderer.cpp
         src/Shader.cpp
         src/Vao.cpp
-        src/Vib.cpp
-        src/Vbo.cpp
+        src/VertexIndex.cpp
+        src/VertexBuffer.cpp
         src/Window.cpp
         src/std_image.cpp
         src/Model.cpp
         src/Logger.cpp
-        src/BasicLighting.cpp
         library/imgui/imgui.cpp
         library/imgui/backends/imgui_impl_glfw.cpp
         library/imgui/imgui_widgets.cpp

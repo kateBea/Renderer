@@ -15,25 +15,20 @@
 #include <sstream>
 
 // Third-Party Libraries
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
 
-// Project Libraries
-#include "Logger.hh"
+// Project Headers
+#include <Core/Logger.hh>
 
 #ifndef UTILS_HH
 #define UTILS_HH
 
 namespace kT {
-    // CONSTANTS
-    // Define the OpenGL version as x.y where x is
-    // g_GLMajor and y is g_GLMinor, e.g.: for g_GLMajor = 4
-    // and g_GLMinor = 1 we have OpenGL 4.1 this can be used to initialize
-    // the GLFW library setting the OpenGL minor and major hints
     constexpr std::int32_t GLMajor{ 4 };
-    constexpr std::int32_t GLMinor{ 1 };
+    constexpr std::int32_t GLMinor{ 3 };
 
     // CLASS UTILITIES
     struct Vertex {

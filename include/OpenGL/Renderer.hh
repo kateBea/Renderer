@@ -21,21 +21,22 @@
 #include <memory>
 
 // Third-Party Libraries
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 // Project Libraries
-#include "Mesh.hh"
-#include "Core/Common.hh"
-#include "Model.hh"
+#include <OpenGL/Mesh.hh>
+#include <OpenGL/Model.hh>
+#include <OpenGL/Shader.hh>
+#include <OpenGL/ElementBuffer.hh>
 
 namespace kT {
     class Renderer {
@@ -46,11 +47,20 @@ namespace kT {
         static auto EnableWireframeMode() -> void;
         static auto DisableWireframeMode() -> void;
 
-        static auto DrawMesh(Shader& shader, Mesh& mesh) -> void;
+        static auto DrawMesh(Shader& shader, const Mesh& mesh) -> void;
         static auto DrawModel(Shader& shader, Model& model) -> void;
+        static auto DrawGeometry(Shader& shader, const VertexBuffer& vertexBuffer) -> void;
+        static auto DrawGeometry(Shader& shader, const VertexBuffer& vertexBuffer, const ElementBuffer& indexBuffer) -> void;
+        static auto DrawGeometry(Shader &shader, std::initializer_list<float> &&vertexBuffer) -> void;
+        static auto DrawGeometry(Shader &shader, std::initializer_list<float> &&vertexBuffer, std::initializer_list<std::uint32_t> &&indexBuffer) -> void;
 
         static auto ClearColor(float red, float green, float blue, float alpha) -> void;
         static auto ClearColor(const glm::vec4& color) -> void;
+
+        static auto ResetViewport(std::int32_t width, std::int32_t height) -> void;
+
+    private:
+        inline static std::shared_ptr<VertexArray> s_VertexArray{};
 
     };
 

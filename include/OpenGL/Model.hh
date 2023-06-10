@@ -39,17 +39,12 @@ namespace kT {
         explicit Model(const std::filesystem::path& path);
 
         /**
-         * Renders Model mesh using the provided shader
-         * @param shader shader used to render this Model
-         * */
-        auto draw(const Shader& shader) -> void;
-
-        /**
          * Copy constructor disabled. Use the default constructor
          * to load a new Model
          * */
         Model(const Model& other) = delete;
 
+        auto getMeshes() -> std::vector<Mesh>& { return m_Meshes; }
         auto LoadFromFile(const std::string path) -> void;
 
         /**
@@ -116,15 +111,6 @@ namespace kT {
                                   const aiScene* scene) -> std::vector<kT::Texture>;
 
 
-        /**
-         * Helper functions to construct a 3D vector from a aiVector3D object. This function
-         * is more of a helper mainly used in <b>processNode(aiNode*, const aiScene*)</b> to construct
-         * the vertices of each mesh
-         * @param elem data structure from which the components are retrieved
-         * @return 3D vector containing contents of elem
-         * @returns a three dimensional vector
-         * */
-        static auto constructVec3(aiVector3D elem) -> glm::vec3;
 
 
         std::vector<Mesh>       m_Meshes{};

@@ -18,11 +18,6 @@ namespace kT {
         load(path);
     }
 
-    auto Model::draw(const Shader &shader) -> void {
-        for (const auto& mesh : m_Meshes)
-            mesh.draw(shader);
-    }
-
     auto Model::load(const std::filesystem::path& path) -> void {
         if (!path.has_filename())
             throw std::runtime_error("Not valid path for model object");
@@ -57,16 +52,17 @@ namespace kT {
     }
 
     auto Model::processMesh(aiMesh* mesh, const aiScene* scene) -> kT::Mesh {
-        std::vector<kT::Vertex> vertices{};
+        std::vector<float> vertices{};
         std::vector<std::uint32_t> indices{};
         std::vector<kT::Texture> textures{};
 
         for(std::size_t i = 0; i < mesh->mNumVertices; i++) {
-            vertices.emplace_back(
-                constructVec3(mesh->mVertices[i]),
-                mesh->HasNormals() ? constructVec3(mesh->mNormals[i]) : glm::vec3(0.0f),
-                mesh->mTextureCoords[0] != nullptr ? glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y) : glm::vec2(0.0f)
-            );
+            vertices.insert(vertices.end(), { mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z });
+
+            if (mesh->HasNormals())
+                vertices.insert(vertices.end(), { mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z });
+            if (mesh->mTextureCoords[0] != nullptr)
+                vertices.insert(vertices.end(), { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y });
         }
 
         // Retrieve mesh indices
@@ -95,11 +91,7 @@ namespace kT {
                 textures.push_back(std::move(item));
         }
 
-        return Mesh{ std::move(vertices), std::move(indices), std::move(textures) };
-    }
-
-    auto Model::constructVec3(aiVector3D elem) -> glm::vec3 {
-        return { elem.x, elem.y, elem.z };
+        return Mesh{ vertices, indices, std::move(textures) };
     }
 
     auto Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, kT::Texture::TextureType tType, const aiScene* scene) -> std::vector<kT::Texture> {

@@ -40,7 +40,7 @@ namespace kT {
         model = glm::rotate(model, m_Rotation[1], glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::rotate(model, m_Rotation[2], glm::vec3(1.0f, 0.0f, 0.0f));
 
-        m_Camera->updateProjection(handle->getWidth(), handle->getHeight());
+        m_Camera->updateProjection(handle->GetWidth(), handle->GetHeight());
 
         if (InputManager::isMouseButtonDown(GLFW_MOUSE_BUTTON_2)) {
             m_Camera->move(InputManager::getMousePos());
@@ -54,6 +54,12 @@ namespace kT {
         m_DefaultShader->setUniformMat4("projection", m_Camera->getProjection());
         m_DefaultShader->setUniformMat4("view", m_Camera->getView());
 
+        if (m_Lines)
+            Renderer::EnableWireframeMode();
+        else
+            Renderer::DisableWireframeMode();
+
+        // DRAWING
         Renderer::ClearColor(m_ClearColor);
         Renderer::DrawModel(*m_DefaultShader, *m_Model);
     }
