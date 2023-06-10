@@ -126,7 +126,7 @@ namespace kT {
         }
 
         // Load custom font
-        io.Fonts->AddFontFromFileTTF("../Fonts/Inter/Inter-VariableFont.ttf", 15);
+        io.Fonts->AddFontFromFileTTF("../assets/fonts/Inter/Inter-VariableFont.ttf", 15);
         setCustomStyle();
 
         // Setup Platform/Renderer backends
