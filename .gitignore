@@ -237,3 +237,5 @@
 /cmake-build-debug/library/glfw/src/CMakeFiles/glfw.dir/window.c.obj.d
 /cmake-build-debug/CMakeFiles/renderer.dir/src/Window.cpp.obj
 /cmake-build-debug/CMakeFiles/renderer.dir/src/Window.cpp.obj.d
+/.idea/
+/cmake-build-debug/
