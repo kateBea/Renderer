@@ -65,7 +65,7 @@ namespace kT {
         };
 
         inline static InputManager* s_Instance{ nullptr };
-        inline static InputData s_Data{};
+        inline static InputData s_Data{ .mouseScroll{}, .mousePos{}, .keys{}, .mouseKeys{} };
     };
 }
 

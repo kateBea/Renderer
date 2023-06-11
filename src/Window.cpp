@@ -32,13 +32,7 @@ namespace kT {
     }
 
     auto Window::SwapBuffers() -> void {
-        // Process queued events
         glfwPollEvents();
-
-        // Update delta time
-        updateDeltaTime();
-
-        // Swap back and front buffers
         glfwSwapBuffers(m_Window);
     }
 
@@ -48,12 +42,6 @@ namespace kT {
 
     auto Window::ShouldClose() -> bool {
         return glfwWindowShouldClose(this->m_Window);
-    }
-
-    auto Window::updateDeltaTime() -> void {
-        float currentFrame{ static_cast<float>(glfwGetTime()) };
-        m_DeltaTime = currentFrame - m_LastFrame;
-        m_LastFrame = currentFrame;
     }
 
     auto Window::InitGLFW() -> void {

@@ -31,8 +31,6 @@ namespace kT {
 
         auto StartUp(std::string_view title = "Renderer", std::int32_t width = 1280, std::int32_t height = 720) -> void;
 
-        auto getDeltaTime() const -> float { return m_DeltaTime; }
-
         auto ShouldClose() -> bool;
         auto GetWidth() const -> std::int32_t { return m_Width; }
         auto GetHeight() const -> std::int32_t { return m_Height; }
@@ -55,11 +53,6 @@ namespace kT {
 
         auto ShutDown() -> void;
     private:
-        auto updateDeltaTime() -> void;
-
-        float m_DeltaTime{};	// Time between current frame and last frame
-        float m_LastFrame{}; // Time of last frame
-
         GLFWwindow* m_Window{};
 
         std::string m_Title{};

@@ -2,14 +2,18 @@
 // Created by zanet on 6/10/2023.
 //
 
-#include "Application.hh"
-#include <OpenGL/Renderer.hh>
-#include "Core/Logger.hh"
+#include <Application.hh>
+
+#include <Core/Logger.hh>
 #include <Core/InputManager.hh>
+#include <Core/TimeManager.hh>
 #include <Core/ImGuiLayer.hh>
+
+#include <OpenGL/Renderer.hh>
 
 namespace kT {
     auto Application::Init() -> void {
+        TimeManager::Init();
         Logger::Init();
 
         m_State = State::RUNNING;
@@ -28,6 +32,8 @@ namespace kT {
             return;
         }
 
+        TimeManager::UpdateDeltaTime();
+
         for (auto& layer : *m_LayerStack)
             layer->OnUpdate(m_Window);
 
@@ -37,6 +43,7 @@ namespace kT {
         ImGuiLayer::ImGuiEndFrame();
 
         m_Window->SwapBuffers();
+        KATE_LOGGER_INFO("Time since start: {}", TimeManager::GetTime());
     }
 
     auto Application::PushLayer(std::shared_ptr<Layer> layer) -> void {

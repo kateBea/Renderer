@@ -1,5 +1,6 @@
 #include <OpenGL/Camera.hh>
 #include <Core/InputManager.hh>
+#include <Core/TimeManager.hh>
 
 namespace kT {
     // CAMERA IMPLEMENTATION
@@ -18,7 +19,7 @@ namespace kT {
     }
 
     auto Camera::computeMatricesFromInput(const kT::Window &window) -> void {
-        const float cameraSpeed{ 2.5f * window.getDeltaTime() };
+        const float cameraSpeed{ 2.5f * (float)TimeManager::GetDeltaTime() };
 
         if (InputManager::isKeyDown(GLFW_KEY_W))
             m_CameraPos += cameraSpeed * m_CameraFront;
