@@ -39,13 +39,12 @@ namespace kT {
             }
         }
 
-        // Returns amount of time between this time_point and the clock's epoch
         static auto GetTime(TimeUnit unit = TimeUnit::SECONDS) -> double {
             switch (unit) {
                 case TimeUnit::SECONDS:         return std::chrono::duration_cast<Sec_T>(Clock_T::now() - m_InitTimePoint).count();
-                case TimeUnit::MILLISECONDS:    return std::chrono::duration_cast<Milli_T>(Clock_T::now() - m_InitTimePoint).count() / SEC_TO_MILLI;
-                case TimeUnit::MICROSECONDS:    return std::chrono::duration_cast<Micro_T>(Clock_T::now() - m_InitTimePoint).count() / SEC_TO_MICRO;
-                case TimeUnit::NANOSECONDS:     return std::chrono::duration_cast<Nano_T>(Clock_T::now() - m_InitTimePoint).count() / SEC_TO_NANO;
+                case TimeUnit::MILLISECONDS:    return std::chrono::duration_cast<Milli_T>(Clock_T::now() - m_InitTimePoint).count();
+                case TimeUnit::MICROSECONDS:    return std::chrono::duration_cast<Micro_T>(Clock_T::now() - m_InitTimePoint).count();
+                case TimeUnit::NANOSECONDS:     return std::chrono::duration_cast<Nano_T>(Clock_T::now() - m_InitTimePoint).count();
             }
 
             return -1;
