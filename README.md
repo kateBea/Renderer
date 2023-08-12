@@ -1,11 +1,9 @@
 # OpenGL Renderer
 Welcome to my C++ OpenGL renderer! This repository contains the source code for a 
-basic renderer engine that I've worked on for the past couple of weeks while learning OpenGL.
+basic 3D renderer that I've worked on for the past couple of weeks while learning OpenGL.
 
 This render is built using, or well, trying to at least, use modern C++ and 
 modern OpenGL.
-
-I've included the complete source code.
 
 This is still a work in progress and is still somewhat buggy. On Linux you may miss some OpenGL library files
 that need to be linker, a small setup script was provided [here](/setup) to get those.
