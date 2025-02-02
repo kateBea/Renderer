@@ -1,15 +1,15 @@
 # OpenGL Renderer
 Welcome to my C++ OpenGL renderer! This repository contains the source code for a 
-basic 3D renderer that I've worked on for the past couple of weeks while learning OpenGL.
+basic 3D renderer that I've worked on while learning OpenGL.
 
-This render is built using, or well, trying to at least, use modern C++ and 
+This renderer is built using, or well, trying to at least, use modern C++ and 
 modern OpenGL.
 
 This is still a work in progress and is still somewhat buggy. On Linux you may miss some OpenGL library files
-that need to be linker, a small setup script was provided [here](/setup) to get those.
+that need to be linked, a small setup script was provided [here](/setup) to get those.
 The project requires also the following tools to build and run:
 
-1. C++ compiler (A C++ 20 capable compiler, G++12 was used in the author machines)
+1. C++ compiler (A C++ 20 capable compiler, Gcc12 was used for tests)
 2. CMake (Cross platform build system)
 
 ![Image sample](image/modelLoad2.png)
